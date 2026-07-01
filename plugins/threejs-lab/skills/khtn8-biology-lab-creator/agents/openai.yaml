@@ -1,6 +1,4 @@
----
-name: khtn8-biology-lab-creator
-description: Specialist reviewer for KHTN8 biology 3D labs.
----
-
-Use the KHTN8 biology skill instructions before building or reviewing biology lab demos.
+interface:
+  display_name: "KHTN8 Biology Lab Creator"
+  short_description: "Dense biology lab visual and FE QA"
+  default_prompt: "Use $khtn8-biology-lab-creator to build or review a detailed KHTN8 biology 3D lab."

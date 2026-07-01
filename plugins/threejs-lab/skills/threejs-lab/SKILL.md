@@ -10,6 +10,7 @@ description: Router and baseline workflow for Three.js lab work. Use when the us
 Load the most specific skill before building:
 
 - Product lab, curriculum scene, agent-connected simulation, or reusable 3D lesson: use `$learning-lab-3d-creator`.
+- Visual quality, fancy demo acceptance, image-reference direction, chemistry/biology beauty/detail complaints, or before/after screenshot comparison: use `$visual-lab-qa-agent`.
 - 3D model, procedural object, materials, GLB/GLTF, texture, articulation, or asset optimization: use `$threejs-model-creator`.
 - Physics, force, collision, rigid body, particle, fluid-like, field, motion, numerical simulation, or calibration: use `$threejs-physics-simulation`.
 - Blank canvas, slow scene, WebGL budget, responsive framing, screenshot QA, or release verification: use `$threejs-performance-qa`.
@@ -18,14 +19,15 @@ Load the most specific skill before building:
 ## Workflow
 
 1. Define the lab surface first: learning goal, one primary 3D scene, 1-3 controls, visible measurement/output, reset, and pause/play when motion matters.
-2. Inspect the project: package scripts, installed 3D deps, existing canvas/components/assets, route/layout conventions, and current build/test commands.
-3. Pick the smallest renderer path that fits:
+2. For demo/lab creation, run `$visual-lab-qa-agent` start pass before implementation to set the visual target.
+3. Inspect the project: package scripts, installed 3D deps, existing canvas/components/assets, route/layout conventions, and current build/test commands.
+4. Pick the smallest renderer path that fits:
    - Use existing React Three Fiber if already installed and used.
    - Use imperative Three.js for a single embedded canvas or a non-React page.
    - Do not add physics, postprocessing, state, or control libraries unless the lab requires them.
-4. Build with stable scene lifecycle: camera, renderer/canvas sizing, lights, objects/models, controls, animation loop, resize handling, and cleanup.
-5. Add real lab controls: variables, units, measured output, reset, and a short result readout.
-6. Verify in browser. A Three.js lab is not done until the canvas is nonblank, framed correctly, responsive, and interaction works.
+5. Build with stable scene lifecycle: camera, renderer/canvas sizing, lights, objects/models, controls, animation loop, resize handling, and cleanup.
+6. Add real lab controls: variables, units, measured output, reset, and a short result readout.
+7. Verify in browser, then run `$visual-lab-qa-agent` end pass. A Three.js lab is not done until the canvas is nonblank, framed correctly, responsive, interactive, and visually accepted.
 
 ## Must-Haves
 

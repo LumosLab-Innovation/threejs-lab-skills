@@ -38,6 +38,7 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 | --- | --- | --- |
 | `$threejs-lab` | Any 3D/canvas/Three.js lab prompt | Routes to the specific specialist skill and enforces baseline scene lifecycle. |
 | `$learning-lab-3d-creator` | Full educational experiments, lesson scenes, agent-connected labs | Creates a lab contract, file split, controls, units, result loop, reset, and verification path. |
+| `$visual-lab-qa-agent` | Fancy/demo visual quality, GPT Image/imagegen references, screenshot comparison | Runs before and after each demo: creates a visual target, compares benchmark screenshots, and loops on `FIX_REQUIRED`. |
 | `$khtn8-biology-lab-creator` | KHTN8 biology, human body, ecology, dense small-detail scenes | Requires recognizable biological systems, detail-marker coverage, mobile FE checks, and stricter model/texture budgets. |
 | `$threejs-model-creator` | Procedural models, GLB/GLTF, materials, apparatus, labels | Keeps models semantic, scaled, articulated, optimized, and disposable. |
 | `$threejs-physics-simulation` | Forces, fields, collisions, particles, density, heat, optics, rigid bodies | Chooses formula/custom solver/`cannon-es`/Babylon physics with units and fixed timestep where needed. |
@@ -48,15 +49,31 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 
 - Routes 3D prompts to the right specialist skill through a Codex hook.
 - Pushes new labs toward a clear contract: lesson goal, variables, units, controls, measured output, reset, QA command.
+- Adds a visual QA loop: generate or write a reference target before coding, compare desktop/mobile benchmark screenshots after coding, and keep fixing until `PASS` or a concrete blocker.
 - Keeps Three.js scene lifecycle boring and reliable: camera, renderer, loop, resize, asset loading, cleanup.
 - Adds a strict reviewer gate so a lab is not "done" until build, browser, canvas, interaction, mobile, physics, and asset evidence exist.
 
 ## Expected Workflow
 
 1. Ask Codex to use `$learning-lab-3d-creator` for a complete lab or `$threejs-model-creator` for a model-heavy asset.
-2. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
-3. Run `$threejs-performance-qa` after code changes.
-4. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
+2. Run `$visual-lab-qa-agent` start pass before coding the demo. If GPT Image/imagegen is available, it should create a visual reference; otherwise it writes a compact visual target spec.
+3. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
+4. Run `$threejs-performance-qa` after code changes to generate benchmark screenshots and metrics.
+5. Run `$visual-lab-qa-agent` end pass. If it returns `FIX_REQUIRED`, apply the smallest concrete fix set and repeat the end pass.
+6. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
+
+## Visual QA Loop
+
+This is the guardrail for the exact failure mode where a demo benchmarks well but still looks weak. `$visual-lab-qa-agent` treats machine metrics as budget checks, not proof of beauty.
+
+Required evidence per serious demo:
+
+- A visual target prompt/spec before implementation.
+- Desktop and mobile benchmark screenshots after implementation.
+- A `PASS`, `FIX_REQUIRED`, or `BLOCKED` visual QA verdict.
+- For Chemistry: credible apparatus, visible reaction evidence, material separation, scale/measurement cues.
+- For Biology: recognizable organ/specimen/ecosystem structure, dense small details, flow/signal markers, scale cues, and FE detail-marker budget.
+- For every fix loop: concrete scene changes only, such as geometry, material, lighting, camera, label, interaction, or asset-budget action.
 
 ## Engine Choice
 

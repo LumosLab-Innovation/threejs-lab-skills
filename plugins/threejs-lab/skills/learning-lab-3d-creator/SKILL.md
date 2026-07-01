@@ -15,6 +15,7 @@ Ship a learning lab with scene, controls, state, agent events, and verification.
    - Use existing `three`, `@react-three/fiber`, `@react-three/drei`, `cannon-es`, and Babylon deps before adding anything.
    - Use primitives/parametric geometry for curriculum labs unless GLB adds real understanding.
 3. Write the lab contract before implementation: lesson goal, variables with units, scene objects, interactions, feedback, reset behavior, and QA command.
+4. Run `$visual-lab-qa-agent` start pass before coding demo visuals so there is a reference image or visual target spec to judge against.
 
 ## Lab Structure
 
@@ -62,4 +63,4 @@ Make the scene feel like a premium learning instrument, not a toy pile:
 - Read `references/lab-contract.md` before adding a new lab.
 - For model-heavy work, also use `$threejs-model-creator`.
 - For physics-heavy work, also use `$threejs-physics-simulation`.
-- Before finishing, use `$threejs-performance-qa`, then `$learning-lab-qa-pm-reviewer`.
+- Before finishing, use `$threejs-performance-qa`, `$visual-lab-qa-agent` end pass, then `$learning-lab-qa-pm-reviewer`.

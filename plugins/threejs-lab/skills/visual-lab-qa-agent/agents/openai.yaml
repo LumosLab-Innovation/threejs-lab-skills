@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Lab QA Agent"
+  short_description: "Visual reference QA loop for 3D labs"
+  default_prompt: "Use $visual-lab-qa-agent to run a before-and-after visual QA loop for this 3D lab."

@@ -22,7 +22,7 @@ Return one of:
 3. Check PM fit: target learner, lesson objective, first 10 seconds, controls, feedback, reset, and report/quiz path.
 4. Check QA fit: build/lint, console, asset paths, canvas nonblank, desktop/mobile, cleanup, and performance.
 5. Check physics/simulation: variables, units, constants, solver, reset, edge cases, and calibration.
-6. Check visual quality: material, lighting, camera framing, label readability, and overlap.
+6. Check visual quality: reference/spec, material, lighting, camera framing, label readability, detail density, subject fidelity, and overlap.
 7. Name the smallest fix set.
 
 ## Hard Blocks
@@ -30,6 +30,7 @@ Return one of:
 - No live browser/screenshot/canvas verification for changed 3D scene.
 - Build or lint failing without a named external blocker.
 - Main phenomenon is not visible immediately.
+- No visual target/reference or no `$visual-lab-qa-agent` end-pass evidence for a demo/lab that was created or visually revised.
 - Controls do not change scene and measured output.
 - Physics formula or units are wrong.
 - GLB/texture/model path fails in production-like public path.

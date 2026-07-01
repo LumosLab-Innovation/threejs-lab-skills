@@ -15,6 +15,7 @@ Biology scenes fail when they look like generic blobs. Build a recognizable spec
 - Ecology: producers, consumers, decomposers or stressors, visible population groups, arrows/flows, and stability/risk output.
 - Cells/tissues: repeated small structures must be instanced or pooled; label only the active structures.
 - Keep one primary phenomenon visible within 2 seconds: flow, breathing, pulse, population shift, heat transfer, or signal path.
+- Run `$visual-lab-qa-agent` before and after biology demo work; benchmark numbers do not pass a biology lab if the organism/system is not visually recognizable.
 
 ## Required State
 
@@ -54,4 +55,5 @@ Use the shared QA gates too:
 - `$threejs-model-creator`
 - `$threejs-physics-simulation`
 - `$threejs-performance-qa`
+- `$visual-lab-qa-agent`
 - `$learning-lab-qa-pm-reviewer`

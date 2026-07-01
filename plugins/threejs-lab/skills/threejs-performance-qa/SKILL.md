@@ -13,8 +13,9 @@ A 3D lab is not complete when TypeScript passes. It is complete when the learner
 2. Run static Three.js checks on changed scene files.
 3. Start the app and inspect desktop and mobile.
 4. Check console errors, asset 404s, nonblank canvas, camera framing, controls, reset, and performance.
-5. Run `$learning-lab-qa-pm-reviewer` for non-trivial 3D learning labs before claiming done.
-6. Report skipped visual checks explicitly.
+5. Run `$visual-lab-qa-agent` end pass for new or visually revised demos.
+6. Run `$learning-lab-qa-pm-reviewer` for non-trivial 3D learning labs before claiming done.
+7. Report skipped visual checks explicitly.
 
 ## Project Defaults
 
