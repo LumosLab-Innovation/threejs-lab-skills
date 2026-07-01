@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Lab"
+  short_description: "Build and verify interactive 3D labs"
+  default_prompt: "Use $threejs-lab to build a small interactive Three.js science lab."

@@ -1,0 +1,33 @@
+{
+  "name": "threejs-lab",
+  "version": "0.1.0",
+  "description": "Codex skill for building and verifying interactive Three.js lab experiences.",
+  "author": {
+    "name": "Local developer"
+  },
+  "license": "MIT",
+  "keywords": [
+    "threejs",
+    "3d",
+    "lab",
+    "gltf",
+    "webgl"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Three.js Lab",
+    "shortDescription": "Build and verify interactive 3D labs.",
+    "longDescription": "Guidance for creating, debugging, and visually validating Three.js or React Three Fiber lab simulations, model viewers, and educational 3D scenes.",
+    "developerName": "Local developer",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use $threejs-lab to build a small interactive 3D lab.",
+      "Use $threejs-lab to debug this blank Three.js canvas.",
+      "Use $threejs-lab to add GLB loading and visual QA."
+    ]
+  }
+}

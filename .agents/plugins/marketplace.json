@@ -1,0 +1,20 @@
+{
+  "name": "threejs-lab-local",
+  "interface": {
+    "displayName": "Threejs Lab Local"
+  },
+  "plugins": [
+    {
+      "name": "threejs-lab",
+      "source": {
+        "source": "local",
+        "path": "./plugins/threejs-lab"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
