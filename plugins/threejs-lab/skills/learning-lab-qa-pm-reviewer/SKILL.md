@@ -1,9 +1,9 @@
 ---
-name: lab029s-qa-pm-reviewer
-description: Strict QA and product-management review gate for Lab029s 3D labs, Three.js models, physics simulations, and educational experiment flows. Use before shipping, merging, presenting, or claiming a 3D lab is done; use when the user asks for a hard QA/PM review, subagent reviewer, acceptance criteria, product critique, or whether a lab is effective, polished, correct, and learner-ready.
+name: learning-lab-qa-pm-reviewer
+description: Strict QA and product-management review gate for 3D learning labs, Three.js models, physics simulations, and educational experiment flows. Use before shipping, merging, presenting, or claiming a 3D lab is done; use when the user asks for a hard QA/PM review, subagent reviewer, acceptance criteria, product critique, or whether a lab is effective, polished, correct, and learner-ready.
 ---
 
-# Lab029s QA PM Reviewer
+# Learning Lab QA PM Reviewer
 
 Review like the person who owns learner outcomes and demo risk. Findings first. No cheerleading. Block incomplete work.
 

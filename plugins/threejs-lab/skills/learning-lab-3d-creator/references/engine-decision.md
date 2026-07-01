@@ -1,6 +1,6 @@
 # Engine Decision
 
-Recommendation: default new Lab029s school-lab simulations to imperative Three.js, but do not migrate every existing 3D surface blindly.
+Recommendation: default new school-lab simulations to imperative Three.js, but do not migrate every existing 3D surface blindly.
 
 ## Default Choices
 
@@ -12,7 +12,7 @@ Recommendation: default new Lab029s school-lab simulations to imperative Three.j
 
 ## Why
 
-- Lab029s already has many Three.js simulation files, shared lab helpers, CSS2D labels, GLTF loading, and imperative setup/dispose patterns.
+- The target app already has many Three.js simulation files, shared lab helpers, CSS2D labels, GLTF loading, and imperative setup/dispose patterns.
 - The `CloudAI-X/threejs-skills` repo is valuable because it splits Three.js knowledge into focused areas: fundamentals, geometry, materials, lighting, textures, loaders, animation, shaders, postprocessing, and interaction.
 - Three.js is enough for most school labs because the product needs controlled apparatus, labels, units, formulas, and visual clarity more than a full game engine.
 - Babylon remains useful for game-like scenes, built-in physics integration, inspectors/tools, and existing Babylon surfaces.
@@ -34,7 +34,7 @@ Do not convert when:
 
 ## Three.js Lab Standard
 
-For new Lab029s labs:
+For new learning labs:
 
 1. React component owns UI state and agent events.
 2. `setup<Name>Scene.ts` owns Three.js scene lifecycle.

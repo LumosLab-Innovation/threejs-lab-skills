@@ -15,7 +15,7 @@ const raw = [
   process.env.PROMPT || "",
 ].join("\n").toLowerCase();
 
-const shouldRoute = /\b(3d|three\.?js|webgl|gltf|glb|model|physics|simulation|simulator|lab029s|khtn8|cannon|babylon|canvas)\b/.test(raw);
+const shouldRoute = /\b(3d|three\.?js|webgl|gltf|glb|model|physics|simulation|simulator|learning|curriculum|khtn8|cannon|babylon|canvas)\b/.test(raw);
 
 if (!shouldRoute) {
   process.stdout.write("{}");
@@ -24,11 +24,11 @@ if (!shouldRoute) {
 
 const context = [
   "Three.js Lab plugin routing:",
-  "- For Lab029s product/curriculum labs use $lab029s-3d-creator.",
+  "- For product/curriculum labs use $learning-lab-3d-creator.",
   "- For model/material/GLB work use $threejs-model-creator.",
   "- For physics, forces, collisions, and numerical simulation use $threejs-physics-simulation.",
   "- Before claiming done, use $threejs-performance-qa for build, browser, canvas, asset, and performance checks.",
-  "- For strict PM/QA acceptance, use $lab029s-qa-pm-reviewer and block if evidence is missing.",
+  "- For strict PM/QA acceptance, use $learning-lab-qa-pm-reviewer and block if evidence is missing.",
 ].join("\n");
 
 process.stdout.write(JSON.stringify({

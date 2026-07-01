@@ -1,24 +1,24 @@
 ---
-name: lab029s-3d-creator
-description: Build complete Lab029s-grade 3D educational labs and simulations. Use when creating or refactoring Lab029s science/physics labs, KHTN8 lessons, experiment scenes, Three.js/Babylon scenes, agent-connected simulation flows, control panels, reports, quizzes, tutorial phases, or reusable lab architecture.
+name: learning-lab-3d-creator
+description: Build complete production-grade 3D educational labs and simulations. Use when creating or refactoring science/physics labs, KHTN8 lessons, experiment scenes, Three.js/Babylon scenes, agent-connected simulation flows, control panels, reports, quizzes, tutorial phases, or reusable lab architecture.
 ---
 
-# Lab029s 3D Creator
+# Learning Lab 3D Creator
 
-Act like a long-running Lab029s maintainer: ship a learning lab with scene, controls, state, agent events, and verification. Do not stop at a pretty canvas.
+Ship a learning lab with scene, controls, state, agent events, and verification. Do not stop at a pretty canvas.
 
 ## First Pass
 
 1. Inspect the target repo before coding: package scripts, existing simulation folders, shared scene helpers, chatbot/report/question components, and available deps.
 2. Choose the local pattern:
-   - For Lab029s `services/frontend`, prefer imperative Three.js scene controllers for simulation folders unless the surrounding feature already uses R3F.
+   - For `services/frontend`, prefer imperative Three.js scene controllers for simulation folders unless the surrounding feature already uses R3F.
    - Use existing `three`, `@react-three/fiber`, `@react-three/drei`, `cannon-es`, and Babylon deps before adding anything.
    - Use primitives/parametric geometry for curriculum labs unless GLB adds real understanding.
 3. Write the lab contract before implementation: lesson goal, variables with units, scene objects, interactions, feedback, reset behavior, and QA command.
 
 ## Lab Structure
 
-For Lab029s-style simulations, keep this split:
+For learning-lab simulations, keep this split:
 
 - `constants.ts`: IDs, units, physical constants, specimen/object data, formatters, answer checks.
 - `setup<Name>Scene.ts`: Three.js scene lifecycle, model construction/loading, pointer interaction, animation, disposal.
@@ -44,10 +44,13 @@ Build every lab with:
 
 ## Design Bar
 
-Make the scene feel like a lab bench, not a toy pile:
+Make the scene feel like a premium learning instrument, not a toy pile:
 
 - Use restrained background, floor/table, contact shadows, and 2-3 purposeful lights.
 - Materials should communicate function: metal, glass, plastic, liquid, field lines, measurement overlays.
+- Establish a focal hierarchy: one hero phenomenon, supporting apparatus, then labels/readouts.
+- Use postprocessing only when it improves the phenomenon: bloom for energy/light, ambient occlusion/shadows for contact, tone mapping for polish.
+- Include at least one high-quality visual cue for invisible forces: field lines, vector arrows, particles, heat map, ray path, or wavefront.
 - Use camera limits that keep the learner near the experiment.
 - Avoid oversized decorative panels; controls should be compact and scannable.
 - Keep mobile usable: canvas visible, panels collapsible, no text overlapping the 3D viewport.
@@ -55,8 +58,8 @@ Make the scene feel like a lab bench, not a toy pile:
 ## References
 
 - Read `references/engine-decision.md` before converting an existing 3D surface or choosing Three.js/R3F/Babylon.
-- Read `references/lab029s-stack.md` before Lab029s work.
+- Read `references/project-stack.md` before project-specific work.
 - Read `references/lab-contract.md` before adding a new lab.
 - For model-heavy work, also use `$threejs-model-creator`.
 - For physics-heavy work, also use `$threejs-physics-simulation`.
-- Before finishing, use `$threejs-performance-qa`, then `$lab029s-qa-pm-reviewer`.
+- Before finishing, use `$threejs-performance-qa`, then `$learning-lab-qa-pm-reviewer`.

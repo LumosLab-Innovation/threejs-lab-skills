@@ -46,3 +46,5 @@ Keep helper functions small and local: `addBox`, `addCylinder`, `makeLabel`, `di
 - Use shadows as depth cues, not as a performance tax everywhere.
 - Frame model with camera target and distance limits.
 - Add subtle animation only when it explains state or draws attention to the active part.
+- Use bloom, transparent glass, emissive accents, or particles only when they clarify energy, field, flow, heat, or motion.
+- Avoid "primitive soup": repeated spheres/boxes need a lab apparatus, surface, scale cue, labels, and a measured readout.

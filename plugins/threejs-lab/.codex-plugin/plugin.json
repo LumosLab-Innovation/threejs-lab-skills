@@ -1,7 +1,7 @@
 {
   "name": "threejs-lab",
-  "version": "0.1.0+codex.20260701161959",
-  "description": "Codex skills and hooks for building Lab029s-grade Three.js models, labs, physics simulations, and visual QA.",
+  "version": "0.1.0+codex.20260701173500",
+  "description": "Codex skills and hooks for building production-grade Three.js models, learning labs, physics simulations, and visual QA.",
   "author": {
     "name": "Local developer"
   },
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Three.js Lab",
     "shortDescription": "Create polished 3D models and simulations.",
-    "longDescription": "Creator workflow for Lab029s-style 3D science labs: Three.js scene architecture, procedural and GLB model design, calibrated physics/simulation, performance budgets, visual QA, and installable Codex skill mechanics.",
+    "longDescription": "Creator workflow for 3D science and learning labs: Three.js scene architecture, procedural and GLB model design, calibrated physics/simulation, performance budgets, visual QA, and installable Codex skill mechanics.",
     "developerName": "Local developer",
     "category": "Developer Tools",
     "capabilities": [
@@ -26,9 +26,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Use $lab029s-3d-creator to build a complete 3D physics lab.",
+      "Use $learning-lab-3d-creator to build a complete 3D physics lab.",
       "Use $threejs-model-creator to create a polished model asset.",
-      "Use $lab029s-qa-pm-reviewer to review this lab before shipping."
+      "Use $learning-lab-qa-pm-reviewer to review this lab before shipping."
     ]
   }
 }

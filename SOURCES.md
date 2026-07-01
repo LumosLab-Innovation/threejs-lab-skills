@@ -8,7 +8,7 @@ Reviewed while creating this plugin:
 
 The two `threejs-skills` URLs resolved to the same commit in this checkout.
 
-Also inspected local Lab029s project structure in `E:\Projects\A20-App-029` for stack-specific conventions: Vite/React frontend, imperative Three.js simulation controllers, R3F/drei availability, Babylon/cannon-es physics, and existing simulation folders.
+Also inspected local `E:\Projects\A20-App-029` project structure for stack-specific conventions: Vite/React frontend, imperative Three.js simulation controllers, R3F/drei availability, Babylon/cannon-es physics, and existing simulation folders.
 
 Additional web research:
 

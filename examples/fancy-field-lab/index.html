@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>Aurora Field Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #050908;
+      color: #f7fff9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 58% 38%, rgba(74, 255, 203, 0.26), transparent 34%),
+        radial-gradient(circle at 82% 12%, rgba(255, 126, 83, 0.14), transparent 24%),
+        linear-gradient(135deg, #06100d 0%, #0a1714 44%, #040606 100%);
+    }
+
+    #scene {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .console {
+      position: fixed;
+      left: 24px;
+      top: 24px;
+      width: min(372px, calc(100vw - 48px));
+      padding: 18px;
+      border: 1px solid rgba(180, 255, 225, 0.22);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(5, 12, 10, 0.84), rgba(5, 9, 8, 0.66));
+      backdrop-filter: blur(20px) saturate(1.2);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #85f5cc;
+      font-size: 11px;
+      font-weight: 780;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: #bdd8cf;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 1px solid rgba(180, 255, 225, 0.22);
+      border-radius: 12px;
+      padding: 9px 8px;
+      color: #effff7;
+      background: rgba(255, 255, 255, 0.06);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    button.active {
+      border-color: rgba(108, 255, 205, 0.9);
+      background: rgba(83, 255, 196, 0.18);
+      box-shadow: 0 0 22px rgba(83, 255, 196, 0.18);
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      margin-top: 13px;
+      color: #e2fbf1;
+      font-size: 12px;
+    }
+
+    input {
+      width: 100%;
+      accent-color: #63f2bd;
+    }
+
+    .readout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .metric {
+      min-width: 0;
+      border: 1px solid rgba(180, 255, 225, 0.14);
+      border-radius: 14px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .metric span {
+      display: block;
+      color: #9dcabc;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .hint {
+      position: fixed;
+      right: 24px;
+      bottom: 20px;
+      color: rgba(225, 255, 245, 0.74);
+      font-size: 12px;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+    }
+
+    @media (max-width: 720px) {
+      .console {
+        left: 12px;
+        right: 12px;
+        top: auto;
+        bottom: 12px;
+        width: auto;
+        padding: 14px;
+      }
+
+      h1 {
+        font-size: 21px;
+      }
+
+      p {
+        display: none;
+      }
+
+      .hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <section class="console" aria-label="Aurora field controls">
+    <p class="eyebrow">Three.js learning lab</p>
+    <h1>Aurora Field Lab</h1>
+    <p>Explore how field intensity, particle flow, and turbulence reshape a charged plasma chamber.</p>
+    <div class="presets" aria-label="field presets">
+      <button class="active" data-preset="aurora">Aurora</button>
+      <button data-preset="solar">Solar</button>
+      <button data-preset="violet">Violet</button>
+    </div>
+    <label>Field strength (T) <input id="strength" type="range" min="0.6" max="2.8" step="0.05" value="1.45" /></label>
+    <label>Particle flow (m/s) <input id="flow" type="range" min="0.25" max="2.4" step="0.05" value="1.1" /></label>
+    <label>Turbulence (0-1) <input id="turbulence" type="range" min="0" max="1" step="0.02" value="0.42" /></label>
+    <div class="actions">
+      <button id="pause" type="button">Pause</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+    <div class="readout">
+      <div class="metric"><span>Field</span><strong id="field">1.45 T</strong></div>
+      <div class="metric"><span>Flux</span><strong id="flux">52%</strong></div>
+      <div class="metric"><span>Energy</span><strong id="energy">3.2 kJ</strong></div>
+    </div>
+  </section>
+  <div class="hint">Drag to orbit. Scroll to zoom.</div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+    import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+    import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+
+    const canvas = document.querySelector("#scene");
+    const strengthInput = document.querySelector("#strength");
+    const flowInput = document.querySelector("#flow");
+    const turbulenceInput = document.querySelector("#turbulence");
+    const pauseButton = document.querySelector("#pause");
+    const resetButton = document.querySelector("#reset");
+    const fieldReadout = document.querySelector("#field");
+    const fluxReadout = document.querySelector("#flux");
+    const energyReadout = document.querySelector("#energy");
+    const buttons = [...document.querySelectorAll("[data-preset]")];
+
+    const INITIAL = { preset: "aurora", strength: 1.45, flow: 1.1, turbulence: 0.42 };
+    const FIXED_DT = 1 / 60;
+
+    const palettes = {
+      aurora: { core: 0x67ffd1, accent: 0xa8ffe5, hot: 0xffc36b, floor: 0x0c211b },
+      solar: { core: 0xffd166, accent: 0xff7a59, hot: 0x9fffe0, floor: 0x24150c },
+      violet: { core: 0xb89cff, accent: 0x69e7ff, hot: 0xff8bd8, floor: 0x120d24 }
+    };
+    let palette = palettes.aurora;
+    let paused = false;
+    let simulationTime = 0;
+    let accumulator = 0;
+    let lastFrameSeconds = performance.now() / 1000;
+
+    function seededRandom(seed) {
+      let state = seed >>> 0;
+      return () => {
+        state += 0x6D2B79F5;
+        let t = state;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function computeMetrics(strength, flow, turbulence) {
+      return {
+        flux: Math.round((strength / 2.8) * 100),
+        energy: Number((strength * flow * (2.1 + turbulence)).toFixed(1))
+      };
+    }
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x06100d, 0.031);
+
+    const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 120);
+    camera.position.set(6.4, 4.9, 11.2);
+
+    // ponytail: preserveDrawingBuffer keeps benchmark pixel checks simple; remove first for heavy production scenes.
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.16;
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.56, 0.46, 0.22);
+    composer.addPass(bloom);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 0.1, 0);
+    controls.minDistance = 5.8;
+    controls.maxDistance = 17;
+    controls.maxPolarAngle = Math.PI * 0.48;
+
+    scene.add(new THREE.HemisphereLight(0xbffff0, 0x09110f, 1.55));
+    const key = new THREE.PointLight(palette.core, 24, 26);
+    key.position.set(-4.5, 5.4, 5.2);
+    scene.add(key);
+    const rim = new THREE.PointLight(palette.hot, 18, 24);
+    rim.position.set(5.8, 3.2, -4.6);
+    scene.add(rim);
+
+    const table = new THREE.Mesh(
+      new THREE.CylinderGeometry(6.8, 7.5, 0.22, 128),
+      new THREE.MeshStandardMaterial({ color: palette.floor, roughness: 0.62, metalness: 0.28 })
+    );
+    table.position.y = -1.46;
+    scene.add(table);
+
+    const grid = new THREE.GridHelper(13, 34, 0x65f5c3, 0x1b3b34);
+    grid.position.y = -1.32;
+    grid.material.transparent = true;
+    grid.material.opacity = 0.22;
+    scene.add(grid);
+
+    const coreMaterial = new THREE.MeshPhysicalMaterial({
+      color: palette.core,
+      emissive: palette.core,
+      emissiveIntensity: 0.42,
+      roughness: 0.08,
+      metalness: 0.05,
+      transmission: 0.46,
+      thickness: 0.9,
+      transparent: true,
+      opacity: 0.9
+    });
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.12, 8), coreMaterial);
+    scene.add(core);
+
+    const shellMaterial = new THREE.MeshBasicMaterial({
+      color: palette.accent,
+      transparent: true,
+      opacity: 0.12,
+      wireframe: true,
+      blending: THREE.AdditiveBlending
+    });
+    const shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.88, 3), shellMaterial);
+    scene.add(shell);
+
+    const electrodeMaterial = new THREE.MeshStandardMaterial({
+      color: 0xf7fff9,
+      metalness: 0.7,
+      roughness: 0.22,
+      emissive: 0x173d32,
+      emissiveIntensity: 0.22
+    });
+    const capMaterial = new THREE.MeshBasicMaterial({ color: palette.hot, transparent: true, opacity: 0.82 });
+    const electrodes = [-1, 1].map((side) => {
+      const group = new THREE.Group();
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 3.15, 32), electrodeMaterial);
+      post.rotation.z = Math.PI / 2;
+      post.position.x = side * 3.42;
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.38, 32, 16), capMaterial);
+      cap.position.x = side * 1.95;
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(0.56, 0.035, 12, 72),
+        new THREE.MeshBasicMaterial({ color: palette.accent, transparent: true, opacity: 0.65, blending: THREE.AdditiveBlending })
+      );
+      ring.rotation.y = Math.PI / 2;
+      ring.position.x = side * 2.12;
+      group.add(post, cap, ring);
+      scene.add(group);
+      return { group, cap, ring };
+    });
+
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: palette.accent,
+      transparent: true,
+      opacity: 0.28,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const rings = Array.from({ length: 8 }, (_, i) => {
+      const torus = new THREE.Mesh(new THREE.TorusGeometry(2 + i * 0.42, 0.012 + i * 0.002, 8, 220), ringMaterial.clone());
+      torus.rotation.set(i * 0.22, i * 0.34, i * 0.11);
+      scene.add(torus);
+      return torus;
+    });
+
+    const tubes = Array.from({ length: 9 }, (_, i) => {
+      const points = [];
+      const turns = 2.1 + i * 0.11;
+      for (let j = 0; j <= 160; j++) {
+        const u = j / 160;
+        const a = u * Math.PI * 2 * turns + i * 0.55;
+        const radius = 2.1 + Math.sin(u * Math.PI * 4 + i) * 0.18 + i * 0.16;
+        points.push(new THREE.Vector3(
+          Math.cos(a) * radius,
+          (u - 0.5) * 3.05 + Math.sin(a * 0.7) * 0.22,
+          Math.sin(a) * radius
+        ));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      const material = new THREE.MeshBasicMaterial({
+        color: i % 3 === 0 ? palette.hot : palette.accent,
+        transparent: true,
+        opacity: 0.24,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 180, 0.014 + i * 0.0015, 8, false), material);
+      scene.add(tube);
+      return tube;
+    });
+
+    const particleCount = 900;
+    const particlePositions = new Float32Array(particleCount * 3);
+    const random = seededRandom(29029);
+    const particleSeeds = Array.from({ length: particleCount }, () => ({
+      a: random() * Math.PI * 2,
+      r: 1.65 + random() * 5.7,
+      y: -1.05 + random() * 2.9,
+      s: 0.35 + random() * 1.4
+    }));
+    const particleGeometry = new THREE.BufferGeometry();
+    particleGeometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
+    const particleMaterial = new THREE.PointsMaterial({
+      color: palette.accent,
+      size: 0.055,
+      transparent: true,
+      opacity: 0.82,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    const vectorMaterial = new THREE.MeshBasicMaterial({ color: palette.hot, transparent: true, opacity: 0.86 });
+    const vectors = Array.from({ length: 18 }, (_, i) => {
+      const group = new THREE.Group();
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.62, 10), vectorMaterial);
+      const head = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.22, 14), vectorMaterial);
+      shaft.position.y = 0.24;
+      head.position.y = 0.64;
+      group.add(shaft, head);
+      const a = (i / 18) * Math.PI * 2;
+      group.position.set(Math.cos(a) * 4.35, -0.48 + Math.sin(i) * 0.16, Math.sin(a) * 4.35);
+      group.rotation.z = -Math.PI / 7 + Math.sin(i) * 0.25;
+      group.rotation.y = -a;
+      scene.add(group);
+      return group;
+    });
+
+    function makeLabel(text, color) {
+      const labelCanvas = document.createElement("canvas");
+      labelCanvas.width = 512;
+      labelCanvas.height = 150;
+      const ctx = labelCanvas.getContext("2d");
+      ctx.fillStyle = "rgba(5, 10, 8, 0.74)";
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.roundRect(8, 8, 496, 134, 26);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#f7fff9";
+      ctx.font = "700 38px Inter, Segoe UI, sans-serif";
+      ctx.fillText(text, 34, 92);
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: new THREE.CanvasTexture(labelCanvas),
+        transparent: true,
+        depthWrite: false
+      }));
+      sprite.scale.set(1.75, 0.51, 1);
+      return sprite;
+    }
+
+    const labels = [
+      ["positive source", -3.28, 0.82, 0.3, "rgba(255, 195, 107, 0.9)"],
+      ["flux sensor", 0.15, 2.25, 0, "rgba(141, 255, 224, 0.9)"],
+      ["negative sink", 3.35, 0.82, -0.3, "rgba(141, 255, 224, 0.9)"]
+    ].map(([text, x, y, z, color]) => {
+      const label = makeLabel(text, color);
+      label.position.set(x, y, z);
+      scene.add(label);
+      return label;
+    });
+
+    function applyPalette(next) {
+      palette = palettes[next];
+      key.color.setHex(palette.core);
+      rim.color.setHex(palette.hot);
+      table.material.color.setHex(palette.floor);
+      coreMaterial.color.setHex(palette.core);
+      coreMaterial.emissive.setHex(palette.core);
+      shellMaterial.color.setHex(palette.accent);
+      capMaterial.color.setHex(palette.hot);
+      particleMaterial.color.setHex(palette.accent);
+      vectorMaterial.color.setHex(palette.hot);
+      rings.forEach((ring) => ring.material.color.setHex(palette.accent));
+      tubes.forEach((tube, i) => tube.material.color.setHex(i % 3 === 0 ? palette.hot : palette.accent));
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.preset === next));
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => applyPalette(button.dataset.preset));
+    });
+
+    pauseButton.addEventListener("click", () => {
+      paused = !paused;
+      pauseButton.textContent = paused ? "Play" : "Pause";
+      pauseButton.classList.toggle("active", paused);
+    });
+
+    resetButton.addEventListener("click", resetLab);
+
+    function resetLab() {
+      strengthInput.value = INITIAL.strength;
+      flowInput.value = INITIAL.flow;
+      turbulenceInput.value = INITIAL.turbulence;
+      paused = false;
+      pauseButton.textContent = "Pause";
+      pauseButton.classList.remove("active");
+      simulationTime = 0;
+      accumulator = 0;
+      lastFrameSeconds = performance.now() / 1000;
+      camera.position.set(6.4, 4.9, 11.2);
+      controls.target.set(0, 0.1, 0);
+      applyPalette(INITIAL.preset);
+      controls.update();
+    }
+
+    function resize() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(innerWidth, innerHeight);
+      composer.setSize(innerWidth, innerHeight);
+    }
+
+    addEventListener("resize", resize);
+
+    function frame() {
+      const strength = Number(strengthInput.value);
+      const flow = Number(flowInput.value);
+      const turbulence = Number(turbulenceInput.value);
+      const now = performance.now() / 1000;
+      const delta = Math.min(now - lastFrameSeconds, 0.1);
+      lastFrameSeconds = now;
+
+      if (!paused) {
+        accumulator += delta;
+        while (accumulator >= FIXED_DT) {
+          simulationTime += FIXED_DT;
+          accumulator -= FIXED_DT;
+        }
+      }
+
+      controls.update();
+      const t = simulationTime;
+      bloom.strength = 0.36 + strength * 0.09;
+      key.intensity = 10 + strength * 4;
+      rim.intensity = 6 + turbulence * 12;
+
+      core.scale.setScalar(0.92 + strength * 0.09 + Math.sin(t * 2.4) * 0.025);
+      core.rotation.x += 0.0025 + turbulence * 0.002;
+      core.rotation.y += 0.006 * flow;
+      shell.rotation.y -= 0.004 * flow;
+      shell.rotation.z += 0.002;
+
+      electrodes.forEach(({ cap, ring }, i) => {
+        cap.scale.setScalar(1 + Math.sin(t * 3 + i) * 0.06 + strength * 0.04);
+        ring.rotation.x = t * (0.5 + i * 0.12);
+      });
+
+      rings.forEach((ring, i) => {
+        ring.rotation.y = t * (0.05 + i * 0.008) * flow;
+        ring.rotation.x += 0.001 + turbulence * 0.001;
+        ring.material.opacity = 0.13 + Math.sin(t * 1.4 + i) * 0.04 + strength * 0.04;
+      });
+
+      tubes.forEach((tube, i) => {
+        tube.rotation.y = t * (0.035 + i * 0.003) * flow;
+        tube.rotation.x = Math.sin(t * 0.28 + i) * turbulence * 0.18;
+      });
+
+      for (let i = 0; i < particleCount; i++) {
+        const seed = particleSeeds[i];
+        const a = seed.a + t * seed.s * flow;
+        const wobble = Math.sin(t * 1.7 + seed.a * 3) * turbulence * 0.42;
+        const r = seed.r + wobble;
+        particlePositions[i * 3] = Math.cos(a) * r;
+        particlePositions[i * 3 + 1] = seed.y + Math.sin(a * 1.7 + t) * 0.22 * turbulence;
+        particlePositions[i * 3 + 2] = Math.sin(a) * r;
+      }
+      particleGeometry.attributes.position.needsUpdate = true;
+
+      vectors.forEach((vector, i) => {
+        vector.scale.y = 0.7 + strength * 0.18 + Math.sin(t * 2 + i) * 0.08;
+        vector.rotation.x = Math.sin(t + i) * 0.14;
+      });
+
+      labels.forEach((label) => label.quaternion.copy(camera.quaternion));
+      const metrics = computeMetrics(strength, flow, turbulence);
+      fieldReadout.textContent = `${strength.toFixed(2)} T`;
+      fluxReadout.textContent = `${metrics.flux}%`;
+      energyReadout.textContent = `${metrics.energy.toFixed(1)} kJ`;
+
+      composer.render();
+      requestAnimationFrame(frame);
+    }
+
+    function disposeScene() {
+      removeEventListener("resize", resize);
+      controls.dispose();
+      scene.traverse((object) => {
+        object.geometry?.dispose?.();
+        const material = object.material;
+        if (Array.isArray(material)) material.forEach((item) => item.dispose?.());
+        else material?.dispose?.();
+      });
+      composer.dispose?.();
+      renderer.dispose();
+    }
+
+    addEventListener("beforeunload", disposeScene);
+
+    console.assert(computeMetrics(INITIAL.strength, INITIAL.flow, INITIAL.turbulence).flux === 52, "flux metric check");
+    console.assert(computeMetrics(INITIAL.strength, INITIAL.flow, INITIAL.turbulence).energy === 4.0, "energy metric check");
+
+    resetLab();
+    resize();
+    frame();
+  </script>
+</body>
+</html>

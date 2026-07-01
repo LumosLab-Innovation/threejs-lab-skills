@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learning Lab 3D Creator"
+  short_description: "Create polished 3D learning labs"
+  default_prompt: "Use $learning-lab-3d-creator to build a complete 3D science lab."

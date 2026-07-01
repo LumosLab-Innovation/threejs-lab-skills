@@ -1,6 +1,6 @@
 ---
 name: threejs-physics-simulation
-description: Build calibrated physics and numerical simulations for Three.js or Lab029s labs. Use for forces, motion, collisions, rigid bodies, springs, pendulums, levers, fluids approximations, fields, electricity, density, heat, optics, particles, Babylon/cannon-es physics, timestep logic, units, and deterministic simulation controls.
+description: Build calibrated physics and numerical simulations for Three.js or learning labs. Use for forces, motion, collisions, rigid bodies, springs, pendulums, levers, fluids approximations, fields, electricity, density, heat, optics, particles, Babylon/cannon-es physics, timestep logic, units, and deterministic simulation controls.
 ---
 
 # Three.js Physics Simulation

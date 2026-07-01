@@ -22,6 +22,7 @@ Each model needs:
 - Correct scale relative to the lab unit.
 - Contact with table/floor unless intentionally floating.
 - Materials chosen for function: metal, plastic, rubber, liquid, glass, emissive, field line.
+- Distinct visual hierarchy: hero object, active mechanism, supporting apparatus, labels.
 - Label/readout strategy: CSS2D/HTML overlay, CanvasTexture, or DOM panel.
 - Disposal path for generated geometries/materials/textures.
 

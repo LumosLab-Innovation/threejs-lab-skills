@@ -1,4 +1,4 @@
-# Lab029s Stack Notes
+# Project Stack Notes
 
 Observed stack in `E:\Projects\A20-App-029`:
 

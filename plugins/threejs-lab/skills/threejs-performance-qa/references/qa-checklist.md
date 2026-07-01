@@ -15,6 +15,7 @@
 - Console has no import, shader, WebGL, or asset errors.
 - Canvas dimensions are nonzero.
 - Canvas is nonblank and object is framed.
+- Visual output has depth, material contrast, focal hierarchy, and a visible primary phenomenon.
 - Desktop and mobile viewports do not overlap controls and labels.
 - Control changes update both scene and numeric output.
 - Reset restores scene and state.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Learning Lab QA PM Reviewer"
+  short_description: "Strict QA and product review gate"
+  default_prompt: "Use $learning-lab-qa-pm-reviewer to review this 3D lab before shipping."

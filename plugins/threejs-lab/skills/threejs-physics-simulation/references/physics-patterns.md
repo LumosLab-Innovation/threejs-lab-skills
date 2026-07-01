@@ -31,7 +31,7 @@ Use `cannon-es` when collision/contact matters:
 - copy body position/quaternion to mesh after stepping.
 - dispose event listeners and remove bodies on teardown.
 
-For Babylon physics in Lab029s, follow the local `enableScenePhysics` pattern and avoid mixing Babylon and Three.js in the same viewport.
+For Babylon physics in an existing app, follow the local `enableScenePhysics` pattern and avoid mixing Babylon and Three.js in the same viewport.
 
 ## Calibration
 

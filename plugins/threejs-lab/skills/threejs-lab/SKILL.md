@@ -1,6 +1,6 @@
 ---
 name: threejs-lab
-description: Router and baseline workflow for Three.js lab work. Use when the user asks for any web 3D lab, Lab029s simulation, model viewer, Three.js scene, GLB/GLTF asset flow, physics demo, canvas bug, visual QA, or performance pass and a more specific plugin skill may apply.
+description: Router and baseline workflow for Three.js lab work. Use when the user asks for any web 3D lab, learning simulation, model viewer, Three.js scene, GLB/GLTF asset flow, physics demo, canvas bug, visual QA, or performance pass and a more specific plugin skill may apply.
 ---
 
 # Three.js Lab
@@ -9,11 +9,11 @@ description: Router and baseline workflow for Three.js lab work. Use when the us
 
 Load the most specific skill before building:
 
-- Lab029s product lab, curriculum scene, agent-connected simulation, or reusable 3D lesson: use `$lab029s-3d-creator`.
+- Product lab, curriculum scene, agent-connected simulation, or reusable 3D lesson: use `$learning-lab-3d-creator`.
 - 3D model, procedural object, materials, GLB/GLTF, texture, articulation, or asset optimization: use `$threejs-model-creator`.
 - Physics, force, collision, rigid body, particle, fluid-like, field, motion, numerical simulation, or calibration: use `$threejs-physics-simulation`.
 - Blank canvas, slow scene, WebGL budget, responsive framing, screenshot QA, or release verification: use `$threejs-performance-qa`.
-- Strict product/QA gate before claiming done: use `$lab029s-qa-pm-reviewer`.
+- Strict product/QA gate before claiming done: use `$learning-lab-qa-pm-reviewer`.
 
 ## Workflow
 
@@ -32,7 +32,7 @@ Load the most specific skill before building:
 - Clamp pixel ratio with `Math.min(window.devicePixelRatio, 2)`.
 - Handle resize by updating renderer size, camera aspect/projection, and composer size if postprocessing exists.
 - Use `requestAnimationFrame`, `renderer.setAnimationLoop`, or R3F `useFrame`; update `Clock`-based deltas for animation mixers.
-- Use the import style already present in the project. For fresh Three.js code, prefer `three/addons/...`; in Lab029s today many files use `three/examples/jsm/...`, so keep local consistency unless modernizing a whole surface.
+- Use the import style already present in the project. For fresh Three.js code, prefer `three/addons/...`; keep local consistency unless modernizing a whole surface.
 - Use `MeshStandardMaterial`/`MeshPhysicalMaterial` with lights or environment maps for realistic labs; use `MeshBasicMaterial` only for unlit UI/debug visuals.
 - Load GLB/GLTF assets from the app's public/static path; add loading and error states.
 - Reuse/dispose geometries, materials, textures, controls, renderers, and event listeners on unmount.
