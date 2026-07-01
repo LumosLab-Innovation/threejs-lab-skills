@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lab029s QA PM Reviewer"
+  short_description: "Strict QA and product review gate"
+  default_prompt: "Use $lab029s-qa-pm-reviewer to review this 3D lab before shipping."

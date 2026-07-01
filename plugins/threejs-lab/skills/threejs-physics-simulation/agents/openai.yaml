@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Physics Simulation"
+  short_description: "Build calibrated physics simulations"
+  default_prompt: "Use $threejs-physics-simulation to build a calibrated interactive physics lab."

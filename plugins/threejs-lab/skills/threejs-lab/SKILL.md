@@ -1,13 +1,19 @@
 ---
 name: threejs-lab
-description: Build, fix, and verify interactive Three.js or React Three Fiber 3D lab experiences, including educational/science simulations, GLTF/GLB model viewers, articulated object demos, animation, shaders, lighting, materials, pointer interaction, and visual QA. Use when creating or debugging web-based 3D labs, canvas renderers, Three.js scenes, lab controls, model loading, or blank/incorrect 3D output.
+description: Router and baseline workflow for Three.js lab work. Use when the user asks for any web 3D lab, Lab029s simulation, model viewer, Three.js scene, GLB/GLTF asset flow, physics demo, canvas bug, visual QA, or performance pass and a more specific plugin skill may apply.
 ---
 
 # Three.js Lab
 
-## Overview
+## Route First
 
-Use this skill to ship a working 3D lab, not a decorative demo. Prefer the app's existing Three.js, React Three Fiber, Vite, Next, or testing patterns before adding anything new.
+Load the most specific skill before building:
+
+- Lab029s product lab, curriculum scene, agent-connected simulation, or reusable 3D lesson: use `$lab029s-3d-creator`.
+- 3D model, procedural object, materials, GLB/GLTF, texture, articulation, or asset optimization: use `$threejs-model-creator`.
+- Physics, force, collision, rigid body, particle, fluid-like, field, motion, numerical simulation, or calibration: use `$threejs-physics-simulation`.
+- Blank canvas, slow scene, WebGL budget, responsive framing, screenshot QA, or release verification: use `$threejs-performance-qa`.
+- Strict product/QA gate before claiming done: use `$lab029s-qa-pm-reviewer`.
 
 ## Workflow
 
@@ -17,8 +23,8 @@ Use this skill to ship a working 3D lab, not a decorative demo. Prefer the app's
    - Use existing React Three Fiber if already installed and used.
    - Use imperative Three.js for a single embedded canvas or a non-React page.
    - Do not add physics, postprocessing, state, or control libraries unless the lab requires them.
-4. Build the scene with stable basics: camera, renderer/canvas sizing, lights, objects/models, controls, animation loop, resize handling, and cleanup.
-5. Add lab controls as real parameters, not prose. Show values, units, and measured outcome; keep explanatory copy short.
+4. Build with stable scene lifecycle: camera, renderer/canvas sizing, lights, objects/models, controls, animation loop, resize handling, and cleanup.
+5. Add real lab controls: variables, units, measured output, reset, and a short result readout.
 6. Verify in browser. A Three.js lab is not done until the canvas is nonblank, framed correctly, responsive, and interaction works.
 
 ## Must-Haves
@@ -26,7 +32,7 @@ Use this skill to ship a working 3D lab, not a decorative demo. Prefer the app's
 - Clamp pixel ratio with `Math.min(window.devicePixelRatio, 2)`.
 - Handle resize by updating renderer size, camera aspect/projection, and composer size if postprocessing exists.
 - Use `requestAnimationFrame`, `renderer.setAnimationLoop`, or R3F `useFrame`; update `Clock`-based deltas for animation mixers.
-- Use `three/addons/...` imports for loaders, controls, and postprocessing in current Three.js projects.
+- Use the import style already present in the project. For fresh Three.js code, prefer `three/addons/...`; in Lab029s today many files use `three/examples/jsm/...`, so keep local consistency unless modernizing a whole surface.
 - Use `MeshStandardMaterial`/`MeshPhysicalMaterial` with lights or environment maps for realistic labs; use `MeshBasicMaterial` only for unlit UI/debug visuals.
 - Load GLB/GLTF assets from the app's public/static path; add loading and error states.
 - Reuse/dispose geometries, materials, textures, controls, renderers, and event listeners on unmount.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Performance QA"
+  short_description: "Verify 3D performance and visuals"
+  default_prompt: "Use $threejs-performance-qa to verify this Three.js lab before shipping."

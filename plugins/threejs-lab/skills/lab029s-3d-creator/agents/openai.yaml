@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lab029s 3D Creator"
+  short_description: "Create polished Lab029s 3D labs"
+  default_prompt: "Use $lab029s-3d-creator to build a complete Lab029s 3D science lab."

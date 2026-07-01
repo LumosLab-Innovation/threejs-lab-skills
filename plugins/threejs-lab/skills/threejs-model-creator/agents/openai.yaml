@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Model Creator"
+  short_description: "Model assets, materials, and GLB flow"
+  default_prompt: "Use $threejs-model-creator to create and optimize a Three.js model asset."
