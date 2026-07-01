@@ -1,0 +1,871 @@
+{
+  "generatedAt": "2026-07-01T17:32:53.696Z",
+  "results": [
+    {
+      "url": "/examples/fancy-field-lab/index.html",
+      "title": "Aurora Field Lab",
+      "errors": [],
+      "fpsAvg": 63,
+      "frameAvgMs": 15.75,
+      "frameP95Ms": 20.9,
+      "loadMs": 896,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "fancy-field-lab",
+        "state": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 42,
+            "textures": 4
+          },
+          "render": {
+            "frame": 204,
+            "calls": 44,
+            "triangles": 15010,
+            "points": 520,
+            "lines": 1030
+          }
+        },
+        "scene": {
+          "objects": 33,
+          "particles": 520,
+          "fieldTubes": 5,
+          "vectorArrows": 10,
+          "externalAssets": 0
+        },
+        "textures": {
+          "canvasLabels": 3,
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 261082,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 23.3,
+        "resetLatencyMs": 28.2,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "mutated": {
+          "fieldT": 2.2,
+          "flowMs": 1.7,
+          "turbulence": 0.72,
+          "paused": false,
+          "flux": 79,
+          "energy": 10.5
+        },
+        "after": {
+          "fieldT": 2.2,
+          "flowMs": 1.7,
+          "turbulence": 0.72,
+          "paused": false,
+          "flux": 79,
+          "energy": 10.5
+        },
+        "reset": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "resetCall": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        }
+      },
+      "visual": {
+        "litSamples": 5,
+        "sampleCount": 40,
+        "coveragePct": 13,
+        "avgLuma": 17,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 3,
+        "totalTransferKB": 255
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/fancy-field-lab/index.html",
+      "title": "Aurora Field Lab",
+      "errors": [],
+      "fpsAvg": 143,
+      "frameAvgMs": 7.01,
+      "frameP95Ms": 7.1,
+      "loadMs": 346,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "fancy-field-lab",
+        "state": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 32,
+            "textures": 4
+          },
+          "render": {
+            "frame": 254,
+            "calls": 33,
+            "triangles": 14730,
+            "points": 520,
+            "lines": 1030
+          }
+        },
+        "scene": {
+          "objects": 33,
+          "particles": 520,
+          "fieldTubes": 5,
+          "vectorArrows": 10,
+          "externalAssets": 0
+        },
+        "textures": {
+          "canvasLabels": 3,
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 13.1,
+        "resetLatencyMs": 64.8,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "mutated": {
+          "fieldT": 2.2,
+          "flowMs": 1.7,
+          "turbulence": 0.72,
+          "paused": false,
+          "flux": 79,
+          "energy": 10.5
+        },
+        "after": {
+          "fieldT": 2.2,
+          "flowMs": 1.7,
+          "turbulence": 0.72,
+          "paused": false,
+          "flux": 79,
+          "energy": 10.5
+        },
+        "reset": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        },
+        "resetCall": {
+          "fieldT": 1.45,
+          "flowMs": 1.1,
+          "turbulence": 0.42,
+          "paused": false,
+          "flux": 52,
+          "energy": 4
+        }
+      },
+      "visual": {
+        "litSamples": 11,
+        "sampleCount": 40,
+        "coveragePct": 28,
+        "avgLuma": 30.1,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 3,
+        "totalTransferKB": 0
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/density-buoyancy-lab/index.html",
+      "title": "Density Buoyancy Lab",
+      "errors": [],
+      "fpsAvg": 68,
+      "frameAvgMs": 14.69,
+      "frameP95Ms": 21,
+      "loadMs": 733,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "density-buoyancy-lab",
+        "state": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 7,
+            "textures": 2
+          },
+          "render": {
+            "frame": 209,
+            "calls": 11,
+            "triangles": 964,
+            "points": 0,
+            "lines": 2
+          }
+        },
+        "scene": {
+          "objects": 8,
+          "externalAssets": 0
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 29.2,
+        "resetLatencyMs": 36.1,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "mutated": {
+          "material": "iron",
+          "volumeCm3": 30,
+          "liquidDensityGPerCm3": 1.05,
+          "massG": 234,
+          "floats": false,
+          "submergedFraction": 1,
+          "displacedCm3": 30,
+          "buoyantN": 0.308909475,
+          "density": 7.8
+        },
+        "after": {
+          "material": "iron",
+          "volumeCm3": 30,
+          "liquidDensityGPerCm3": 1.05,
+          "massG": 234,
+          "floats": false,
+          "submergedFraction": 1,
+          "displacedCm3": 30,
+          "buoyantN": 0.308909475,
+          "density": 7.8
+        },
+        "reset": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "resetCall": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        }
+      },
+      "visual": {
+        "litSamples": 4,
+        "sampleCount": 40,
+        "coveragePct": 10,
+        "avgLuma": 6.3,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 2,
+        "totalTransferKB": 0
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/density-buoyancy-lab/index.html",
+      "title": "Density Buoyancy Lab",
+      "errors": [],
+      "fpsAvg": 137,
+      "frameAvgMs": 7.28,
+      "frameP95Ms": 13.2,
+      "loadMs": 458,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "density-buoyancy-lab",
+        "state": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 6,
+            "textures": 2
+          },
+          "render": {
+            "frame": 257,
+            "calls": 10,
+            "triangles": 836,
+            "points": 0,
+            "lines": 2
+          }
+        },
+        "scene": {
+          "objects": 8,
+          "externalAssets": 0
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 25.5,
+        "resetLatencyMs": 20.4,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "mutated": {
+          "material": "iron",
+          "volumeCm3": 30,
+          "liquidDensityGPerCm3": 1.05,
+          "massG": 234,
+          "floats": false,
+          "submergedFraction": 1,
+          "displacedCm3": 30,
+          "buoyantN": 0.308909475,
+          "density": 7.8
+        },
+        "after": {
+          "material": "iron",
+          "volumeCm3": 30,
+          "liquidDensityGPerCm3": 1.05,
+          "massG": 234,
+          "floats": false,
+          "submergedFraction": 1,
+          "displacedCm3": 30,
+          "buoyantN": 0.308909475,
+          "density": 7.8
+        },
+        "reset": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        },
+        "resetCall": {
+          "material": "wood",
+          "volumeCm3": 18,
+          "liquidDensityGPerCm3": 1,
+          "massG": 14.4,
+          "floats": true,
+          "submergedFraction": 0.8,
+          "displacedCm3": 14.4,
+          "buoyantN": 0.14121576,
+          "density": 0.8
+        }
+      },
+      "visual": {
+        "litSamples": 16,
+        "sampleCount": 40,
+        "coveragePct": 40,
+        "avgLuma": 19.8,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 2,
+        "totalTransferKB": 0
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/coulomb-force-lab/index.html",
+      "title": "Coulomb Force Lab",
+      "errors": [],
+      "fpsAvg": 113,
+      "frameAvgMs": 8.89,
+      "frameP95Ms": 14.3,
+      "loadMs": 217,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "coulomb-force-lab",
+        "state": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 20,
+            "textures": 1
+          },
+          "render": {
+            "frame": 242,
+            "calls": 22,
+            "triangles": 4820,
+            "points": 0,
+            "lines": 1263
+          }
+        },
+        "scene": {
+          "objects": 22,
+          "fieldLines": 14,
+          "externalAssets": 0
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 12.5,
+        "resetLatencyMs": 27.4,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "mutated": {
+          "q1": 18,
+          "q2": 14,
+          "distance": 12,
+          "force": 157.5,
+          "nature": "Repel",
+          "sameSign": true
+        },
+        "after": {
+          "q1": 18,
+          "q2": 14,
+          "distance": 12,
+          "force": 157.5,
+          "nature": "Repel",
+          "sameSign": true
+        },
+        "reset": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "resetCall": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        }
+      },
+      "visual": {
+        "litSamples": 2,
+        "sampleCount": 40,
+        "coveragePct": 5,
+        "avgLuma": 2.4,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 2,
+        "totalTransferKB": 0
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/coulomb-force-lab/index.html",
+      "title": "Coulomb Force Lab",
+      "errors": [],
+      "fpsAvg": 145,
+      "frameAvgMs": 6.91,
+      "frameP95Ms": 7,
+      "loadMs": 288,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "coulomb-force-lab",
+        "state": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 20,
+            "textures": 1
+          },
+          "render": {
+            "frame": 270,
+            "calls": 22,
+            "triangles": 4820,
+            "points": 0,
+            "lines": 1263
+          }
+        },
+        "scene": {
+          "objects": 22,
+          "fieldLines": 14,
+          "externalAssets": 0
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 12.6,
+        "resetLatencyMs": 10.4,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "mutated": {
+          "q1": 18,
+          "q2": 14,
+          "distance": 12,
+          "force": 157.5,
+          "nature": "Repel",
+          "sameSign": true
+        },
+        "after": {
+          "q1": 18,
+          "q2": 14,
+          "distance": 12,
+          "force": 157.5,
+          "nature": "Repel",
+          "sameSign": true
+        },
+        "reset": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        },
+        "resetCall": {
+          "q1": -10,
+          "q2": 10,
+          "distance": 20,
+          "force": -22.5,
+          "nature": "Attract",
+          "sameSign": false
+        }
+      },
+      "visual": {
+        "litSamples": 6,
+        "sampleCount": 40,
+        "coveragePct": 15,
+        "avgLuma": 5.3,
+        "panelInsideViewport": true
+      },
+      "resourceSummary": {
+        "count": 2,
+        "totalTransferKB": 0
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true
+      },
+      "pass": true
+    }
+  ]
+}

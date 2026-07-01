@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>Coulomb Force Lab</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #090b12; color: #f8fbff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 70% 35%, rgba(99, 102, 241, 0.22), transparent 34%), linear-gradient(135deg, #080a12 0%, #111827 50%, #05060a 100%); }
+    #scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .panel { position: fixed; left: 24px; top: 24px; width: min(360px, calc(100vw - 48px)); padding: 16px; border: 1px solid rgba(191, 219, 254, 0.22); border-radius: 12px; background: rgba(7, 10, 18, 0.78); backdrop-filter: blur(18px); box-shadow: 0 24px 72px rgba(0, 0, 0, 0.34); }
+    .eyebrow { margin: 0 0 7px; color: #93c5fd; font-size: 11px; font-weight: 760; letter-spacing: 0.11em; text-transform: uppercase; }
+    h1 { margin: 0 0 8px; font-size: 24px; line-height: 1; letter-spacing: 0; }
+    p { margin: 0 0 14px; color: #c5d4e8; font-size: 13px; line-height: 1.45; }
+    label { display: grid; gap: 7px; margin-top: 12px; color: #edf5ff; font-size: 12px; }
+    input { width: 100%; accent-color: #818cf8; }
+    button { width: 100%; margin-top: 13px; border: 1px solid rgba(191, 219, 254, 0.26); border-radius: 10px; padding: 10px; color: #f8fbff; background: rgba(255, 255, 255, 0.07); font: inherit; font-size: 12px; cursor: pointer; }
+    .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+    .metric { min-width: 0; border: 1px solid rgba(191, 219, 254, 0.14); border-radius: 10px; padding: 10px; background: rgba(255, 255, 255, 0.055); }
+    .metric span { display: block; color: #9fb5d5; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 4px; overflow-wrap: anywhere; font-size: 17px; line-height: 1.1; }
+    @media (max-width: 720px) { .panel { left: 12px; right: 12px; top: auto; bottom: 12px; width: auto; padding: 14px; } p { display: none; } h1 { font-size: 21px; } }
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <section class="panel" aria-label="Coulomb controls">
+    <p class="eyebrow">Coulomb force</p>
+    <h1>Coulomb Force Lab</h1>
+    <p>Benchmark version of the A20 Coulomb setup: charges, distance, force arrows, and measured force.</p>
+    <label>q1 (uC) <input id="q1" type="range" min="-25" max="25" step="1" value="-10" /></label>
+    <label>q2 (uC) <input id="q2" type="range" min="-25" max="25" step="1" value="10" /></label>
+    <label>r (x10^-2 m) <input id="distance" type="range" min="1" max="100" step="0.1" value="20" /></label>
+    <button id="reset" type="button">Reset</button>
+    <div class="readout">
+      <div class="metric"><span>Force</span><strong id="force">-22.50 N</strong></div>
+      <div class="metric"><span>Nature</span><strong id="nature">Attract</strong></div>
+      <div class="metric"><span>r</span><strong id="rout">20.0</strong></div>
+    </div>
+  </section>
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js" } }</script>
+  <script type="module">
+    import * as THREE from "three";
+
+    const INITIAL = { q1: -10, q2: 10, distance: 20 };
+    const canvas = document.querySelector("#scene");
+    const q1Input = document.querySelector("#q1");
+    const q2Input = document.querySelector("#q2");
+    const distanceInput = document.querySelector("#distance");
+    const resetButton = document.querySelector("#reset");
+    const forceReadout = document.querySelector("#force");
+    const natureReadout = document.querySelector("#nature");
+    const rReadout = document.querySelector("#rout");
+
+    function computeForce(q1, q2, distance) {
+      const safeDistance = Math.max(distance, 0.001);
+      return ((9 * q1 * q2) / (safeDistance * safeDistance)) * 10;
+    }
+
+    function derive(q1, q2, distance) {
+      const force = computeForce(q1, q2, distance);
+      const nature = force < 0 ? "Attract" : force > 0 ? "Repel" : "Zero";
+      return { force, nature, sameSign: (q1 > 0 && q2 > 0) || (q1 < 0 && q2 < 0) };
+    }
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x090b12, 0.034);
+    const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 90);
+    camera.position.set(0, 4.7, 10.5);
+    camera.lookAt(0, 0, 0);
+    // ponytail: preserveDrawingBuffer keeps benchmark pixel checks simple; remove first for heavy production scenes.
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    scene.add(new THREE.HemisphereLight(0xdbeafe, 0x090b12, 1.25));
+    const key = new THREE.PointLight(0x93c5fd, 12, 18);
+    key.position.set(-3.5, 4.6, 4.5);
+    scene.add(key);
+
+    const table = new THREE.Mesh(new THREE.CylinderGeometry(4.5, 5.2, 0.22, 96), new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.62, metalness: 0.28 }));
+    table.position.y = -1.25;
+    scene.add(table);
+    const qMaterialPositive = new THREE.MeshStandardMaterial({ color: 0xef4444, emissive: 0x3b0808, emissiveIntensity: 0.35, roughness: 0.28, metalness: 0.16 });
+    const qMaterialNegative = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x06163d, emissiveIntensity: 0.35, roughness: 0.28, metalness: 0.16 });
+    const q1Mesh = new THREE.Mesh(new THREE.SphereGeometry(0.54, 48, 24), qMaterialNegative);
+    const q2Mesh = new THREE.Mesh(new THREE.SphereGeometry(0.54, 48, 24), qMaterialPositive);
+    scene.add(q1Mesh, q2Mesh);
+    const line = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xdbeafe, transparent: true, opacity: 0.45 }));
+    scene.add(line);
+    const arrow1 = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(), 1.2, 0xfacc15, 0.24, 0.14);
+    const arrow2 = new THREE.ArrowHelper(new THREE.Vector3(-1, 0, 0), new THREE.Vector3(), 1.2, 0xfacc15, 0.24, 0.14);
+    scene.add(arrow1, arrow2);
+    const fieldLines = Array.from({ length: 14 }, (_, i) => {
+      const curve = new THREE.EllipseCurve(0, 0, 0.85 + i * 0.16, 0.25 + i * 0.035, 0, Math.PI * 2);
+      const points = curve.getPoints(90).map((p) => new THREE.Vector3(p.x, p.y, 0));
+      const ring = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: i % 2 ? 0x93c5fd : 0xfca5a5, transparent: true, opacity: 0.16 }));
+      scene.add(ring);
+      return ring;
+    });
+
+    function syncScene() {
+      const q1 = Number(q1Input.value);
+      const q2 = Number(q2Input.value);
+      const distance = Number(distanceInput.value);
+      const result = derive(q1, q2, distance);
+      const x = distance / 15;
+      q1Mesh.position.set(-x / 2, 0.1, 0);
+      q2Mesh.position.set(x / 2, 0.1, 0);
+      q1Mesh.material = q1 >= 0 ? qMaterialPositive : qMaterialNegative;
+      q2Mesh.material = q2 >= 0 ? qMaterialPositive : qMaterialNegative;
+      line.geometry.dispose();
+      line.geometry = new THREE.BufferGeometry().setFromPoints([q1Mesh.position, q2Mesh.position]);
+      const dir = new THREE.Vector3(1, 0, 0);
+      const len = Math.min(2.4, 0.65 + Math.abs(result.force) * 0.45);
+      arrow1.position.copy(q1Mesh.position);
+      arrow2.position.copy(q2Mesh.position);
+      arrow1.setDirection(dir.clone().multiplyScalar(result.sameSign ? -1 : 1));
+      arrow2.setDirection(dir.clone().multiplyScalar(result.sameSign ? 1 : -1));
+      arrow1.setLength(len, 0.24, 0.14);
+      arrow2.setLength(len, 0.24, 0.14);
+      fieldLines.forEach((ring, i) => {
+        ring.position.x = i % 2 ? q1Mesh.position.x : q2Mesh.position.x;
+        ring.position.y = 0.1;
+        ring.rotation.y = performance.now() * 0.00015 + i * 0.25;
+        ring.material.opacity = 0.08 + Math.min(0.28, Math.abs(result.force) / 14);
+      });
+      forceReadout.textContent = `${result.force.toFixed(2)} N`;
+      natureReadout.textContent = result.nature;
+      rReadout.textContent = distance.toFixed(1);
+      return result;
+    }
+
+    function resetLab() {
+      q1Input.value = INITIAL.q1;
+      q2Input.value = INITIAL.q2;
+      distanceInput.value = INITIAL.distance;
+      return syncScene();
+    }
+
+    function resize() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.setSize(innerWidth, innerHeight);
+    }
+
+    [q1Input, q2Input, distanceInput].forEach((input) => input.addEventListener("input", syncScene));
+    resetButton.addEventListener("click", resetLab);
+    addEventListener("resize", resize);
+
+    function frame() {
+      const result = syncScene();
+      key.intensity = 9 + Math.min(5, Math.abs(result.force));
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+
+    function disposeScene() {
+      removeEventListener("resize", resize);
+      scene.traverse((object) => {
+        object.geometry?.dispose?.();
+        const material = object.material;
+        if (Array.isArray(material)) material.forEach((item) => item.dispose?.());
+        else material?.dispose?.();
+      });
+      renderer.dispose();
+    }
+
+    function benchmark() {
+      return {
+        id: "coulomb-force-lab",
+        state: { q1: Number(q1Input.value), q2: Number(q2Input.value), distance: Number(distanceInput.value), ...derive(Number(q1Input.value), Number(q2Input.value), Number(distanceInput.value)) },
+        renderer: { pixelRatio: renderer.getPixelRatio(), memory: { ...renderer.info.memory }, render: { ...renderer.info.render } },
+        scene: { objects: scene.children.length, fieldLines: fieldLines.length, externalAssets: 0 },
+        textures: { externalTextures: 0 }
+      };
+    }
+
+    addEventListener("beforeunload", disposeScene);
+    window.__LAB_BENCHMARK__ = benchmark;
+    window.__LAB_BENCH_MUTATE__ = () => { q1Input.value = 18; q2Input.value = 14; distanceInput.value = 12; syncScene(); return benchmark(); };
+    window.__LAB_BENCH_RESET__ = () => { resetLab(); return benchmark(); };
+    console.assert(computeForce(-10, 10, 20).toFixed(2) === "-22.50", "coulomb force check");
+    resetLab();
+    resize();
+    frame();
+  </script>
+</body>
+</html>

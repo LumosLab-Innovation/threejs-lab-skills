@@ -216,9 +216,6 @@
   <script type="module">
     import * as THREE from "three";
     import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-    import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-    import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-    import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 
     const canvas = document.querySelector("#scene");
     const strengthInput = document.querySelector("#strength");
@@ -271,16 +268,11 @@
 
     // ponytail: preserveDrawingBuffer keeps benchmark pixel checks simple; remove first for heavy production scenes.
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
     renderer.setSize(innerWidth, innerHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.16;
-
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.56, 0.46, 0.22);
-    composer.addPass(bloom);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -298,7 +290,7 @@
     scene.add(rim);
 
     const table = new THREE.Mesh(
-      new THREE.CylinderGeometry(6.8, 7.5, 0.22, 128),
+      new THREE.CylinderGeometry(6.8, 7.5, 0.22, 72),
       new THREE.MeshStandardMaterial({ color: palette.floor, roughness: 0.62, metalness: 0.28 })
     );
     table.position.y = -1.46;
@@ -310,18 +302,16 @@
     grid.material.opacity = 0.22;
     scene.add(grid);
 
-    const coreMaterial = new THREE.MeshPhysicalMaterial({
+    const coreMaterial = new THREE.MeshStandardMaterial({
       color: palette.core,
       emissive: palette.core,
       emissiveIntensity: 0.42,
       roughness: 0.08,
       metalness: 0.05,
-      transmission: 0.46,
-      thickness: 0.9,
       transparent: true,
       opacity: 0.9
     });
-    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.12, 8), coreMaterial);
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.12, 4), coreMaterial);
     scene.add(core);
 
     const shellMaterial = new THREE.MeshBasicMaterial({
@@ -344,13 +334,13 @@
     const capMaterial = new THREE.MeshBasicMaterial({ color: palette.hot, transparent: true, opacity: 0.82 });
     const electrodes = [-1, 1].map((side) => {
       const group = new THREE.Group();
-      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 3.15, 32), electrodeMaterial);
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 3.15, 20), electrodeMaterial);
       post.rotation.z = Math.PI / 2;
       post.position.x = side * 3.42;
-      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.38, 32, 16), capMaterial);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.38, 20, 10), capMaterial);
       cap.position.x = side * 1.95;
       const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(0.56, 0.035, 12, 72),
+        new THREE.TorusGeometry(0.56, 0.035, 8, 48),
         new THREE.MeshBasicMaterial({ color: palette.accent, transparent: true, opacity: 0.65, blending: THREE.AdditiveBlending })
       );
       ring.rotation.y = Math.PI / 2;
@@ -367,18 +357,18 @@
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
-    const rings = Array.from({ length: 8 }, (_, i) => {
-      const torus = new THREE.Mesh(new THREE.TorusGeometry(2 + i * 0.42, 0.012 + i * 0.002, 8, 220), ringMaterial.clone());
+    const rings = Array.from({ length: 5 }, (_, i) => {
+      const torus = new THREE.Mesh(new THREE.TorusGeometry(2 + i * 0.56, 0.012 + i * 0.002, 6, 108), ringMaterial.clone());
       torus.rotation.set(i * 0.22, i * 0.34, i * 0.11);
       scene.add(torus);
       return torus;
     });
 
-    const tubes = Array.from({ length: 9 }, (_, i) => {
+    const tubes = Array.from({ length: 5 }, (_, i) => {
       const points = [];
       const turns = 2.1 + i * 0.11;
-      for (let j = 0; j <= 160; j++) {
-        const u = j / 160;
+      for (let j = 0; j <= 96; j++) {
+        const u = j / 96;
         const a = u * Math.PI * 2 * turns + i * 0.55;
         const radius = 2.1 + Math.sin(u * Math.PI * 4 + i) * 0.18 + i * 0.16;
         points.push(new THREE.Vector3(
@@ -395,12 +385,12 @@
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
-      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 180, 0.014 + i * 0.0015, 8, false), material);
+      const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 96, 0.014 + i * 0.0015, 5, false), material);
       scene.add(tube);
       return tube;
     });
 
-    const particleCount = 900;
+    const particleCount = 520;
     const particlePositions = new Float32Array(particleCount * 3);
     const random = seededRandom(29029);
     const particleSeeds = Array.from({ length: particleCount }, () => ({
@@ -423,14 +413,14 @@
     scene.add(particles);
 
     const vectorMaterial = new THREE.MeshBasicMaterial({ color: palette.hot, transparent: true, opacity: 0.86 });
-    const vectors = Array.from({ length: 18 }, (_, i) => {
+    const vectors = Array.from({ length: 10 }, (_, i) => {
       const group = new THREE.Group();
-      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.62, 10), vectorMaterial);
-      const head = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.22, 14), vectorMaterial);
+      const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.62, 8), vectorMaterial);
+      const head = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.22, 10), vectorMaterial);
       shaft.position.y = 0.24;
       head.position.y = 0.64;
       group.add(shaft, head);
-      const a = (i / 18) * Math.PI * 2;
+      const a = (i / 10) * Math.PI * 2;
       group.position.set(Math.cos(a) * 4.35, -0.48 + Math.sin(i) * 0.16, Math.sin(a) * 4.35);
       group.rotation.z = -Math.PI / 7 + Math.sin(i) * 0.25;
       group.rotation.y = -a;
@@ -519,9 +509,8 @@
     function resize() {
       camera.aspect = innerWidth / innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.setSize(innerWidth, innerHeight);
-      composer.setSize(innerWidth, innerHeight);
     }
 
     addEventListener("resize", resize);
@@ -544,7 +533,6 @@
 
       controls.update();
       const t = simulationTime;
-      bloom.strength = 0.36 + strength * 0.09;
       key.intensity = 10 + strength * 4;
       rim.intensity = 6 + turbulence * 12;
 
@@ -592,7 +580,7 @@
       fluxReadout.textContent = `${metrics.flux}%`;
       energyReadout.textContent = `${metrics.energy.toFixed(1)} kJ`;
 
-      composer.render();
+      renderer.render(scene, camera);
       requestAnimationFrame(frame);
     }
 
@@ -602,14 +590,57 @@
       scene.traverse((object) => {
         object.geometry?.dispose?.();
         const material = object.material;
-        if (Array.isArray(material)) material.forEach((item) => item.dispose?.());
-        else material?.dispose?.();
+        const materials = Array.isArray(material) ? material : [material];
+        materials.forEach((item) => {
+          item?.map?.dispose?.();
+          item?.dispose?.();
+        });
       });
-      composer.dispose?.();
       renderer.dispose();
     }
 
     addEventListener("beforeunload", disposeScene);
+
+    function benchmark() {
+      return {
+        id: "fancy-field-lab",
+        state: {
+          fieldT: Number(strengthInput.value),
+          flowMs: Number(flowInput.value),
+          turbulence: Number(turbulenceInput.value),
+          paused,
+          ...computeMetrics(Number(strengthInput.value), Number(flowInput.value), Number(turbulenceInput.value))
+        },
+        renderer: {
+          pixelRatio: renderer.getPixelRatio(),
+          memory: { ...renderer.info.memory },
+          render: { ...renderer.info.render }
+        },
+        scene: {
+          objects: scene.children.length,
+          particles: particleCount,
+          fieldTubes: tubes.length,
+          vectorArrows: vectors.length,
+          externalAssets: 0
+        },
+        textures: {
+          canvasLabels: labels.length,
+          externalTextures: 0
+        }
+      };
+    }
+
+    window.__LAB_BENCHMARK__ = benchmark;
+    window.__LAB_BENCH_MUTATE__ = () => {
+      strengthInput.value = 2.2;
+      flowInput.value = 1.7;
+      turbulenceInput.value = 0.72;
+      return benchmark();
+    };
+    window.__LAB_BENCH_RESET__ = () => {
+      resetLab();
+      return benchmark();
+    };
 
     console.assert(computeMetrics(INITIAL.strength, INITIAL.flow, INITIAL.turbulence).flux === 52, "flux metric check");
     console.assert(computeMetrics(INITIAL.strength, INITIAL.flow, INITIAL.turbulence).energy === 4.0, "energy metric check");

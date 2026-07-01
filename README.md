@@ -47,14 +47,37 @@ Start a new Codex thread after installing so the skill metadata is loaded.
 
 Default new school/curriculum labs to Three.js for speed, bundle control, DOM/UI fit, and simple scene ownership. Keep Babylon for existing game-like worlds or physics surfaces that already depend on Babylon architecture. Do not rewrite working Babylon scenes just to standardize.
 
-## Example Product
+## Benchmark Demos
 
-Open `examples/fancy-field-lab/index.html` in a browser for a self-contained fancy demo scene: an interactive electromagnetic field lab with animated field lines, charged particles, live readings, and compact controls. It is intentionally dependency-light: one HTML file plus Three.js from CDN.
+These demos are intentionally dependency-light: each is one HTML file plus Three.js from CDN. Visual quality is for human review; the benchmark script measures the parts machines can judge.
+
+| Demo | Source Topic | What To Benchmark |
+| --- | --- | --- |
+| `examples/density-buoyancy-lab/` | A20 density/KHTN8 density and buoyancy | mass, displaced volume, buoyant force, sink/float state, render/resource metrics |
+| `examples/coulomb-force-lab/` | A20 Coulomb simulation | q1/q2/r, force, attraction/repulsion, arrows, render/resource metrics |
+| `examples/fancy-field-lab/` | stress/fancy field visualizer | particle/field visual load, glow/material polish, state/reset, render/resource metrics |
+
+Run the benchmark harness:
+
+```bash
+node scripts/benchmark-examples.mjs
+```
+
+Current benchmark evidence is summarized in `examples/BENCHMARK_RESULTS.md`; the full machine-readable output is `examples/benchmark-results.json`.
+
+It reports:
+
+- FPS average and p95 frame time.
+- load time and resource transfer.
+- renderer info: draw calls, triangles, points, lines, geometries, textures.
+- canvas size, pixel ratio, and sampled canvas coverage.
+- state mutation latency and reset integrity.
+- desktop/mobile panel bounds.
 
 Prompt shape that this repo is designed to support:
 
 ```text
-Use $learning-lab-3d-creator and $threejs-physics-simulation to build a fancy electromagnetic field lab with live controls, units, reset, browser QA, and strict PM review.
+Use $learning-lab-3d-creator and $threejs-physics-simulation to build an A20-style density or Coulomb lab with live controls, units, reset, render metrics, state metrics, browser QA, and strict PM review.
 ```
 
 ## Hooks
@@ -78,6 +101,8 @@ node scripts/install.mjs
 ## Contents
 
 - `.agents/plugins/marketplace.json`
+- `examples/density-buoyancy-lab/`
+- `examples/coulomb-force-lab/`
 - `examples/fancy-field-lab/`
 - `plugins/threejs-lab/.codex-plugin/plugin.json`
 - `plugins/threejs-lab/hooks/`

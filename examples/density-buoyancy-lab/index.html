@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>Density Buoyancy Lab</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #061014; color: #f5fbff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 70% 38%, rgba(56, 189, 248, 0.22), transparent 34%), linear-gradient(135deg, #071218 0%, #0d1b22 48%, #04080a 100%); }
+    #scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .panel { position: fixed; left: 24px; top: 24px; width: min(360px, calc(100vw - 48px)); padding: 16px; border: 1px solid rgba(160, 228, 255, 0.22); border-radius: 12px; background: rgba(5, 13, 18, 0.78); backdrop-filter: blur(18px); box-shadow: 0 24px 72px rgba(0, 0, 0, 0.34); }
+    .eyebrow { margin: 0 0 7px; color: #7dd3fc; font-size: 11px; font-weight: 760; letter-spacing: 0.11em; text-transform: uppercase; }
+    h1 { margin: 0 0 8px; font-size: 24px; line-height: 1; letter-spacing: 0; }
+    p { margin: 0 0 14px; color: #bdd7e4; font-size: 13px; line-height: 1.45; }
+    .materials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    button { border: 1px solid rgba(160, 228, 255, 0.26); border-radius: 10px; padding: 10px 8px; color: #f5fbff; background: rgba(255, 255, 255, 0.07); font: inherit; font-size: 12px; cursor: pointer; }
+    button.active { border-color: rgba(125, 211, 252, 0.95); background: rgba(14, 165, 233, 0.18); }
+    label { display: grid; gap: 7px; margin-top: 12px; color: #e2f5ff; font-size: 12px; }
+    input { width: 100%; accent-color: #38bdf8; }
+    .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+    .metric { min-width: 0; border: 1px solid rgba(160, 228, 255, 0.14); border-radius: 10px; padding: 10px; background: rgba(255, 255, 255, 0.055); }
+    .metric span { display: block; color: #91b8c8; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 4px; overflow-wrap: anywhere; font-size: 17px; line-height: 1.1; }
+    @media (max-width: 720px) { .panel { left: 12px; right: 12px; top: auto; bottom: 12px; width: auto; padding: 14px; } p { display: none; } h1 { font-size: 21px; } }
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <section class="panel" aria-label="Density controls">
+    <p class="eyebrow">Density and Archimedes</p>
+    <h1>Density Buoyancy Lab</h1>
+    <p>Compare real A20 density materials, volume, displaced liquid, and sink/float behavior.</p>
+    <div class="materials">
+      <button class="active" data-material="wood">Wood</button>
+      <button data-material="aluminum">Aluminum</button>
+      <button data-material="iron">Iron</button>
+    </div>
+    <label>Volume (cm3) <input id="volume" type="range" min="8" max="36" step="1" value="18" /></label>
+    <label>Liquid density (g/cm3) <input id="liquid" type="range" min="0.7" max="1.3" step="0.01" value="1" /></label>
+    <button id="reset" type="button">Reset</button>
+    <div class="readout">
+      <div class="metric"><span>Mass</span><strong id="mass">14.4 g</strong></div>
+      <div class="metric"><span>Buoyant</span><strong id="buoyant">0.18 N</strong></div>
+      <div class="metric"><span>State</span><strong id="state">Float</strong></div>
+    </div>
+  </section>
+  <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js" } }</script>
+  <script type="module">
+    import * as THREE from "three";
+
+    const MATERIALS = {
+      wood: { label: "Wood", density: 0.8, color: 0x92400e },
+      aluminum: { label: "Aluminum", density: 2.7, color: 0xcbd5e1 },
+      iron: { label: "Iron", density: 7.8, color: 0x64748b }
+    };
+    const INITIAL = { material: "wood", volume: 18, liquid: 1 };
+    const canvas = document.querySelector("#scene");
+    const volumeInput = document.querySelector("#volume");
+    const liquidInput = document.querySelector("#liquid");
+    const resetButton = document.querySelector("#reset");
+    const buttons = [...document.querySelectorAll("[data-material]")];
+    const massReadout = document.querySelector("#mass");
+    const buoyantReadout = document.querySelector("#buoyant");
+    const stateReadout = document.querySelector("#state");
+    let activeMaterial = INITIAL.material;
+
+    function solveDensity(materialKey, volumeCm3, liquidDensity) {
+      const material = MATERIALS[materialKey];
+      const massG = material.density * volumeCm3;
+      const floats = material.density <= liquidDensity;
+      const submergedFraction = floats ? material.density / liquidDensity : 1;
+      const displacedCm3 = volumeCm3 * submergedFraction;
+      const buoyantN = liquidDensity * displacedCm3 * 0.00980665;
+      return { massG, floats, submergedFraction, displacedCm3, buoyantN, density: material.density };
+    }
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x061014, 0.035);
+    const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 80);
+    camera.position.set(0, 4.8, 10.5);
+    camera.lookAt(0, 0.1, 0);
+    // ponytail: preserveDrawingBuffer keeps benchmark pixel checks simple; remove first for heavy production scenes.
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    scene.add(new THREE.HemisphereLight(0xdff7ff, 0x061014, 1.25));
+    const key = new THREE.PointLight(0x7dd3fc, 11, 18);
+    key.position.set(-3.5, 4.6, 4.5);
+    scene.add(key);
+
+    const table = new THREE.Mesh(new THREE.CylinderGeometry(4.4, 5.1, 0.22, 96), new THREE.MeshStandardMaterial({ color: 0x10212a, roughness: 0.62, metalness: 0.25 }));
+    table.position.y = -1.35;
+    scene.add(table);
+    const tank = new THREE.Mesh(new THREE.BoxGeometry(4.2, 2.7, 2.5), new THREE.MeshPhysicalMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.16, roughness: 0.02, transmission: 0.28, thickness: 0.6 }));
+    tank.position.y = 0.15;
+    scene.add(tank);
+    const water = new THREE.Mesh(new THREE.BoxGeometry(4.05, 1.75, 2.35), new THREE.MeshPhysicalMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.42, roughness: 0.08, transmission: 0.18, thickness: 0.4 }));
+    water.position.y = -0.28;
+    scene.add(water);
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: MATERIALS.wood.color, roughness: 0.38, metalness: 0.18 }));
+    scene.add(cube);
+    const displacement = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 1, 32), new THREE.MeshBasicMaterial({ color: 0x7dd3fc, transparent: true, opacity: 0.55 }));
+    displacement.position.set(2.65, -0.75, 0);
+    scene.add(displacement);
+    const forceArrow = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-1.8, -0.95, 0), 1.2, 0x8ee7ff, 0.22, 0.12);
+    scene.add(forceArrow);
+
+    function syncScene() {
+      const volume = Number(volumeInput.value);
+      const liquid = Number(liquidInput.value);
+      const result = solveDensity(activeMaterial, volume, liquid);
+      const side = Math.cbrt(volume / 18);
+      cube.scale.set(side, side, side);
+      cube.material.color.setHex(MATERIALS[activeMaterial].color);
+      cube.position.y = result.floats ? 0.6 - result.submergedFraction * 0.62 : -0.54;
+      cube.rotation.set(0.12, performance.now() * 0.00018, -0.08);
+      displacement.scale.y = Math.max(0.08, result.displacedCm3 / 18);
+      displacement.position.y = -1.18 + displacement.scale.y * 0.5;
+      forceArrow.setLength(0.55 + result.buoyantN * 2.4, 0.22, 0.12);
+      massReadout.textContent = `${result.massG.toFixed(1)} g`;
+      buoyantReadout.textContent = `${result.buoyantN.toFixed(2)} N`;
+      stateReadout.textContent = result.floats ? "Float" : "Sink";
+      buttons.forEach((button) => button.classList.toggle("active", button.dataset.material === activeMaterial));
+      return result;
+    }
+
+    function resetLab() {
+      activeMaterial = INITIAL.material;
+      volumeInput.value = INITIAL.volume;
+      liquidInput.value = INITIAL.liquid;
+      return syncScene();
+    }
+
+    function resize() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.setSize(innerWidth, innerHeight);
+    }
+
+    buttons.forEach((button) => button.addEventListener("click", () => { activeMaterial = button.dataset.material; syncScene(); }));
+    [volumeInput, liquidInput].forEach((input) => input.addEventListener("input", syncScene));
+    resetButton.addEventListener("click", resetLab);
+    addEventListener("resize", resize);
+
+    function frame() {
+      const result = syncScene();
+      water.position.y = -0.28 + Math.sin(performance.now() * 0.0014) * 0.015;
+      key.intensity = 9 + result.submergedFraction * 4;
+      renderer.render(scene, camera);
+      requestAnimationFrame(frame);
+    }
+
+    function disposeScene() {
+      removeEventListener("resize", resize);
+      scene.traverse((object) => {
+        object.geometry?.dispose?.();
+        const material = object.material;
+        if (Array.isArray(material)) material.forEach((item) => item.dispose?.());
+        else material?.dispose?.();
+      });
+      renderer.dispose();
+    }
+
+    function benchmark() {
+      return {
+        id: "density-buoyancy-lab",
+        state: { material: activeMaterial, volumeCm3: Number(volumeInput.value), liquidDensityGPerCm3: Number(liquidInput.value), ...solveDensity(activeMaterial, Number(volumeInput.value), Number(liquidInput.value)) },
+        renderer: { pixelRatio: renderer.getPixelRatio(), memory: { ...renderer.info.memory }, render: { ...renderer.info.render } },
+        scene: { objects: scene.children.length, externalAssets: 0 },
+        textures: { externalTextures: 0 }
+      };
+    }
+
+    addEventListener("beforeunload", disposeScene);
+    window.__LAB_BENCHMARK__ = benchmark;
+    window.__LAB_BENCH_MUTATE__ = () => { activeMaterial = "iron"; volumeInput.value = 30; liquidInput.value = 1.05; syncScene(); return benchmark(); };
+    window.__LAB_BENCH_RESET__ = () => { resetLab(); return benchmark(); };
+    console.assert(solveDensity("wood", 18, 1).floats === true, "wood floats in water");
+    console.assert(solveDensity("iron", 18, 1).floats === false, "iron sinks in water");
+    resetLab();
+    resize();
+    frame();
+  </script>
+</body>
+</html>
