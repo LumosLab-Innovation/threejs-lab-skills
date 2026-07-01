@@ -4,6 +4,10 @@ Generated from `node scripts/benchmark-examples.mjs` on 2026-07-02 00:32 ICT.
 
 All benchmark budgets passed for desktop and mobile profiles.
 
+## How To Read These Numbers
+
+Average FPS is a browser-frame pacing signal, not a maximum GPU-throughput score. In headless Chrome, desktop runs can sit near the runtime cadence even when draw calls, triangles, textures, and transfer size are low. Use p95 frame time, renderer counts, texture count, transfer size, and state/reset integrity as the main optimization evidence.
+
 ## Budgets
 
 | Metric | Budget |
@@ -42,3 +46,13 @@ All benchmark budgets passed for desktop and mobile profiles.
   - `examples/coulomb-force-lab/screenshots/mobile-benchmark.png`
 
 Visual quality still needs human review. The benchmark only checks objective render, runtime, state, resource, and responsive-layout signals.
+
+## Coverage
+
+| Demo | Interaction Evidence | Physics/Simulation Evidence | Gap |
+| --- | --- | --- | --- |
+| `density-buoyancy-lab` | material selection, volume/liquid sliders, orbit, reset, mutate/reset hook | self-check covers mass, displaced volume, buoyant force, sink/float | no real fluid/contact solver |
+| `coulomb-force-lab` | q1/q2/distance sliders, orbit, reset, mutate/reset hook | self-check covers signed Coulomb force for known inputs | no many-body solver or moving charge trajectories |
+| `fancy-field-lab` | presets, strength/flow/turbulence sliders, pause/play, orbit, reset, mutate/reset hook | fixed-step animated field visualization and particle/vector cues | visual field model, not a calibrated electromagnetic solver |
+
+Not covered yet: rigid bodies, joints, constraints, cloth/fluid simulation, GLB texture streaming, long-run memory stability, agent report flow, quiz/chatbot integration. Those should be separate benchmark demos, not hidden inside these small A20-style examples.
