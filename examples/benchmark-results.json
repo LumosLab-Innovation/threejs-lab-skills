@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-07-01T17:32:53.696Z",
+  "generatedAt": "2026-07-01T18:15:01.066Z",
   "results": [
     {
       "url": "/examples/fancy-field-lab/index.html",
       "title": "Aurora Field Lab",
       "errors": [],
-      "fpsAvg": 63,
-      "frameAvgMs": 15.75,
-      "frameP95Ms": 20.9,
-      "loadMs": 896,
+      "fpsAvg": 76,
+      "frameAvgMs": 13.15,
+      "frameP95Ms": 20.8,
+      "loadMs": 876,
       "profile": "desktop",
       "viewport": {
         "width": 1440,
@@ -38,7 +38,7 @@
             "textures": 4
           },
           "render": {
-            "frame": 204,
+            "frame": 224,
             "calls": 44,
             "triangles": 15010,
             "points": 520,
@@ -59,24 +59,27 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
-          "transferSize": 0,
+          "transferSize": 128331,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
           "name": "OrbitControls.js",
-          "transferSize": 0,
+          "transferSize": 9222,
           "decodedBodySize": 40484
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 261082,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 23.3,
-        "resetLatencyMs": 28.2,
+        "mutateLatencyMs": 24.3,
+        "resetLatencyMs": 42.9,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -124,12 +127,32 @@
         "litSamples": 5,
         "sampleCount": 40,
         "coveragePct": 13,
-        "avgLuma": 17,
-        "panelInsideViewport": true
+        "avgLuma": 16.3,
+        "panelInsideViewport": true,
+        "controls": 8,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 3,
-        "totalTransferKB": 255
+        "totalTransferKB": 389,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/fancy-field-lab/index.html",
+              "bytes": 21444,
+              "kb": 20.9,
+              "mb": 0.02,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 20.9,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 20.9
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -139,9 +162,16 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     },
@@ -149,10 +179,10 @@
       "url": "/examples/fancy-field-lab/index.html",
       "title": "Aurora Field Lab",
       "errors": [],
-      "fpsAvg": 143,
-      "frameAvgMs": 7.01,
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
       "frameP95Ms": 7.1,
-      "loadMs": 346,
+      "loadMs": 260,
       "profile": "mobile",
       "viewport": {
         "width": 390,
@@ -182,7 +212,7 @@
             "textures": 4
           },
           "render": {
-            "frame": 254,
+            "frame": 288,
             "calls": 33,
             "triangles": 14730,
             "points": 520,
@@ -203,24 +233,27 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
           "transferSize": 0,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
           "name": "OrbitControls.js",
           "transferSize": 0,
           "decodedBodySize": 40484
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 0,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 13.1,
-        "resetLatencyMs": 64.8,
+        "mutateLatencyMs": 11,
+        "resetLatencyMs": 15.1,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -265,15 +298,35 @@
         }
       },
       "visual": {
-        "litSamples": 11,
+        "litSamples": 13,
         "sampleCount": 40,
-        "coveragePct": 28,
-        "avgLuma": 30.1,
-        "panelInsideViewport": true
+        "coveragePct": 33,
+        "avgLuma": 32.5,
+        "panelInsideViewport": true,
+        "controls": 8,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 3,
-        "totalTransferKB": 0
+        "totalTransferKB": 0,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/fancy-field-lab/index.html",
+              "bytes": 21444,
+              "kb": 20.9,
+              "mb": 0.02,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 20.9,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 20.9
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -283,9 +336,16 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     },
@@ -293,10 +353,10 @@
       "url": "/examples/density-buoyancy-lab/index.html",
       "title": "Density Buoyancy Lab",
       "errors": [],
-      "fpsAvg": 68,
-      "frameAvgMs": 14.69,
+      "fpsAvg": 67,
+      "frameAvgMs": 14.95,
       "frameP95Ms": 21,
-      "loadMs": 733,
+      "loadMs": 446,
       "profile": "desktop",
       "viewport": {
         "width": 1440,
@@ -329,7 +389,7 @@
             "textures": 2
           },
           "render": {
-            "frame": 209,
+            "frame": 229,
             "calls": 11,
             "triangles": 964,
             "points": 0,
@@ -346,19 +406,21 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
           "transferSize": 0,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 0,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 29.2,
-        "resetLatencyMs": 36.1,
+        "mutateLatencyMs": 23.2,
+        "resetLatencyMs": 28.3,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -422,11 +484,31 @@
         "sampleCount": 40,
         "coveragePct": 10,
         "avgLuma": 6.3,
-        "panelInsideViewport": true
+        "panelInsideViewport": true,
+        "controls": 6,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 2,
-        "totalTransferKB": 0
+        "totalTransferKB": 0,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/density-buoyancy-lab/index.html",
+              "bytes": 10889,
+              "kb": 10.6,
+              "mb": 0.01,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 10.6,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 10.6
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -436,9 +518,16 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     },
@@ -446,10 +535,10 @@
       "url": "/examples/density-buoyancy-lab/index.html",
       "title": "Density Buoyancy Lab",
       "errors": [],
-      "fpsAvg": 137,
-      "frameAvgMs": 7.28,
-      "frameP95Ms": 13.2,
-      "loadMs": 458,
+      "fpsAvg": 141,
+      "frameAvgMs": 7.08,
+      "frameP95Ms": 7.4,
+      "loadMs": 203,
       "profile": "mobile",
       "viewport": {
         "width": 390,
@@ -482,7 +571,7 @@
             "textures": 2
           },
           "render": {
-            "frame": 257,
+            "frame": 289,
             "calls": 10,
             "triangles": 836,
             "points": 0,
@@ -499,19 +588,21 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
           "transferSize": 0,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 0,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 25.5,
-        "resetLatencyMs": 20.4,
+        "mutateLatencyMs": 28.8,
+        "resetLatencyMs": 29.4,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -574,12 +665,32 @@
         "litSamples": 16,
         "sampleCount": 40,
         "coveragePct": 40,
-        "avgLuma": 19.8,
-        "panelInsideViewport": true
+        "avgLuma": 19.7,
+        "panelInsideViewport": true,
+        "controls": 6,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 2,
-        "totalTransferKB": 0
+        "totalTransferKB": 0,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/density-buoyancy-lab/index.html",
+              "bytes": 10889,
+              "kb": 10.6,
+              "mb": 0.01,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 10.6,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 10.6
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -589,9 +700,16 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     },
@@ -599,10 +717,10 @@
       "url": "/examples/coulomb-force-lab/index.html",
       "title": "Coulomb Force Lab",
       "errors": [],
-      "fpsAvg": 113,
-      "frameAvgMs": 8.89,
-      "frameP95Ms": 14.3,
-      "loadMs": 217,
+      "fpsAvg": 122,
+      "frameAvgMs": 8.19,
+      "frameP95Ms": 13.9,
+      "loadMs": 390,
       "profile": "desktop",
       "viewport": {
         "width": 1440,
@@ -632,7 +750,7 @@
             "textures": 1
           },
           "render": {
-            "frame": 242,
+            "frame": 274,
             "calls": 22,
             "triangles": 4820,
             "points": 0,
@@ -650,19 +768,21 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
           "transferSize": 0,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 0,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 12.5,
-        "resetLatencyMs": 27.4,
+        "mutateLatencyMs": 15.7,
+        "resetLatencyMs": 14.7,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -711,11 +831,31 @@
         "sampleCount": 40,
         "coveragePct": 5,
         "avgLuma": 2.4,
-        "panelInsideViewport": true
+        "panelInsideViewport": true,
+        "controls": 4,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 2,
-        "totalTransferKB": 0
+        "totalTransferKB": 0,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/coulomb-force-lab/index.html",
+              "bytes": 10712,
+              "kb": 10.5,
+              "mb": 0.01,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 10.5,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 10.5
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -725,9 +865,16 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     },
@@ -735,10 +882,10 @@
       "url": "/examples/coulomb-force-lab/index.html",
       "title": "Coulomb Force Lab",
       "errors": [],
-      "fpsAvg": 145,
-      "frameAvgMs": 6.91,
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
       "frameP95Ms": 7,
-      "loadMs": 288,
+      "loadMs": 183,
       "profile": "mobile",
       "viewport": {
         "width": 390,
@@ -768,7 +915,7 @@
             "textures": 1
           },
           "render": {
-            "frame": 270,
+            "frame": 289,
             "calls": 22,
             "triangles": 4820,
             "points": 0,
@@ -786,19 +933,21 @@
       },
       "resources": [
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
           "name": "three.module.js",
           "transferSize": 0,
           "decodedBodySize": 638941
         },
         {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
           "name": "three.core.js",
           "transferSize": 0,
           "decodedBodySize": 1421721
         }
       ],
       "interaction": {
-        "mutateLatencyMs": 12.6,
-        "resetLatencyMs": 10.4,
+        "mutateLatencyMs": 9.9,
+        "resetLatencyMs": 14.4,
         "changed": true,
         "resetOk": true,
         "before": {
@@ -847,11 +996,31 @@
         "sampleCount": 40,
         "coveragePct": 15,
         "avgLuma": 5.3,
-        "panelInsideViewport": true
+        "panelInsideViewport": true,
+        "controls": 4,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
       },
       "resourceSummary": {
         "count": 2,
-        "totalTransferKB": 0
+        "totalTransferKB": 0,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/coulomb-force-lab/index.html",
+              "bytes": 10712,
+              "kb": 10.5,
+              "mb": 0.01,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 10.5,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 10.5
+        }
       },
       "budgets": {
         "noConsoleErrors": true,
@@ -861,9 +1030,3832 @@
         "drawCallsOk": true,
         "textureBudgetOk": true,
         "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
         "canvasCoverageOk": true,
         "stateMutationOk": true,
-        "responsivePanelOk": true
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Reaction Gas Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7.1,
+      "loadMs": 284,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "chem-reaction-gas",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 10,
+            "textures": 1
+          },
+          "render": {
+            "frame": 283,
+            "calls": 25,
+            "triangles": 4792,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 40,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.2,
+        "resetLatencyMs": 14.2,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "acidM": 1.6,
+            "metalG": 0.64,
+            "tempC": 44
+          },
+          "outputs": {
+            "gasMl": 672,
+            "gasMoles": 0.0263,
+            "limiting": "metal",
+            "rate": 3.57
+          }
+        },
+        "after": {
+          "inputs": {
+            "acidM": 1.6,
+            "metalG": 0.64,
+            "tempC": 44
+          },
+          "outputs": {
+            "gasMl": 672,
+            "gasMoles": 0.0263,
+            "limiting": "metal",
+            "rate": 3.57
+          }
+        },
+        "reset": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 10,
+        "sampleCount": 40,
+        "coveragePct": 25,
+        "avgLuma": 9.2,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Reaction Gas Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 172,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "chem-reaction-gas",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 10,
+            "textures": 1
+          },
+          "render": {
+            "frame": 288,
+            "calls": 25,
+            "triangles": 4792,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 40,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.2,
+        "resetLatencyMs": 14.5,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "acidM": 1.6,
+            "metalG": 0.64,
+            "tempC": 44
+          },
+          "outputs": {
+            "gasMl": 672,
+            "gasMoles": 0.0263,
+            "limiting": "metal",
+            "rate": 3.57
+          }
+        },
+        "after": {
+          "inputs": {
+            "acidM": 1.6,
+            "metalG": 0.64,
+            "tempC": 44
+          },
+          "outputs": {
+            "gasMl": 672,
+            "gasMoles": 0.0263,
+            "limiting": "metal",
+            "rate": 3.57
+          }
+        },
+        "reset": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "acidM": 1.2,
+            "metalG": 0.48,
+            "tempC": 28
+          },
+          "outputs": {
+            "gasMl": 479,
+            "gasMoles": 0.0198,
+            "limiting": "metal",
+            "rate": 1.56
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 8,
+        "sampleCount": 40,
+        "coveragePct": 20,
+        "avgLuma": 14.6,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Acid Base pH Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7.1,
+      "loadMs": 166,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "chem-acid-base",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 9,
+            "textures": 1
+          },
+          "render": {
+            "frame": 284,
+            "calls": 14,
+            "triangles": 4008,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 27,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.2,
+        "resetLatencyMs": 13.6,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "acidMl": 36,
+            "baseMl": 36,
+            "indicator": 0
+          },
+          "outputs": {
+            "pH": 7,
+            "neutralizedPct": 100,
+            "type": "neutral"
+          }
+        },
+        "after": {
+          "inputs": {
+            "acidMl": 36,
+            "baseMl": 36,
+            "indicator": 0
+          },
+          "outputs": {
+            "pH": 7,
+            "neutralizedPct": 100,
+            "type": "neutral"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 10,
+        "sampleCount": 40,
+        "coveragePct": 25,
+        "avgLuma": 9.6,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Acid Base pH Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 157,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "chem-acid-base",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 9,
+            "textures": 1
+          },
+          "render": {
+            "frame": 290,
+            "calls": 14,
+            "triangles": 4008,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 27,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.2,
+        "resetLatencyMs": 13.5,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "acidMl": 36,
+            "baseMl": 36,
+            "indicator": 0
+          },
+          "outputs": {
+            "pH": 7,
+            "neutralizedPct": 100,
+            "type": "neutral"
+          }
+        },
+        "after": {
+          "inputs": {
+            "acidMl": 36,
+            "baseMl": 36,
+            "indicator": 0
+          },
+          "outputs": {
+            "pH": 7,
+            "neutralizedPct": 100,
+            "type": "neutral"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "acidMl": 25,
+            "baseMl": 14,
+            "indicator": 1
+          },
+          "outputs": {
+            "pH": 1.55,
+            "neutralizedPct": 56,
+            "type": "acidic"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 8,
+        "sampleCount": 40,
+        "coveragePct": 20,
+        "avgLuma": 13.7,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Catalyst Rate Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.95,
+      "frameP95Ms": 7.1,
+      "loadMs": 157,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "chem-catalyst-rate",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 18,
+            "textures": 1
+          },
+          "render": {
+            "frame": 290,
+            "calls": 51,
+            "triangles": 10332,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 54,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 10.6,
+        "resetLatencyMs": 14.9,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "tempC": 47,
+            "catalyst": 0,
+            "surface": 1.7
+          },
+          "outputs": {
+            "rate": 7.81,
+            "completionSec": 10.2,
+            "collisionIndex": 141
+          }
+        },
+        "after": {
+          "inputs": {
+            "tempC": 47,
+            "catalyst": 0,
+            "surface": 1.7
+          },
+          "outputs": {
+            "rate": 7.81,
+            "completionSec": 10.2,
+            "collisionIndex": 141
+          }
+        },
+        "reset": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 11,
+        "sampleCount": 40,
+        "coveragePct": 28,
+        "avgLuma": 9.5,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Catalyst Rate Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7.1,
+      "loadMs": 162,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "chem-catalyst-rate",
+        "subject": "Chemistry",
+        "state": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 18,
+            "textures": 1
+          },
+          "render": {
+            "frame": 289,
+            "calls": 51,
+            "triangles": 10332,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 54,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.7,
+        "resetLatencyMs": 13.2,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "tempC": 47,
+            "catalyst": 0,
+            "surface": 1.7
+          },
+          "outputs": {
+            "rate": 7.81,
+            "completionSec": 10.2,
+            "collisionIndex": 141
+          }
+        },
+        "after": {
+          "inputs": {
+            "tempC": 47,
+            "catalyst": 0,
+            "surface": 1.7
+          },
+          "outputs": {
+            "rate": 7.81,
+            "completionSec": 10.2,
+            "collisionIndex": 141
+          }
+        },
+        "reset": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "tempC": 32,
+            "catalyst": 1,
+            "surface": 1.4
+          },
+          "outputs": {
+            "rate": 6.37,
+            "completionSec": 12.6,
+            "collisionIndex": 115
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 8,
+        "sampleCount": 40,
+        "coveragePct": 20,
+        "avgLuma": 13.1,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Fluid Pressure Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7.1,
+      "loadMs": 180,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "phys-pressure",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 14,
+            "textures": 1
+          },
+          "render": {
+            "frame": 281,
+            "calls": 14,
+            "triangles": 2120,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 17,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 9.9,
+        "resetLatencyMs": 15.8,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "depthM": 1.05,
+            "density": 1120,
+            "areaCm2": 25
+          },
+          "outputs": {
+            "pressureKPa": 11.54,
+            "forceN": 28.84,
+            "manometerCm": 118
+          }
+        },
+        "after": {
+          "inputs": {
+            "depthM": 1.05,
+            "density": 1120,
+            "areaCm2": 25
+          },
+          "outputs": {
+            "pressureKPa": 11.54,
+            "forceN": 28.84,
+            "manometerCm": 118
+          }
+        },
+        "reset": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 9,
+        "sampleCount": 40,
+        "coveragePct": 23,
+        "avgLuma": 10,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Fluid Pressure Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 158,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "phys-pressure",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 14,
+            "textures": 1
+          },
+          "render": {
+            "frame": 289,
+            "calls": 14,
+            "triangles": 2120,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 17,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 12,
+        "resetLatencyMs": 14,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "depthM": 1.05,
+            "density": 1120,
+            "areaCm2": 25
+          },
+          "outputs": {
+            "pressureKPa": 11.54,
+            "forceN": 28.84,
+            "manometerCm": 118
+          }
+        },
+        "after": {
+          "inputs": {
+            "depthM": 1.05,
+            "density": 1120,
+            "areaCm2": 25
+          },
+          "outputs": {
+            "pressureKPa": 11.54,
+            "forceN": 28.84,
+            "manometerCm": 118
+          }
+        },
+        "reset": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "depthM": 0.72,
+            "density": 1000,
+            "areaCm2": 18
+          },
+          "outputs": {
+            "pressureKPa": 7.06,
+            "forceN": 12.71,
+            "manometerCm": 72
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 9,
+        "sampleCount": 40,
+        "coveragePct": 23,
+        "avgLuma": 16.7,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Lever Moment Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.95,
+      "frameP95Ms": 7.1,
+      "loadMs": 161,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "phys-lever",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 8,
+            "textures": 1
+          },
+          "render": {
+            "frame": 286,
+            "calls": 8,
+            "triangles": 764,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 11,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 10.4,
+        "resetLatencyMs": 16.6,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "loadN": 46,
+            "effortN": 38,
+            "effortArmM": 0.72
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 27.36,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "after": {
+          "inputs": {
+            "loadN": 46,
+            "effortN": 38,
+            "effortArmM": 0.72
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 27.36,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 9,
+        "sampleCount": 40,
+        "coveragePct": 23,
+        "avgLuma": 8.3,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Lever Moment Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 145,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "phys-lever",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 8,
+            "textures": 1
+          },
+          "render": {
+            "frame": 288,
+            "calls": 8,
+            "triangles": 764,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 11,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 12.1,
+        "resetLatencyMs": 13.5,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "loadN": 46,
+            "effortN": 38,
+            "effortArmM": 0.72
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 27.36,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "after": {
+          "inputs": {
+            "loadN": 46,
+            "effortN": 38,
+            "effortArmM": 0.72
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 27.36,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "loadN": 34,
+            "effortN": 24,
+            "effortArmM": 0.62
+          },
+          "outputs": {
+            "loadMoment": null,
+            "effortMoment": 14.88,
+            "netMoment": null,
+            "state": "load side down"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 6,
+        "sampleCount": 40,
+        "coveragePct": 15,
+        "avgLuma": 10.5,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Electric Circuit Lab",
+      "errors": [],
+      "fpsAvg": 138,
+      "frameAvgMs": 7.22,
+      "frameP95Ms": 7.2,
+      "loadMs": 322,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "phys-circuit",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 28,
+            "textures": 1
+          },
+          "render": {
+            "frame": 279,
+            "calls": 28,
+            "triangles": 8928,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 31,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 261082,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 9.6,
+        "resetLatencyMs": 28.7,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "voltage": 9,
+            "resistance": 24,
+            "switchOn": 0
+          },
+          "outputs": {
+            "currentA": 0,
+            "powerW": 0,
+            "brightnessPct": 0
+          }
+        },
+        "after": {
+          "inputs": {
+            "voltage": 9,
+            "resistance": 24,
+            "switchOn": 0
+          },
+          "outputs": {
+            "currentA": 0,
+            "powerW": 0,
+            "brightnessPct": 0
+          }
+        },
+        "reset": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 11,
+        "sampleCount": 40,
+        "coveragePct": 28,
+        "avgLuma": 8.3,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 261,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Electric Circuit Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 178,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "phys-circuit",
+        "subject": "Physics",
+        "state": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 28,
+            "textures": 1
+          },
+          "render": {
+            "frame": 289,
+            "calls": 28,
+            "triangles": 8928,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 31,
+          "externalAssets": 0,
+          "detailMarkers": 0,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.4,
+        "resetLatencyMs": 14.1,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "voltage": 9,
+            "resistance": 24,
+            "switchOn": 0
+          },
+          "outputs": {
+            "currentA": 0,
+            "powerW": 0,
+            "brightnessPct": 0
+          }
+        },
+        "after": {
+          "inputs": {
+            "voltage": 9,
+            "resistance": 24,
+            "switchOn": 0
+          },
+          "outputs": {
+            "currentA": 0,
+            "powerW": 0,
+            "brightnessPct": 0
+          }
+        },
+        "reset": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "voltage": 6,
+            "resistance": 12,
+            "switchOn": 1
+          },
+          "outputs": {
+            "currentA": 0.5,
+            "powerW": 3,
+            "brightnessPct": 63
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 14,
+        "sampleCount": 40,
+        "coveragePct": 35,
+        "avgLuma": 12.2,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Circulation Lab",
+      "errors": [],
+      "fpsAvg": 143,
+      "frameAvgMs": 6.99,
+      "frameP95Ms": 7.1,
+      "loadMs": 186,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "bio-circulation",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 32,
+            "textures": 1
+          },
+          "render": {
+            "frame": 283,
+            "calls": 32,
+            "triangles": 10232,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 35,
+          "externalAssets": 0,
+          "detailMarkers": 26,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 10.2,
+        "resetLatencyMs": 19.5,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "heartRate": 113,
+            "strokeMl": 90,
+            "vesselTone": 1.15
+          },
+          "outputs": {
+            "cardiacOutputLMin": 10.17,
+            "flowIndex": 8.84,
+            "pulseMs": 531
+          }
+        },
+        "after": {
+          "inputs": {
+            "heartRate": 113,
+            "strokeMl": 90,
+            "vesselTone": 1.15
+          },
+          "outputs": {
+            "cardiacOutputLMin": 10.17,
+            "flowIndex": 8.84,
+            "pulseMs": 531
+          }
+        },
+        "reset": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 7,
+        "sampleCount": 40,
+        "coveragePct": 18,
+        "avgLuma": 8,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Circulation Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 161,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "bio-circulation",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 32,
+            "textures": 1
+          },
+          "render": {
+            "frame": 288,
+            "calls": 32,
+            "triangles": 10232,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 35,
+          "externalAssets": 0,
+          "detailMarkers": 26,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 10.9,
+        "resetLatencyMs": 34.9,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "heartRate": 113,
+            "strokeMl": 90,
+            "vesselTone": 1.15
+          },
+          "outputs": {
+            "cardiacOutputLMin": 10.17,
+            "flowIndex": 8.84,
+            "pulseMs": 531
+          }
+        },
+        "after": {
+          "inputs": {
+            "heartRate": 113,
+            "strokeMl": 90,
+            "vesselTone": 1.15
+          },
+          "outputs": {
+            "cardiacOutputLMin": 10.17,
+            "flowIndex": 8.84,
+            "pulseMs": 531
+          }
+        },
+        "reset": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "heartRate": 78,
+            "strokeMl": 68,
+            "vesselTone": 1
+          },
+          "outputs": {
+            "cardiacOutputLMin": 5.3,
+            "flowIndex": 5.3,
+            "pulseMs": 769
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 7,
+        "sampleCount": 40,
+        "coveragePct": 18,
+        "avgLuma": 14.9,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Respiration Lab",
+      "errors": [],
+      "fpsAvg": 125,
+      "frameAvgMs": 8.01,
+      "frameP95Ms": 13.9,
+      "loadMs": 250,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "bio-respiration",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 32,
+            "textures": 1
+          },
+          "render": {
+            "frame": 262,
+            "calls": 32,
+            "triangles": 9900,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 35,
+          "externalAssets": 0,
+          "detailMarkers": 24,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 12.1,
+        "resetLatencyMs": 26.5,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "breathRate": 25,
+            "tidalMl": 650,
+            "efficiency": 77
+          },
+          "outputs": {
+            "minuteVentilationLMin": 16.25,
+            "alveolarVentilationLMin": 12.5,
+            "oxygenUptakeLMin": 2.02
+          }
+        },
+        "after": {
+          "inputs": {
+            "breathRate": 25,
+            "tidalMl": 650,
+            "efficiency": 77
+          },
+          "outputs": {
+            "minuteVentilationLMin": 16.25,
+            "alveolarVentilationLMin": 12.5,
+            "oxygenUptakeLMin": 2.02
+          }
+        },
+        "reset": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 9,
+        "sampleCount": 40,
+        "coveragePct": 23,
+        "avgLuma": 8.5,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Respiration Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 190,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "bio-respiration",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 32,
+            "textures": 1
+          },
+          "render": {
+            "frame": 289,
+            "calls": 32,
+            "triangles": 9900,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 35,
+          "externalAssets": 0,
+          "detailMarkers": 24,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.1,
+        "resetLatencyMs": 25.2,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "breathRate": 25,
+            "tidalMl": 650,
+            "efficiency": 77
+          },
+          "outputs": {
+            "minuteVentilationLMin": 16.25,
+            "alveolarVentilationLMin": 12.5,
+            "oxygenUptakeLMin": 2.02
+          }
+        },
+        "after": {
+          "inputs": {
+            "breathRate": 25,
+            "tidalMl": 650,
+            "efficiency": 77
+          },
+          "outputs": {
+            "minuteVentilationLMin": 16.25,
+            "alveolarVentilationLMin": 12.5,
+            "oxygenUptakeLMin": 2.02
+          }
+        },
+        "reset": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "breathRate": 16,
+            "tidalMl": 470,
+            "efficiency": 72
+          },
+          "outputs": {
+            "minuteVentilationLMin": 7.52,
+            "alveolarVentilationLMin": 5.12,
+            "oxygenUptakeLMin": 0.77
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 8,
+        "sampleCount": 40,
+        "coveragePct": 20,
+        "avgLuma": 11.8,
+        "panelInsideViewport": true,
+        "controls": 12,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Ecosystem Balance Lab",
+      "errors": [],
+      "fpsAvg": 136,
+      "frameAvgMs": 7.36,
+      "frameP95Ms": 13.9,
+      "loadMs": 177,
+      "profile": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 1440,
+        "height": 900,
+        "clientWidth": 1440,
+        "clientHeight": 900
+      },
+      "benchmark": {
+        "id": "bio-ecosystem",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 45,
+            "textures": 1
+          },
+          "render": {
+            "frame": 284,
+            "calls": 45,
+            "triangles": 2716,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 70,
+          "externalAssets": 0,
+          "detailMarkers": 62,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 11.1,
+        "resetLatencyMs": 31.1,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "producers": 78,
+            "herbivores": 59,
+            "predators": 29,
+            "pollution": 50
+          },
+          "outputs": {
+            "stabilityPct": 72,
+            "producerScore": 50,
+            "risk": "stable"
+          }
+        },
+        "after": {
+          "inputs": {
+            "producers": 78,
+            "herbivores": 59,
+            "predators": 29,
+            "pollution": 50
+          },
+          "outputs": {
+            "stabilityPct": 72,
+            "producerScore": 50,
+            "risk": "stable"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 12,
+        "sampleCount": 40,
+        "coveragePct": 30,
+        "avgLuma": 12.4,
+        "panelInsideViewport": true,
+        "controls": 13,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
+      },
+      "pass": true
+    },
+    {
+      "url": "/examples/khtn8-subject-labs/index.html",
+      "title": "Ecosystem Balance Lab",
+      "errors": [],
+      "fpsAvg": 144,
+      "frameAvgMs": 6.94,
+      "frameP95Ms": 7,
+      "loadMs": 220,
+      "profile": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "devicePixelRatio": 1
+      },
+      "canvas": {
+        "width": 390,
+        "height": 844,
+        "clientWidth": 390,
+        "clientHeight": 844
+      },
+      "benchmark": {
+        "id": "bio-ecosystem",
+        "subject": "Biology",
+        "state": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "renderer": {
+          "pixelRatio": 1,
+          "memory": {
+            "geometries": 45,
+            "textures": 1
+          },
+          "render": {
+            "frame": 286,
+            "calls": 45,
+            "triangles": 2716,
+            "points": 0,
+            "lines": 50
+          }
+        },
+        "scene": {
+          "objects": 70,
+          "externalAssets": 0,
+          "detailMarkers": 62,
+          "solver": "formula/fixed-step visual sync"
+        },
+        "textures": {
+          "externalTextures": 0
+        }
+      },
+      "resources": [
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+          "name": "three.module.js",
+          "transferSize": 0,
+          "decodedBodySize": 638941
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/controls/OrbitControls.js",
+          "name": "OrbitControls.js",
+          "transferSize": 0,
+          "decodedBodySize": 40484
+        },
+        {
+          "url": "http://127.0.0.1:52872/examples/khtn8-subject-labs/solvers.mjs",
+          "name": "solvers.mjs",
+          "transferSize": 6513,
+          "decodedBodySize": 6213
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.core.js",
+          "name": "three.core.js",
+          "transferSize": 0,
+          "decodedBodySize": 1421721
+        }
+      ],
+      "interaction": {
+        "mutateLatencyMs": 9.3,
+        "resetLatencyMs": 14.6,
+        "changed": true,
+        "resetOk": true,
+        "before": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "mutated": {
+          "inputs": {
+            "producers": 78,
+            "herbivores": 59,
+            "predators": 29,
+            "pollution": 50
+          },
+          "outputs": {
+            "stabilityPct": 72,
+            "producerScore": 50,
+            "risk": "stable"
+          }
+        },
+        "after": {
+          "inputs": {
+            "producers": 78,
+            "herbivores": 59,
+            "predators": 29,
+            "pollution": 50
+          },
+          "outputs": {
+            "stabilityPct": 72,
+            "producerScore": 50,
+            "risk": "stable"
+          }
+        },
+        "reset": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        },
+        "resetCall": {
+          "inputs": {
+            "producers": 72,
+            "herbivores": 44,
+            "predators": 18,
+            "pollution": 12
+          },
+          "outputs": {
+            "stabilityPct": 87,
+            "producerScore": 66,
+            "risk": "stable"
+          }
+        }
+      },
+      "visual": {
+        "litSamples": 18,
+        "sampleCount": 40,
+        "coveragePct": 45,
+        "avgLuma": 23.2,
+        "panelInsideViewport": true,
+        "controls": 13,
+        "readouts": 3,
+        "smallTouchTargets": 0,
+        "overflowingText": 0
+      },
+      "resourceSummary": {
+        "count": 4,
+        "totalTransferKB": 6,
+        "localResources": {
+          "files": [
+            {
+              "pathname": "examples/khtn8-subject-labs/index.html",
+              "bytes": 34813,
+              "kb": 34,
+              "mb": 0.033,
+              "kind": "code"
+            },
+            {
+              "pathname": "examples/khtn8-subject-labs/solvers.mjs",
+              "bytes": 6213,
+              "kb": 6.1,
+              "mb": 0.006,
+              "kind": "code"
+            }
+          ],
+          "codeKB": 40.1,
+          "modelMB": 0,
+          "textureMB": 0,
+          "largestModelMB": 0,
+          "totalLocalKB": 40.1
+        }
+      },
+      "budgets": {
+        "noConsoleErrors": true,
+        "fpsOk": true,
+        "p95FrameOk": true,
+        "pixelRatioOk": true,
+        "drawCallsOk": true,
+        "textureBudgetOk": true,
+        "transferBudgetOk": true,
+        "localSizeBudgetOk": true,
+        "modelSizeBudgetOk": true,
+        "textureSizeBudgetOk": true,
+        "canvasCoverageOk": true,
+        "stateMutationOk": true,
+        "responsivePanelOk": true,
+        "touchTargetsOk": true,
+        "textOverflowOk": true,
+        "readoutCoverageOk": true,
+        "biologyDetailOk": true
       },
       "pass": true
     }

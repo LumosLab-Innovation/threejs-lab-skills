@@ -35,6 +35,9 @@
 - Use `InstancedMesh` for many repeated objects.
 - Remove unused postprocessing.
 - Avoid expensive shadows on tiny props.
+- Report loaded local code/assets KB, largest model MB, and loaded texture MB.
+- Block or explain any curriculum model above 3 MB; require compression/LOD plan above 5 MB.
+- Keep total loaded texture assets under 4 MB unless the visual inspection task requires more.
 
 ## Release Note
 

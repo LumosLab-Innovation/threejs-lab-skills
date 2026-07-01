@@ -27,6 +27,7 @@
     ],
     "defaultPrompt": [
       "Use $learning-lab-3d-creator to build a complete 3D physics lab.",
+      "Use $khtn8-biology-lab-creator to build a strict KHTN8 biology lab with dense detail and FE benchmarks.",
       "Use $threejs-model-creator to create a polished model asset.",
       "Use $learning-lab-qa-pm-reviewer to review this lab before shipping."
     ]

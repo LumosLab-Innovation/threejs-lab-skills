@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createServer } from "node:http";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { extname, join, resolve } from "node:path";
 import { spawn } from "node:child_process";
@@ -10,6 +10,15 @@ const targets = process.argv.slice(2).length ? process.argv.slice(2) : [
   "examples/fancy-field-lab/index.html",
   "examples/density-buoyancy-lab/index.html",
   "examples/coulomb-force-lab/index.html",
+  "examples/khtn8-subject-labs/index.html?lab=chem-reaction-gas",
+  "examples/khtn8-subject-labs/index.html?lab=chem-acid-base",
+  "examples/khtn8-subject-labs/index.html?lab=chem-catalyst-rate",
+  "examples/khtn8-subject-labs/index.html?lab=phys-pressure",
+  "examples/khtn8-subject-labs/index.html?lab=phys-lever",
+  "examples/khtn8-subject-labs/index.html?lab=phys-circuit",
+  "examples/khtn8-subject-labs/index.html?lab=bio-circulation",
+  "examples/khtn8-subject-labs/index.html?lab=bio-respiration",
+  "examples/khtn8-subject-labs/index.html?lab=bio-ecosystem",
 ];
 
 const mime = {
@@ -115,6 +124,47 @@ async function evaluate(cdp, expression) {
   return result.result.value;
 }
 
+function localResourceSummary(resources, target, serverPort) {
+  const targetPath = target.split("?")[0].replaceAll("\\", "/");
+  const localPaths = new Map([[targetPath, resolve(root, targetPath)]]);
+  for (const item of resources) {
+    try {
+      const url = new URL(item.url || item.name);
+      if (url.hostname !== "127.0.0.1" || Number(url.port) !== serverPort) continue;
+      const pathname = decodeURIComponent(url.pathname).replace(/^\/+/, "");
+      localPaths.set(pathname, resolve(root, pathname));
+    } catch {
+      // Ignore CDN and browser-internal resource labels.
+    }
+  }
+
+  const files = [...localPaths.entries()]
+    .filter(([, file]) => file.startsWith(root) && existsSync(file))
+    .map(([pathname, file]) => {
+      const bytes = statSync(file).size;
+      const ext = extname(file).toLowerCase();
+      let kind = "other";
+      if ([".html", ".js", ".mjs", ".css"].includes(ext)) kind = "code";
+      if ([".glb", ".gltf", ".bin", ".obj"].includes(ext)) kind = "model";
+      if ([".png", ".jpg", ".jpeg", ".webp", ".ktx2", ".hdr", ".exr"].includes(ext)) kind = "texture";
+      return { pathname, bytes, kb: Number((bytes / 1024).toFixed(1)), mb: Number((bytes / 1048576).toFixed(3)), kind };
+    });
+
+  const sum = (kind) => files.filter((file) => file.kind === kind).reduce((total, file) => total + file.bytes, 0);
+  const modelBytes = sum("model");
+  const textureBytes = sum("texture");
+  const codeBytes = sum("code");
+  const largestModelBytes = Math.max(0, ...files.filter((file) => file.kind === "model").map((file) => file.bytes));
+  return {
+    files,
+    codeKB: Number((codeBytes / 1024).toFixed(1)),
+    modelMB: Number((modelBytes / 1048576).toFixed(3)),
+    textureMB: Number((textureBytes / 1048576).toFixed(3)),
+    largestModelMB: Number((largestModelBytes / 1048576).toFixed(3)),
+    totalLocalKB: Number((files.reduce((total, file) => total + file.bytes, 0) / 1024).toFixed(1)),
+  };
+}
+
 const profiles = [
   { name: "desktop", width: 1440, height: 900, mobile: false },
   { name: "mobile", width: 390, height: 844, mobile: true },
@@ -154,7 +204,14 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
   const result = await evaluate(cdp, `new Promise((resolve) => {
     const samples = [];
     let last = performance.now();
+    let warmup = 0;
     function sample(now) {
+      if (warmup < 20) {
+        warmup += 1;
+        last = now;
+        requestAnimationFrame(sample);
+        return;
+      }
       samples.push(now - last);
       last = now;
       if (samples.length < 150) requestAnimationFrame(sample);
@@ -176,6 +233,7 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
           canvas: canvas ? { width: canvas.width, height: canvas.height, clientWidth: canvas.clientWidth, clientHeight: canvas.clientHeight } : null,
           benchmark: window.__LAB_BENCHMARK__ ? window.__LAB_BENCHMARK__() : {},
           resources: performance.getEntriesByType("resource").map((item) => ({
+            url: item.name,
             name: item.name.split("/").slice(-1)[0],
             transferSize: item.transferSize || 0,
             decodedBodySize: item.decodedBodySize || 0
@@ -216,6 +274,11 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
     const canvas = document.querySelector("canvas");
     const panel = document.querySelector(".panel,.console");
     const panelRect = panel?.getBoundingClientRect();
+    const touchTargets = [...document.querySelectorAll(".panel label,.panel button,.panel a,.console label,.console button,.console a")].map((item) => {
+      const rect = item.getBoundingClientRect();
+      return { width: rect.width, height: rect.height, text: item.textContent.trim().slice(0, 32) };
+    });
+    const overflowingText = [...document.querySelectorAll(".metric strong,h1,button,a")].filter((item) => item.scrollWidth > item.clientWidth + 1).length;
     const gl = canvas?.getContext("webgl2") || canvas?.getContext("webgl");
     let lit = 0;
     let total = 0;
@@ -237,12 +300,17 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
       sampleCount: total,
       coveragePct: total ? Math.round(lit / total * 100) : 0,
       avgLuma: total ? Number((luma / total).toFixed(1)) : 0,
-      panelInsideViewport: panelRect ? panelRect.left >= 0 && panelRect.right <= innerWidth && panelRect.top >= 0 && panelRect.bottom <= innerHeight : null
+      panelInsideViewport: panelRect ? panelRect.left >= 0 && panelRect.right <= innerWidth && panelRect.top >= 0 && panelRect.bottom <= innerHeight : null,
+      controls: document.querySelectorAll(".panel input,.panel button,.panel a,.console input,.console button,.console a").length,
+      readouts: document.querySelectorAll(".metric strong").length,
+      smallTouchTargets: touchTargets.filter((item) => item.width < 44 || item.height < 28).length,
+      overflowingText
     };
   })()`);
 
   const resources = result.resources || [];
   const totalTransferKB = Math.round(resources.reduce((sum, item) => sum + item.transferSize, 0) / 1024);
+  const localResources = localResourceSummary(resources, target, serverPort);
   const benchmark = result.benchmark || {};
   const render = benchmark.renderer?.render || {};
   const memory = benchmark.renderer?.memory || {};
@@ -254,21 +322,31 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
     drawCallsOk: (render.calls || 0) <= 180,
     textureBudgetOk: (memory.textures || 0) <= 16,
     transferBudgetOk: totalTransferKB <= 900,
+    localSizeBudgetOk: localResources.totalLocalKB <= 512,
+    modelSizeBudgetOk: localResources.largestModelMB <= 3,
+    textureSizeBudgetOk: localResources.textureMB <= 4,
     canvasCoverageOk: visual.coveragePct >= 2,
     stateMutationOk: interaction.changed && interaction.resetOk,
     responsivePanelOk: visual.panelInsideViewport !== false,
+    touchTargetsOk: visual.smallTouchTargets === 0,
+    textOverflowOk: visual.overflowingText === 0,
+    readoutCoverageOk: visual.readouts >= 3,
+    biologyDetailOk: benchmark.subject !== "Biology" || (benchmark.scene?.detailMarkers || 0) >= 20,
   };
 
   const screenshot = await cdp.send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false });
   const screenshotDir = join(root, target.split(/[\\/]/).slice(0, 2).join("/"), "screenshots");
   mkdirSync(screenshotDir, { recursive: true });
-  writeFileSync(join(screenshotDir, `${profile.name}-benchmark.png`), Buffer.from(screenshot.data, "base64"));
+  const screenshotName = target.includes("?")
+    ? `${(benchmark.id || "lab").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}-${profile.name}-benchmark.png`
+    : `${profile.name}-benchmark.png`;
+  writeFileSync(join(screenshotDir, screenshotName), Buffer.from(screenshot.data, "base64"));
   cdp.close();
   return {
     ...result,
     interaction,
     visual,
-    resourceSummary: { count: resources.length, totalTransferKB },
+    resourceSummary: { count: resources.length, totalTransferKB, localResources },
     budgets,
     pass: Object.values(budgets).every(Boolean),
   };

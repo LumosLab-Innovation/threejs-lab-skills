@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>KHTN 8 Subject Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #060b10;
+      color: #f8fbff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 68% 35%, rgba(78, 175, 255, 0.18), transparent 34%),
+        radial-gradient(circle at 22% 72%, rgba(57, 217, 138, 0.13), transparent 28%),
+        linear-gradient(135deg, #071118 0%, #10171d 48%, #05070a 100%);
+    }
+    #scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .panel {
+      position: fixed;
+      left: 22px;
+      top: 22px;
+      width: min(386px, calc(100vw - 44px));
+      padding: 16px;
+      border: 1px solid rgba(213, 232, 255, 0.18);
+      border-radius: 12px;
+      background: rgba(5, 10, 14, 0.78);
+      backdrop-filter: blur(18px) saturate(1.08);
+      box-shadow: 0 24px 74px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    .eyebrow {
+      margin: 0 0 7px;
+      color: #8de0ff;
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0 0 8px; font-size: 24px; line-height: 1; letter-spacing: 0; }
+    p { margin: 0 0 14px; color: #c7d7e6; font-size: 13px; line-height: 1.42; }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    a, button {
+      border: 1px solid rgba(213, 232, 255, 0.2);
+      border-radius: 10px;
+      padding: 9px 7px;
+      color: #f8fbff;
+      background: rgba(255, 255, 255, 0.06);
+      font: inherit;
+      font-size: 12px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a.active, button.active { border-color: rgba(141, 224, 255, 0.92); background: rgba(78, 175, 255, 0.17); }
+    label { display: grid; gap: 7px; margin-top: 11px; color: #e6f3ff; font-size: 12px; }
+    input { width: 100%; accent-color: #61d394; }
+    .readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+    .metric { min-width: 0; border: 1px solid rgba(213, 232, 255, 0.12); border-radius: 10px; padding: 9px; background: rgba(255, 255, 255, 0.052); }
+    .metric span { display: block; color: #99adc0; font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; }
+    .metric strong { display: block; margin-top: 4px; overflow-wrap: anywhere; font-size: 16px; line-height: 1.1; }
+    .hint { position: fixed; right: 22px; bottom: 18px; color: rgba(235, 247, 255, 0.74); font-size: 12px; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72); }
+    @media (max-width: 720px) {
+      .panel { left: 10px; right: 10px; top: auto; bottom: 10px; width: auto; padding: 13px; }
+      h1 { font-size: 20px; }
+      p { display: none; }
+      .tabs { grid-template-columns: repeat(3, 1fr); }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <section class="panel" aria-label="KHTN 8 lab controls">
+    <p class="eyebrow" id="subject">KHTN 8</p>
+    <h1 id="title">Subject Lab</h1>
+    <p id="summary"></p>
+    <div class="tabs" id="tabs"></div>
+    <div id="controls"></div>
+    <div class="readout" id="readout"></div>
+  </section>
+  <div class="hint">Drag to orbit. Scroll to zoom.</div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.183.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { INITIAL_STATES, LAB_META, SOLVERS, clamp } from "./solvers.mjs";
+
+    const allLabIds = Object.keys(LAB_META);
+    const queryLab = new URL(location.href).searchParams.get("lab");
+    const labId = allLabIds.includes(queryLab) ? queryLab : "chem-reaction-gas";
+    const meta = LAB_META[labId];
+    const subjectEl = document.querySelector("#subject");
+    const titleEl = document.querySelector("#title");
+    const summaryEl = document.querySelector("#summary");
+    const tabsEl = document.querySelector("#tabs");
+    const controlsEl = document.querySelector("#controls");
+    const readoutEl = document.querySelector("#readout");
+    const canvas = document.querySelector("#scene");
+    const initialState = structuredClone(INITIAL_STATES[labId]);
+    const solver = SOLVERS[labId];
+    const controlEls = new Map();
+    let state = structuredClone(initialState);
+    let solution = solver(state);
+    let raf = 0;
+    let lastSeconds = performance.now() / 1000;
+    let simSeconds = 0;
+
+    const LABS = {
+      "chem-reaction-gas": {
+        summary: "KHTN 8 chemistry: visible gas formation, limiting reagent, and reaction-rate cues in a real bench setup.",
+        color: 0x5dd6ff,
+        controls: [
+          ["acidM", "Acid concentration (M)", 0.4, 2.0, 0.1],
+          ["metalG", "Metal ribbon mass (g)", 0.12, 0.84, 0.02],
+          ["tempC", "Temperature (C)", 18, 54, 1],
+        ],
+        outputs: [["gasMl", "Gas", " mL"], ["limiting", "Limit", ""], ["rate", "Rate", "x"]],
+        build: buildReactionGas,
+      },
+      "chem-acid-base": {
+        summary: "KHTN 8 chemistry: acid/base neutralization, pH scale, indicator color, and endpoint feedback.",
+        color: 0xff73b7,
+        controls: [
+          ["acidMl", "Acid volume (mL)", 0, 50, 1],
+          ["baseMl", "Base volume (mL)", 0, 50, 1],
+          ["indicator", "Indicator mode", 0, 1, 1],
+        ],
+        outputs: [["pH", "pH", ""], ["type", "State", ""], ["neutralizedPct", "Neutral", "%"]],
+        build: buildAcidBase,
+      },
+      "chem-catalyst-rate": {
+        summary: "KHTN 8 chemistry: reaction speed changes with temperature, catalyst, and surface area.",
+        color: 0xffc45d,
+        controls: [
+          ["tempC", "Temperature (C)", 15, 60, 1],
+          ["catalyst", "Catalyst", 0, 1, 1],
+          ["surface", "Surface area factor", 0.5, 2.2, 0.1],
+        ],
+        outputs: [["rate", "Rate", "x"], ["completionSec", "Finish", " s"], ["collisionIndex", "Collisions", ""]],
+        build: buildCatalystRate,
+      },
+      "phys-pressure": {
+        summary: "KHTN 8 physics: liquid pressure grows with depth and density, visible through probe and manometer.",
+        color: 0x56c8ff,
+        controls: [
+          ["depthM", "Probe depth (m)", 0.15, 1.4, 0.01],
+          ["density", "Liquid density (kg/m3)", 800, 1250, 10],
+          ["areaCm2", "Probe area (cm2)", 6, 32, 1],
+        ],
+        outputs: [["pressureKPa", "Pressure", " kPa"], ["forceN", "Force", " N"], ["manometerCm", "Column", " cm"]],
+        build: buildPressure,
+      },
+      "phys-lever": {
+        summary: "KHTN 8 physics: moment of force, balance, and torque direction on a real lever apparatus.",
+        color: 0x9ee76c,
+        controls: [
+          ["loadN", "Load force (N)", 10, 60, 1],
+          ["effortN", "Effort force (N)", 8, 50, 1],
+          ["effortArmM", "Effort arm (m)", 0.25, 0.9, 0.01],
+        ],
+        outputs: [["loadMoment", "Load M", " Nm"], ["effortMoment", "Effort M", " Nm"], ["state", "Balance", ""]],
+        build: buildLever,
+      },
+      "phys-circuit": {
+        summary: "KHTN 8 physics: simple circuit with source, resistor, switch, current, and bulb brightness.",
+        color: 0xffe66d,
+        controls: [
+          ["voltage", "Voltage (V)", 1.5, 12, 0.5],
+          ["resistance", "Resistance (ohm)", 4, 32, 1],
+          ["switchOn", "Switch", 0, 1, 1],
+        ],
+        outputs: [["currentA", "Current", " A"], ["powerW", "Power", " W"], ["brightnessPct", "Bulb", "%"]],
+        build: buildCircuit,
+      },
+      "bio-circulation": {
+        summary: "KHTN 8 biology: heart, vessels, pulse timing, cardiac output, and flow resistance.",
+        color: 0xff6978,
+        controls: [
+          ["heartRate", "Heart rate (bpm)", 45, 140, 1],
+          ["strokeMl", "Stroke volume (mL)", 40, 110, 1],
+          ["vesselTone", "Vessel resistance", 0.65, 1.35, 0.01],
+        ],
+        outputs: [["cardiacOutputLMin", "Output", " L/min"], ["flowIndex", "Flow", ""], ["pulseMs", "Pulse", " ms"]],
+        build: buildCirculation,
+      },
+      "bio-respiration": {
+        summary: "KHTN 8 biology: lung expansion, diaphragm motion, ventilation, and oxygen uptake.",
+        color: 0x79d7ff,
+        controls: [
+          ["breathRate", "Breathing rate (/min)", 8, 32, 1],
+          ["tidalMl", "Tidal volume (mL)", 250, 800, 10],
+          ["efficiency", "Gas exchange efficiency (%)", 40, 92, 1],
+        ],
+        outputs: [["minuteVentilationLMin", "Vent.", " L/min"], ["alveolarVentilationLMin", "Alveolar", " L/min"], ["oxygenUptakeLMin", "O2", " L/min"]],
+        build: buildRespiration,
+      },
+      "bio-ecosystem": {
+        summary: "KHTN 8 biology: producers, herbivores, predators, pollution, and ecosystem stability.",
+        color: 0x72df88,
+        controls: [
+          ["producers", "Producers", 20, 100, 1],
+          ["herbivores", "Herbivores", 5, 80, 1],
+          ["predators", "Predators", 0, 40, 1],
+          ["pollution", "Pollution (%)", 0, 70, 1],
+        ],
+        outputs: [["stabilityPct", "Stable", "%"], ["producerScore", "Food", ""], ["risk", "Risk", ""]],
+        build: buildEcosystem,
+      },
+    };
+    const TAB_LABELS = {
+      "chem-reaction-gas": "Gas",
+      "chem-acid-base": "pH",
+      "chem-catalyst-rate": "Rate",
+      "phys-pressure": "Press",
+      "phys-lever": "Lever",
+      "phys-circuit": "Circuit",
+      "bio-circulation": "Heart",
+      "bio-respiration": "Lung",
+      "bio-ecosystem": "Eco",
+    };
+
+    const activeLab = LABS[labId];
+    subjectEl.textContent = `${meta.subject} - ${meta.topic}`;
+    titleEl.textContent = meta.title;
+    summaryEl.textContent = activeLab.summary;
+    document.title = `${meta.title} - KHTN 8`;
+
+    for (const id of allLabIds) {
+      const link = document.createElement("a");
+      link.href = `${location.pathname}?lab=${id}`;
+      link.className = id === labId ? "active" : "";
+      link.textContent = TAB_LABELS[id];
+      link.title = LAB_META[id].title;
+      tabsEl.append(link);
+    }
+
+    for (const [key, label, min, max, step] of activeLab.controls) {
+      const wrap = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = max === 1 && min === 0 && step === 1 ? "checkbox" : "range";
+      input.min = min;
+      input.max = max;
+      input.step = step;
+      if (input.type === "checkbox") input.checked = Boolean(state[key]);
+      else input.value = state[key];
+      wrap.textContent = label;
+      wrap.append(input);
+      controlsEl.append(wrap);
+      controlEls.set(key, input);
+      input.addEventListener("input", syncFromControls);
+    }
+
+    for (const [key, label] of activeLab.outputs) {
+      const node = document.createElement("div");
+      node.className = "metric";
+      node.innerHTML = `<span>${label}</span><strong id="out-${key}"></strong>`;
+      readoutEl.append(node);
+    }
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x060b10, 0.03);
+    const camera = new THREE.PerspectiveCamera(43, innerWidth / innerHeight, 0.1, 120);
+    camera.position.set(6.8, 4.6, 10.4);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.target.set(0, 0.55, 0);
+    controls.minDistance = 5.4;
+    controls.maxDistance = 15;
+    controls.maxPolarAngle = Math.PI * 0.48;
+
+    scene.add(new THREE.HemisphereLight(0xd8f4ff, 0x111820, 1.55));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+    keyLight.position.set(-4, 7, 5);
+    scene.add(keyLight);
+    const rimLight = new THREE.PointLight(activeLab.color, 8, 22);
+    rimLight.position.set(4.8, 3.4, -4.2);
+    scene.add(rimLight);
+    addBench();
+
+    const view = activeLab.build();
+    syncFromControls();
+    addEventListener("resize", resize);
+    addEventListener("beforeunload", disposeScene);
+    frame();
+
+    function readState() {
+      const next = {};
+      for (const [key, input] of controlEls) next[key] = input.type === "checkbox" ? (input.checked ? 1 : 0) : Number(input.value);
+      return next;
+    }
+
+    function writeState(next) {
+      for (const [key, value] of Object.entries(next)) {
+        const input = controlEls.get(key);
+        if (!input) continue;
+        if (input.type === "checkbox") input.checked = Boolean(value);
+        else input.value = value;
+      }
+      syncFromControls();
+    }
+
+    function syncFromControls() {
+      state = readState();
+      solution = solver(state);
+      for (const [key, , unit] of activeLab.outputs) {
+        const out = document.querySelector(`#out-${key}`);
+        out.textContent = `${solution[key]}${unit}`;
+      }
+      view.sync?.(state, solution, simSeconds);
+    }
+
+    function resize() {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+      renderer.setSize(innerWidth, innerHeight);
+    }
+
+    function frame() {
+      const now = performance.now() / 1000;
+      const dt = Math.min(now - lastSeconds, 0.1);
+      lastSeconds = now;
+      simSeconds += dt;
+      controls.update();
+      view.tick?.(state, solution, simSeconds);
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(frame);
+    }
+
+    function disposeScene() {
+      cancelAnimationFrame(raf);
+      removeEventListener("resize", resize);
+      controls.dispose();
+      scene.traverse((object) => {
+        object.geometry?.dispose?.();
+        const material = object.material;
+        const materials = Array.isArray(material) ? material : [material];
+        materials.forEach((item) => {
+          item?.map?.dispose?.();
+          item?.dispose?.();
+        });
+      });
+      renderer.dispose();
+    }
+
+    function benchmark() {
+      return {
+        id: labId,
+        subject: meta.subject,
+        state: { inputs: readState(), outputs: solver(readState()) },
+        renderer: {
+          pixelRatio: renderer.getPixelRatio(),
+          memory: { ...renderer.info.memory },
+          render: { ...renderer.info.render },
+        },
+        scene: {
+          objects: scene.children.length,
+          externalAssets: 0,
+          detailMarkers: view.detailMarkers || 0,
+          solver: "formula/fixed-step visual sync",
+        },
+        textures: { externalTextures: 0 },
+      };
+    }
+
+    window.__LAB_BENCHMARK__ = benchmark;
+    window.__LAB_BENCH_MUTATE__ = () => {
+      const next = structuredClone(initialState);
+      for (const [key, input] of controlEls) {
+        if (input.type === "checkbox") next[key] = initialState[key] ? 0 : 1;
+        else next[key] = Number(input.max) - (Number(input.max) - Number(input.min)) * 0.28;
+      }
+      writeState(next);
+      return benchmark();
+    };
+    window.__LAB_BENCH_RESET__ = () => {
+      simSeconds = 0;
+      writeState(initialState);
+      return benchmark();
+    };
+
+    function mat(color, options = {}) {
+      return new THREE.MeshStandardMaterial({ color, roughness: 0.48, metalness: 0.04, ...options });
+    }
+
+    function addBench() {
+      const table = new THREE.Mesh(new THREE.CylinderGeometry(6.6, 7.2, 0.22, 72), mat(0x1b2933, { metalness: 0.16 }));
+      table.name = "lab bench";
+      table.position.y = -1.35;
+      scene.add(table);
+      const grid = new THREE.GridHelper(12, 24, activeLab.color, 0x24313a);
+      grid.position.y = -1.22;
+      grid.material.transparent = true;
+      grid.material.opacity = 0.17;
+      scene.add(grid);
+    }
+
+    function mesh(geometry, material, name, position = [0, 0, 0]) {
+      const object = new THREE.Mesh(geometry, material);
+      object.name = name;
+      object.position.set(...position);
+      scene.add(object);
+      return object;
+    }
+
+    function box(name, size, position, color, options) {
+      return mesh(new THREE.BoxGeometry(...size), mat(color, options), name, position);
+    }
+
+    function cyl(name, radius, height, position, color, options, segments = 32) {
+      return mesh(new THREE.CylinderGeometry(radius, radius, height, segments), mat(color, options), name, position);
+    }
+
+    function sphere(name, radius, position, color, options, segments = 32) {
+      return mesh(new THREE.SphereGeometry(radius, segments, Math.max(12, segments / 2)), mat(color, options), name, position);
+    }
+
+    function tube(name, points, radius, color, options = {}) {
+      const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
+      return mesh(new THREE.TubeGeometry(curve, 72, radius, 8, false), mat(color, options), name);
+    }
+
+    function liquidColor(pH) {
+      if (pH < 4) return 0xff546a;
+      if (pH < 6.7) return 0xffa95d;
+      if (pH < 7.4) return 0x60d394;
+      if (pH < 10) return 0x5ba8ff;
+      return 0x9d73ff;
+    }
+
+    function makeBubbleCloud(count, color) {
+      const geometry = new THREE.SphereGeometry(0.045, 12, 8);
+      const material = mat(color, { emissive: color, emissiveIntensity: 0.35, transparent: true, opacity: 0.72 });
+      return Array.from({ length: count }, (_, i) => {
+        const b = new THREE.Mesh(geometry, material);
+        b.position.set(Math.sin(i * 1.7) * 0.42, -0.55 + (i % 7) * 0.15, Math.cos(i * 2.2) * 0.28);
+        scene.add(b);
+        return b;
+      });
+    }
+
+    function buildReactionGas() {
+      const flask = cyl("glass reaction flask", 0.78, 1.5, [-1.45, -0.45, 0], 0x9edcff, { transparent: true, opacity: 0.22, metalness: 0, roughness: 0.05 }, 48);
+      const liquid = cyl("acid liquid", 0.7, 0.72, [-1.45, -0.84, 0], 0x72c6ff, { transparent: true, opacity: 0.58, emissive: 0x123344, emissiveIntensity: 0.18 }, 48);
+      const neck = cyl("flask neck", 0.22, 1.0, [-1.45, 0.62, 0], 0x9edcff, { transparent: true, opacity: 0.2 }, 32);
+      const hose = tube("gas hose", [[-1.25, 1.05, 0], [-0.2, 1.3, 0.15], [0.8, 1.05, 0]], 0.045, 0x2c3f4f, { metalness: 0.05 });
+      const syringe = cyl("gas syringe barrel", 0.3, 2.6, [1.85, 0.42, 0], 0xb8e6ff, { transparent: true, opacity: 0.24 }, 32);
+      syringe.rotation.z = Math.PI / 2;
+      const piston = box("gas syringe piston", [0.16, 0.7, 0.7], [1.1, 0.42, 0], 0xe8f8ff, { metalness: 0.2 });
+      const metal = box("metal ribbon", [0.75, 0.04, 0.16], [-1.45, -0.33, 0], 0xd7dde4, { metalness: 0.65, roughness: 0.22 });
+      const bubbles = makeBubbleCloud(28, 0xd8f7ff);
+      return {
+        sync(s, out) {
+          liquid.scale.y = 0.78 + s.acidM * 0.08;
+          metal.scale.x = 0.65 + s.metalG;
+          piston.position.x = 1.0 + clamp(out.gasMl / 720, 0, 1.8);
+          bubbles.forEach((b, i) => {
+            b.visible = i < clamp(Math.round(out.rate * 10), 3, bubbles.length);
+            b.scale.setScalar(0.8 + out.rate * 0.08);
+          });
+        },
+        tick(s, out, t) {
+          bubbles.forEach((b, i) => {
+            b.position.y = -0.72 + ((t * out.rate * 0.34 + i * 0.13) % 1.22);
+          });
+          hose.rotation.z = Math.sin(t * 0.7) * 0.01;
+          neck.rotation.y = Math.sin(t * 0.6) * 0.015;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildAcidBase() {
+      const beaker = cyl("indicator beaker glass", 0.9, 1.45, [-1, -0.48, 0], 0xc7edff, { transparent: true, opacity: 0.22 }, 48);
+      const liquid = cyl("indicator solution", 0.82, 0.92, [-1, -0.72, 0], 0x60d394, { transparent: true, opacity: 0.68, emissiveIntensity: 0.2 }, 48);
+      const acidDropper = tube("acid dropper", [[-2.65, 1.1, 0], [-2.2, 0.75, 0], [-1.8, 0.34, 0]], 0.04, 0xff6b80, { emissive: 0x3a0710, emissiveIntensity: 0.16 });
+      const baseDropper = tube("base dropper", [[0.6, 1.1, 0], [0.2, 0.75, 0], [-0.2, 0.34, 0]], 0.04, 0x68a8ff, { emissive: 0x071b3a, emissiveIntensity: 0.16 });
+      const strip = box("pH scale strip", [0.18, 2.7, 0.08], [1.65, -0.18, 0], 0xf2f2f2);
+      strip.rotation.z = Math.PI / 2;
+      const marker = box("pH marker", [0.08, 0.34, 0.16], [1.65, 0.13, 0.08], 0xffffff, { emissive: 0xffffff, emissiveIntensity: 0.2 });
+      const drops = makeBubbleCloud(16, 0xffffff);
+      return {
+        sync(s, out) {
+          const color = liquidColor(out.pH);
+          liquid.material.color.setHex(color);
+          liquid.material.emissive.setHex(color);
+          marker.position.x = 0.35 + (out.pH / 14) * 2.6;
+          marker.material.color.setHex(color);
+          drops.forEach((d, i) => {
+            d.visible = i < Math.abs(s.acidMl - s.baseMl) / 4 + 3;
+            d.material.color.setHex(s.acidMl > s.baseMl ? 0xff6b80 : 0x68a8ff);
+          });
+        },
+        tick(s, out, t) {
+          drops.forEach((d, i) => {
+            d.position.set(-1 + Math.sin(t * 1.8 + i) * 0.35, 0.35 - ((t * 0.6 + i * 0.08) % 1.05), Math.cos(i) * 0.22);
+          });
+          beaker.rotation.y = Math.sin(t * 0.35) * 0.03;
+          acidDropper.rotation.z = Math.sin(t * 0.4) * 0.025;
+          baseDropper.rotation.z = -Math.sin(t * 0.4) * 0.025;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildCatalystRate() {
+      const reactor = cyl("reaction vessel glass", 0.82, 1.55, [-1.1, -0.45, 0], 0xc7edff, { transparent: true, opacity: 0.22 }, 48);
+      const liquid = cyl("reactant mixture", 0.74, 0.95, [-1.1, -0.72, 0], 0xffc45d, { transparent: true, opacity: 0.56, emissive: 0x3b1d05, emissiveIntensity: 0.18 }, 48);
+      const thermometer = cyl("thermometer", 0.045, 1.9, [-0.25, 0.05, 0], 0xeaf6ff, { metalness: 0.02 }, 16);
+      thermometer.rotation.z = -0.2;
+      const catalystTray = box("catalyst tray", [1.0, 0.12, 0.55], [1.4, -0.77, 0], 0x303841, { metalness: 0.32 });
+      const pellets = Array.from({ length: 11 }, (_, i) => sphere("catalyst pellet", 0.09, [1.05 + (i % 4) * 0.22, -0.62 + Math.floor(i / 4) * 0.08, (i % 3 - 1) * 0.13], 0x59616c, { metalness: 0.5 }, 16));
+      const plume = makeBubbleCloud(34, 0xfff0bd);
+      return {
+        sync(s, out) {
+          liquid.material.opacity = 0.42 + clamp(out.rate / 10, 0, 0.35);
+          thermometer.scale.y = 0.72 + (s.tempC - 15) / 60;
+          pellets.forEach((p) => p.visible = Boolean(s.catalyst));
+          plume.forEach((b, i) => {
+            b.visible = i < clamp(out.collisionIndex / 2, 4, plume.length);
+            b.scale.setScalar(0.7 + s.surface * 0.18);
+          });
+        },
+        tick(s, out, t) {
+          plume.forEach((b, i) => {
+            b.position.set(-1.1 + Math.sin(i * 2.1 + t) * 0.45, -0.94 + ((t * out.rate * 0.18 + i * 0.07) % 1.35), Math.cos(i * 1.6) * 0.3);
+          });
+          reactor.rotation.y = Math.sin(t * 0.25) * 0.025;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildPressure() {
+      const tank = box("transparent pressure tank", [2.3, 2.2, 1.05], [-1.25, -0.25, 0], 0x8ed9ff, { transparent: true, opacity: 0.18, roughness: 0.08 });
+      const liquid = box("liquid column", [2.12, 1.55, 0.92], [-1.25, -0.55, 0], 0x49b7ff, { transparent: true, opacity: 0.48, emissive: 0x062333, emissiveIntensity: 0.16 });
+      const probe = sphere("pressure probe", 0.16, [-1.25, -0.6, 0.54], 0xfff6c0, { emissive: 0x403000, emissiveIntensity: 0.25 }, 20);
+      const hose = tube("manometer tube", [[-1.1, -0.45, 0.58], [0.05, 0.05, 0.65], [0.72, -0.78, 0.2], [1.45, -0.78, 0.2], [1.45, 0.42, 0.2]], 0.035, 0xd6f5ff);
+      const leftColumn = cyl("manometer left liquid", 0.08, 0.65, [0.72, -0.75, 0.2], 0x49b7ff, { emissive: 0x062333, emissiveIntensity: 0.2 }, 18);
+      const rightColumn = cyl("manometer right liquid", 0.08, 1.05, [1.45, -0.55, 0.2], 0x49b7ff, { emissive: 0x062333, emissiveIntensity: 0.2 }, 18);
+      const arrows = Array.from({ length: 6 }, (_, i) => box("pressure arrow", [0.08, 0.24, 0.08], [-2.15 + i * 0.35, -0.25, 0.6], 0xffe66d, { emissive: 0x3c2e00, emissiveIntensity: 0.4 }));
+      return {
+        sync(s, out) {
+          const depthY = 0.48 - s.depthM * 1.1;
+          probe.position.y = depthY;
+          liquid.scale.y = 0.86 + (s.density - 800) / 1500;
+          rightColumn.scale.y = 0.7 + out.manometerCm / 180;
+          rightColumn.position.y = -0.9 + rightColumn.scale.y * 0.38;
+          arrows.forEach((a, i) => {
+            a.position.y = depthY + Math.sin(i) * 0.04;
+            a.scale.y = 0.6 + out.pressureKPa / 12;
+          });
+        },
+        tick(s, out, t) {
+          tank.rotation.y = Math.sin(t * 0.22) * 0.02;
+          hose.rotation.y = Math.sin(t * 0.3) * 0.015;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildLever() {
+      const pivot = cyl("lever pivot", 0.34, 0.7, [0, -0.8, 0], 0x9aa4b1, { metalness: 0.45 }, 32);
+      pivot.rotation.x = Math.PI / 2;
+      const beam = box("lever beam", [4.7, 0.16, 0.3], [0, -0.35, 0], 0xd7a35d, { roughness: 0.34 });
+      const load = cyl("load weight", 0.26, 0.55, [-1.6, -0.78, 0], 0x59616c, { metalness: 0.58 }, 32);
+      const effort = cyl("effort weight", 0.22, 0.48, [1.6, -0.78, 0], 0x7ddf8e, { metalness: 0.18 }, 32);
+      const loadLine = cyl("load hanger", 0.015, 0.7, [-1.6, -0.55, 0], 0xe8eef4, { metalness: 0.3 }, 10);
+      const effortLine = cyl("effort hanger", 0.015, 0.7, [1.6, -0.55, 0], 0xe8eef4, { metalness: 0.3 }, 10);
+      return {
+        sync(s, out) {
+          const angle = clamp(out.netMoment / 22, -0.34, 0.34);
+          beam.rotation.z = -angle;
+          load.position.x = -s.loadArmM * 3.0;
+          effort.position.x = s.effortArmM * 3.0;
+          loadLine.position.x = load.position.x;
+          effortLine.position.x = effort.position.x;
+          load.scale.setScalar(0.8 + s.loadN / 90);
+          effort.scale.setScalar(0.8 + s.effortN / 90);
+          load.position.y = -0.72 + angle * load.position.x * 0.35;
+          effort.position.y = -0.72 + angle * effort.position.x * 0.35;
+        },
+        tick(s, out, t) {
+          pivot.rotation.z = Math.sin(t * 0.5) * 0.01;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildCircuit() {
+      const base = box("circuit board", [4.6, 0.12, 2.5], [0, -0.95, 0], 0x1d2a34, { metalness: 0.12 });
+      const battery = cyl("battery cell", 0.28, 1.0, [-1.85, -0.4, 0.55], 0x7ddf8e, { metalness: 0.38 }, 32);
+      battery.rotation.z = Math.PI / 2;
+      const resistor = cyl("resistor", 0.18, 1.1, [0, -0.42, -0.72], 0xd7a35d, { metalness: 0.16 }, 28);
+      resistor.rotation.z = Math.PI / 2;
+      const bulbGlass = sphere("bulb glass", 0.46, [1.75, -0.32, 0.5], 0xfff2b6, { transparent: true, opacity: 0.42, emissive: 0x604000, emissiveIntensity: 0.2 }, 32);
+      const filament = tube("bulb filament", [[1.45, -0.32, 0.5], [1.6, -0.18, 0.5], [1.75, -0.32, 0.5], [1.9, -0.18, 0.5], [2.05, -0.32, 0.5]], 0.025, 0xffe66d, { emissive: 0xffcc22, emissiveIntensity: 0.8 });
+      const wires = [
+        tube("wire top", [[-1.85, -0.4, 0.55], [-0.35, -0.36, 1.05], [1.75, -0.32, 0.95]], 0.035, 0xff6b6b, { metalness: 0.4 }),
+        tube("wire bottom", [[1.75, -0.32, 0.04], [0, -0.42, -0.72], [-1.85, -0.4, 0.05]], 0.035, 0x6bc5ff, { metalness: 0.4 }),
+      ];
+      const switchBlade = box("switch blade", [0.9, 0.06, 0.1], [-0.45, -0.28, 0.96], 0xe8eef4, { metalness: 0.55 });
+      const particles = Array.from({ length: 18 }, (_, i) => sphere("current marker", 0.045, [0, -0.24, 0], 0x9ee76c, { emissive: 0x9ee76c, emissiveIntensity: 0.8 }, 10));
+      return {
+        sync(s, out) {
+          bulbGlass.material.emissiveIntensity = 0.15 + out.brightnessPct / 95;
+          bulbGlass.material.opacity = 0.25 + out.brightnessPct / 220;
+          filament.material.emissiveIntensity = 0.25 + out.brightnessPct / 35;
+          switchBlade.rotation.z = s.switchOn ? -0.05 : 0.46;
+          particles.forEach((p) => p.visible = Boolean(s.switchOn));
+        },
+        tick(s, out, t) {
+          particles.forEach((p, i) => {
+            const u = (t * (0.18 + out.currentA * 0.5) + i / particles.length) % 1;
+            const a = u * Math.PI * 2;
+            p.position.set(Math.cos(a) * 1.85, -0.27, Math.sin(a) * 0.9 + 0.15);
+          });
+          base.rotation.y = Math.sin(t * 0.22) * 0.018;
+        },
+        detailMarkers: 0,
+      };
+    }
+
+    function buildCirculation() {
+      const heartLeft = sphere("heart left chamber", 0.55, [-0.25, -0.2, 0], 0xff4f6b, { emissive: 0x4d0710, emissiveIntensity: 0.25 }, 32);
+      heartLeft.scale.set(0.8, 1.15, 0.75);
+      const heartRight = sphere("heart right chamber", 0.48, [0.32, -0.24, 0], 0xd9435e, { emissive: 0x4d0710, emissiveIntensity: 0.2 }, 32);
+      heartRight.scale.set(0.74, 1.05, 0.72);
+      const artery = tube("artery loop", [[0.15, 0.38, 0], [1.2, 1.2, 0.15], [2.1, 0.25, 0.05], [1.15, -0.75, -0.05], [0.1, -0.42, 0]], 0.09, 0xff586b, { emissive: 0x4d0710, emissiveIntensity: 0.18 });
+      const vein = tube("vein loop", [[-0.2, -0.38, 0], [-1.25, -0.9, 0.1], [-2.2, 0.15, 0.03], [-1.1, 1.08, -0.05], [-0.05, 0.34, 0]], 0.09, 0x6387ff, { emissive: 0x06194d, emissiveIntensity: 0.16 });
+      const blood = Array.from({ length: 26 }, (_, i) => sphere("blood cell", 0.055, [0, 0, 0], i % 2 ? 0xff7588 : 0xff3f5a, { emissive: 0x3b0610, emissiveIntensity: 0.45 }, 10));
+      return {
+        sync(s, out) {
+          artery.scale.setScalar(1 / s.vesselTone);
+          vein.scale.setScalar(1 / s.vesselTone);
+          blood.forEach((b, i) => b.scale.setScalar(0.7 + out.flowIndex * 0.04 + (i % 3) * 0.05));
+        },
+        tick(s, out, t) {
+          const pulse = 1 + Math.sin(t * Math.PI * 2 * (s.heartRate / 60)) * 0.08;
+          heartLeft.scale.set(0.8 * pulse, 1.15 * pulse, 0.75 * pulse);
+          heartRight.scale.set(0.74 * pulse, 1.05 * pulse, 0.72 * pulse);
+          blood.forEach((b, i) => {
+            const u = (t * out.flowIndex * 0.08 + i / blood.length) % 1;
+            const a = u * Math.PI * 2;
+            b.position.set(Math.cos(a) * 1.65, Math.sin(a) * 0.95, Math.sin(a * 2) * 0.1);
+          });
+        },
+        detailMarkers: blood.length,
+      };
+    }
+
+    function buildRespiration() {
+      const trachea = cyl("trachea", 0.11, 1.7, [0, 0.75, 0], 0xd7eef8, { transparent: true, opacity: 0.58 }, 24);
+      const leftBronchus = tube("left bronchus", [[0, 0.05, 0], [-0.48, -0.28, 0], [-0.85, -0.55, 0]], 0.055, 0xd7eef8, { transparent: true, opacity: 0.58 });
+      const rightBronchus = tube("right bronchus", [[0, 0.05, 0], [0.48, -0.28, 0], [0.85, -0.55, 0]], 0.055, 0xd7eef8, { transparent: true, opacity: 0.58 });
+      const lungL = sphere("left lung", 0.72, [-0.72, -0.58, 0], 0xff8ea5, { transparent: true, opacity: 0.42, emissive: 0x2d0710, emissiveIntensity: 0.18 }, 32);
+      lungL.scale.set(0.75, 1.25, 0.56);
+      const lungR = sphere("right lung", 0.72, [0.72, -0.58, 0], 0xff8ea5, { transparent: true, opacity: 0.42, emissive: 0x2d0710, emissiveIntensity: 0.18 }, 32);
+      lungR.scale.set(0.75, 1.25, 0.56);
+      const diaphragm = box("diaphragm", [2.5, 0.1, 0.5], [0, -1.42, 0], 0xdcd2ff, { roughness: 0.3 });
+      const oxygen = Array.from({ length: 24 }, (_, i) => sphere("oxygen marker", 0.045, [0, 0, 0], 0x79d7ff, { emissive: 0x1d6f9f, emissiveIntensity: 0.7 }, 10));
+      return {
+        sync(s, out) {
+          oxygen.forEach((o, i) => o.visible = i < clamp(out.oxygenUptakeLMin * 45, 4, oxygen.length));
+        },
+        tick(s, out, t) {
+          const breath = 1 + Math.sin(t * Math.PI * 2 * (s.breathRate / 60)) * (s.tidalMl / 900) * 0.16;
+          lungL.scale.set(0.75 * breath, 1.25 * breath, 0.56 * breath);
+          lungR.scale.set(0.75 * breath, 1.25 * breath, 0.56 * breath);
+          diaphragm.position.y = -1.42 - (breath - 1) * 1.1;
+          oxygen.forEach((o, i) => {
+            const u = (t * 0.25 + i / oxygen.length) % 1;
+            o.position.set(Math.sin(i) * 0.25, 0.9 - u * 2.3, Math.cos(i * 1.9) * 0.35);
+          });
+        },
+        detailMarkers: oxygen.length,
+      };
+    }
+
+    function buildEcosystem() {
+      const terrain = cyl("ecosystem terrain", 2.55, 0.18, [0, -0.98, 0], 0x31513c, { roughness: 0.82 }, 72);
+      const water = cyl("pond", 0.65, 0.05, [1.35, -0.86, 0.62], 0x55c8ff, { transparent: true, opacity: 0.62, emissive: 0x062333, emissiveIntensity: 0.2 }, 40);
+      const plants = Array.from({ length: 38 }, (_, i) => {
+        const p = cyl("plant stem", 0.035, 0.38, [Math.sin(i * 1.7) * 1.75, -0.73, Math.cos(i * 2.3) * 1.2], 0x72df88, { emissive: 0x123b18, emissiveIntensity: 0.12 }, 8);
+        p.scale.y = 0.7 + (i % 5) * 0.12;
+        return p;
+      });
+      const herbivores = Array.from({ length: 16 }, (_, i) => box("herbivore marker", [0.16, 0.11, 0.28], [Math.sin(i * 2.2) * 1.65, -0.68, Math.cos(i * 1.4) * 1.35], 0xd7c06a, { roughness: 0.42 }));
+      const predators = Array.from({ length: 8 }, (_, i) => box("predator marker", [0.18, 0.12, 0.32], [Math.sin(i * 2.6) * 1.3, -0.55, Math.cos(i * 1.8) * 1.0], 0xff6b6b, { roughness: 0.36 }));
+      const haze = sphere("pollution haze", 1.9, [0, 0.05, 0], 0x8b6f4e, { transparent: true, opacity: 0.08, emissive: 0x3a2507, emissiveIntensity: 0.08 }, 32);
+      haze.scale.set(1.4, 0.55, 1.0);
+      return {
+        sync(s, out) {
+          plants.forEach((p, i) => {
+            p.visible = i < Math.round(s.producers / 100 * plants.length);
+            p.scale.y = (0.6 + out.stabilityPct / 180) * (0.8 + (i % 5) * 0.08);
+          });
+          herbivores.forEach((h, i) => h.visible = i < Math.round(s.herbivores / 80 * herbivores.length));
+          predators.forEach((p, i) => p.visible = i < Math.round(s.predators / 40 * predators.length));
+          haze.material.opacity = 0.05 + s.pollution / 180;
+          terrain.material.color.setHex(out.stabilityPct > 70 ? 0x31513c : out.stabilityPct > 40 ? 0x5a5132 : 0x4c3430);
+        },
+        tick(s, out, t) {
+          herbivores.forEach((h, i) => h.rotation.y = t * 0.25 + i);
+          predators.forEach((p, i) => p.rotation.y = -t * 0.35 + i);
+          water.rotation.y = t * 0.08;
+        },
+        detailMarkers: plants.length + herbivores.length + predators.length,
+      };
+    }
+  </script>
+</body>
+</html>

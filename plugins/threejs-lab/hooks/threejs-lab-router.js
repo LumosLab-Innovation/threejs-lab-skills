@@ -25,6 +25,7 @@ if (!shouldRoute) {
 const context = [
   "Three.js Lab plugin routing:",
   "- For product/curriculum labs use $learning-lab-3d-creator.",
+  "- For KHTN8 biology/human body/ecology labs use $khtn8-biology-lab-creator plus stricter FE benchmarks.",
   "- For model/material/GLB work use $threejs-model-creator.",
   "- For physics, forces, collisions, and numerical simulation use $threejs-physics-simulation.",
   "- Before claiming done, use $threejs-performance-qa for build, browser, canvas, asset, and performance checks.",

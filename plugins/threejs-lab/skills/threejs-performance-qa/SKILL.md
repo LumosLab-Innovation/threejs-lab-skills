@@ -36,6 +36,10 @@ node <plugin-root>/scripts/check-threejs-lab.mjs <changed-scene-file.tsx>
 - Repeated markers/particles: use instancing or pooled objects.
 - Dispose everything on unmount.
 - No mobile panel overlap that hides the main phenomenon.
+- Local loaded code/assets: under 512 KB for dependency-light examples unless the lab has a justified asset.
+- Largest curriculum GLB/model: under 3 MB; review and compress anything above 5 MB.
+- Loaded texture assets: under 4 MB total for a lab page.
+- Dense lab geometry: keep under 60k render triangles unless benchmark evidence justifies more.
 
 ## References
 

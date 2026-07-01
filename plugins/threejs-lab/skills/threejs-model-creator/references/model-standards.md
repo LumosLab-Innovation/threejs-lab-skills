@@ -40,6 +40,15 @@ Keep helper functions small and local: `addBox`, `addCylinder`, `makeLabel`, `di
 - Avoid high-poly GLB for simple lab equipment.
 - Texture sizes should match viewport use; do not ship 4K textures for small props.
 
+## Asset Budgets
+
+- Prefer procedural apparatus for curriculum labs. A beaker, lever, circuit, organ model, field, or particle system should not require a GLB unless shape fidelity teaches the lesson.
+- Keep a single curriculum GLB at or below 3 MB. Treat 5 MB as a hard review point and require a visual reason plus compression plan.
+- Keep total loaded texture assets at or below 4 MB for a lab page. Use 1024 px textures for normal props; 2048 px only for hero inspection assets.
+- Keep repeated meshes instanced or pooled. If a scene needs more than 200 similar markers, use `InstancedMesh` before adding more individual meshes.
+- Keep render triangles below 60k for dense lab pages unless benchmark evidence shows the scene still clears p95 frame and mobile panel budgets.
+- Benchmark loaded local code/assets, largest model MB, texture MB, draw calls, triangles, and texture count before claiming a model-heavy lab is optimized.
+
 ## Visual Polish
 
 - Add bevel illusion with bevelled geometry only where visible; otherwise use material/lighting.

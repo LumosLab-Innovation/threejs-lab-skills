@@ -41,7 +41,7 @@ for (const name of readdirSync(skillsRoot)) {
   const skillPath = join(skillDir, "SKILL.md");
   if (!existsSync(skillPath)) continue;
   const skill = readFileSync(skillPath, "utf8");
-  if (!skill.startsWith("---\n")) fail(`${name}: missing YAML frontmatter`);
+  if (!skill.startsWith("---\n") && !skill.startsWith("---\r\n")) fail(`${name}: missing YAML frontmatter`);
   if (!new RegExp(`name:\\s*${name}\\b`).test(skill)) fail(`${name}: frontmatter name mismatch`);
   if (!/description:\s*\S/.test(skill)) fail(`${name}: missing description`);
   const placeholderPattern = new RegExp("\\[TO" + "DO|TO" + "DO:|Replace" + " with", "i");

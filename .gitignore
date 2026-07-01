@@ -4,3 +4,6 @@ dist/
 build/
 .DS_Store
 *.log
+KHTN 8-KNTT.pdf
+tmp-*.json
+tmp-khtn-pages/
