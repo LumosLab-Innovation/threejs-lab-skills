@@ -11,6 +11,9 @@ Use this for KHTN8 biology labs: human body systems, respiration, circulation, e
 
 Biology scenes fail when they look like generic blobs. Build a recognizable specimen or system:
 
+- Generate or write a multi-view object reference first: front/side/top/cutaway on a plain background, focused on the organ/system morphology, not a decorative scene.
+- Run `$science-model-director` and `$threejs-design-director` before building; do not let detail markers hide bad morphology or illogical annotation copying.
+- Record each prompt/reference/screenshot/fix round in a visual QA ledger; biology demos cannot pass from memory-only visual judgment.
 - Human systems: organ silhouette, tubes/vessels/airways, moving flow markers, measurement readout, and a scale cue.
 - Ecology: producers, consumers, decomposers or stressors, visible population groups, arrows/flows, and stability/risk output.
 - Cells/tissues: repeated small structures must be instanced or pooled; label only the active structures.
@@ -33,6 +36,7 @@ Every biology lab needs:
 Before claiming a biology lab is ready:
 
 - Desktop and mobile screenshots from the benchmark run.
+- A prompt loop ledger linking 2D reference input to 3D screenshot output and the fix set applied.
 - No panel overlap on mobile.
 - No text overflow in titles, buttons, readouts, or metric cards.
 - Touch targets at least 44 px wide and 28 px tall for panel controls.
@@ -52,6 +56,8 @@ Before claiming a biology lab is ready:
 Use the shared QA gates too:
 
 - `$learning-lab-3d-creator`
+- `$science-model-director`
+- `$threejs-design-director`
 - `$threejs-model-creator`
 - `$threejs-physics-simulation`
 - `$threejs-performance-qa`

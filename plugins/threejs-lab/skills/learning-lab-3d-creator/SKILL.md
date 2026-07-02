@@ -15,7 +15,7 @@ Ship a learning lab with scene, controls, state, agent events, and verification.
    - Use existing `three`, `@react-three/fiber`, `@react-three/drei`, `cannon-es`, and Babylon deps before adding anything.
    - Use primitives/parametric geometry for curriculum labs unless GLB adds real understanding.
 3. Write the lab contract before implementation: lesson goal, variables with units, scene objects, interactions, feedback, reset behavior, and QA command.
-4. Run `$visual-lab-qa-agent` start pass before coding demo visuals so there is a reference image or visual target spec to judge against.
+4. Run `$science-model-director`, `$threejs-design-director`, then `$visual-lab-qa-agent` start pass before coding demo visuals. The visual QA start pass must create a prompt loop ledger for serious demos.
 
 ## Lab Structure
 
@@ -40,6 +40,7 @@ Build every lab with:
 - Reset, pause/play for time-based motion, and deterministic initial state.
 - Loading and error states for external assets.
 - Visual labels that do not block the object.
+- Prompt/reference/fix loop evidence for serious visual demos: reference prompt or spec, role-gate verdicts, desktop/mobile screenshots, benchmark path, and final visual verdict.
 - Cleanup for animation frames, event listeners, controls, renderers, materials, geometries, textures, and DOM overlays.
 - Agent payloads that include `simulation_type`, `experiment_type`, `state_snapshot`, `metadata.contract_version`, and `client_ts` when the lab talks to the agent API.
 
@@ -63,4 +64,5 @@ Make the scene feel like a premium learning instrument, not a toy pile:
 - Read `references/lab-contract.md` before adding a new lab.
 - For model-heavy work, also use `$threejs-model-creator`.
 - For physics-heavy work, also use `$threejs-physics-simulation`.
+- For science/visual planning, also use `$science-model-director` and `$threejs-design-director`.
 - Before finishing, use `$threejs-performance-qa`, `$visual-lab-qa-agent` end pass, then `$learning-lab-qa-pm-reviewer`.

@@ -38,6 +38,8 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 | --- | --- | --- |
 | `$threejs-lab` | Any 3D/canvas/Three.js lab prompt | Routes to the specific specialist skill and enforces baseline scene lifecycle. |
 | `$learning-lab-3d-creator` | Full educational experiments, lesson scenes, agent-connected labs | Creates a lab contract, file split, controls, units, result loop, reset, and verification path. |
+| `$science-model-director` | Science logic, causality, variable mapping, simplification risk | Blocks beautiful but scientifically weak scenes before implementation. |
+| `$threejs-design-director` | 3D morphology, composition, reference interpretation, annotation-vs-object calls | Blocks generic shapes, copied sketch artifacts, and illogical 3D object choices. |
 | `$visual-lab-qa-agent` | Fancy/demo visual quality, GPT Image/imagegen references, screenshot comparison | Runs before and after each demo: creates a visual target, compares benchmark screenshots, and loops on `FIX_REQUIRED`. |
 | `$khtn8-biology-lab-creator` | KHTN8 biology, human body, ecology, dense small-detail scenes | Requires recognizable biological systems, detail-marker coverage, mobile FE checks, and stricter model/texture budgets. |
 | `$threejs-model-creator` | Procedural models, GLB/GLTF, materials, apparatus, labels | Keeps models semantic, scaled, articulated, optimized, and disposable. |
@@ -49,18 +51,21 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 
 - Routes 3D prompts to the right specialist skill through a Codex hook.
 - Pushes new labs toward a clear contract: lesson goal, variables, units, controls, measured output, reset, QA command.
-- Adds a visual QA loop: generate or write a reference target before coding, compare desktop/mobile benchmark screenshots after coding, and keep fixing until `PASS` or a concrete blocker.
+- Adds a locked visual QA loop: generate or write a reference target before coding, record prompt/reference/fix rounds, compare desktop/mobile benchmark screenshots after coding, and keep fixing until `PASS` or a concrete blocker.
 - Keeps Three.js scene lifecycle boring and reliable: camera, renderer, loop, resize, asset loading, cleanup.
 - Adds a strict reviewer gate so a lab is not "done" until build, browser, canvas, interaction, mobile, physics, and asset evidence exist.
 
 ## Expected Workflow
 
 1. Ask Codex to use `$learning-lab-3d-creator` for a complete lab or `$threejs-model-creator` for a model-heavy asset.
-2. Run `$visual-lab-qa-agent` start pass before coding the demo. If GPT Image/imagegen is available, it should create a visual reference; otherwise it writes a compact visual target spec.
-3. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
-4. Run `$threejs-performance-qa` after code changes to generate benchmark screenshots and metrics.
-5. Run `$visual-lab-qa-agent` end pass. If it returns `FIX_REQUIRED`, apply the smallest concrete fix set and repeat the end pass.
-6. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
+2. Run `$science-model-director` to map controls -> visible changes -> measured outputs.
+3. Run `$threejs-design-director` to choose real 3D objects, morphology anchors, camera composition, and annotation rules.
+4. Run `$visual-lab-qa-agent` start pass before coding the demo. If GPT Image/imagegen is available, it should create object-focused reference sheets; otherwise it writes a compact visual target spec.
+5. Record the prompt/reference/screenshot/fix loop in demo notes, a PR summary, or an evidence file. Missing loop evidence blocks visual `PASS`.
+6. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
+7. Run `$threejs-performance-qa` after code changes to generate benchmark screenshots and metrics.
+8. Run `$visual-lab-qa-agent` end pass. If it returns `FIX_REQUIRED`, apply the smallest concrete fix set and repeat the end pass.
+9. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
 
 ## Visual QA Loop
 
@@ -69,11 +74,14 @@ This is the guardrail for the exact failure mode where a demo benchmarks well bu
 Required evidence per serious demo:
 
 - A visual target prompt/spec before implementation.
+- A prompt loop ledger with prompt/spec, reference path, science/design gate verdicts, screenshot path, benchmark path, fix set, and final verdict.
 - Desktop and mobile benchmark screenshots after implementation.
 - A `PASS`, `FIX_REQUIRED`, or `BLOCKED` visual QA verdict.
 - For Chemistry: credible apparatus, visible reaction evidence, material separation, scale/measurement cues.
 - For Biology: recognizable organ/specimen/ecosystem structure, dense small details, flow/signal markers, scale cues, and FE detail-marker budget.
 - For every fix loop: concrete scene changes only, such as geometry, material, lighting, camera, label, interaction, or asset-budget action.
+
+For the KHTN demo set, the loop ledger is `examples/khtn8-subject-labs/VISUAL_QA_LOG.md`.
 
 ## Engine Choice
 
@@ -121,44 +129,55 @@ These screenshots are generated by `scripts/benchmark-examples.mjs` from the sam
 | KHTN Biology respiration | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Biology respiration desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Biology respiration mobile benchmark" width="180"> |
 | KHTN Biology ecosystem | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Biology ecosystem desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Biology ecosystem mobile benchmark" width="180"> |
 
+### 2D Reference To 3D Biology Output
+
+The biology demos keep the generated 2D input references next to the benchmark screenshots so reviewers can compare morphology, not just FPS. The full prompt/fix history is in `examples/khtn8-subject-labs/VISUAL_QA_LOG.md`.
+
+| Lab | 2D Reference Input | 3D Desktop Output | 3D Mobile Output |
+| --- | --- | --- | --- |
+| Circulation | <img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Circulation 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Circulation 3D mobile output" width="150"> |
+| Respiration | <img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Respiration 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Respiration 3D mobile output" width="150"> |
+| Ecosystem | <img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Ecosystem 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Ecosystem 3D mobile output" width="150"> |
+
 ### Optimization Benchmark Highlights
 
 Current run: 24/24 desktop/mobile benchmark profiles pass. The point is not just "pretty"; each demo proves render budget, state integrity, reset, responsive layout, local asset size, model size, texture size, and FE fit.
 
-Read the FPS numbers as browser-frame pacing, not maximum GPU throughput. Headless Chrome and `requestAnimationFrame` can sit near the display/runtime cadence, so the stronger optimization signals are p95 frame time, draw calls, triangles, texture count, transfer size, and whether state mutation/reset stays deterministic.
+Read the FPS numbers as browser-frame pacing, not maximum GPU throughput. Headless Chrome and `requestAnimationFrame` can sit near the display/runtime cadence, so the stronger optimization signals are p95 frame time, draw calls, triangles, texture count, transfer size, and whether state mutation/reset stays deterministic. The benchmark takes two warmed frame-pacing runs per viewport, disables headless background throttling, closes pages between profiles, and keeps the steadier run to avoid false failures from transient headless/GC spikes.
 
 | Demo Profile | FPS vs >=55 | P95 Frame vs <=25ms | Draw Calls vs <=180 | Geometry Load | Textures vs <=16 | Transfer vs <=900KB | State |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| Fancy field desktop | 76 FPS (+38%) | 20.8 ms (17% under) | 44 (76% under) | 15,010 tris, 520 points | 4 (75% under) | 389 KB (57% under) | mutate/reset ok |
-| Fancy field mobile | 144 FPS (+162%) | 7.1 ms (72% under) | 33 (82% under) | 14,730 tris, 520 points | 4 (75% under) | 0 KB | mutate/reset ok |
-| Density buoyancy desktop | 67 FPS (+22%) | 21.0 ms (16% under) | 11 (94% under) | 964 tris | 2 (88% under) | 0 KB | mutate/reset ok |
-| Density buoyancy mobile | 141 FPS (+156%) | 7.4 ms (70% under) | 10 (94% under) | 836 tris | 2 (88% under) | 0 KB | mutate/reset ok |
-| Coulomb force desktop | 122 FPS (+122%) | 13.9 ms (44% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
-| Coulomb force mobile | 144 FPS (+162%) | 7.0 ms (72% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
+| Fancy field desktop | 60 FPS (+9%) | 20.9 ms (16% under) | 44 (76% under) | 15,010 tris, 520 points | 4 (75% under) | 389 KB (57% under) | mutate/reset ok |
+| Fancy field mobile | 142 FPS (+158%) | 7.2 ms (71% under) | 33 (82% under) | 14,730 tris, 520 points | 4 (75% under) | 0 KB | mutate/reset ok |
+| Density buoyancy desktop | 58 FPS (+5%) | 20.9 ms (16% under) | 11 (94% under) | 964 tris | 2 (88% under) | 0 KB | mutate/reset ok |
+| Density buoyancy mobile | 144 FPS (+162%) | 7.1 ms (72% under) | 10 (94% under) | 836 tris | 2 (88% under) | 0 KB | mutate/reset ok |
+| Coulomb force desktop | 123 FPS (+124%) | 14.0 ms (44% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
+| Coulomb force mobile | 142 FPS (+158%) | 7.1 ms (72% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
 
-KHTN 8 subject labs are dependency-light: each profile loads `40.1 KB` of local code/assets, `0 MB` model assets, and `0 MB` texture assets because the apparatus is procedural. This is intentional for curriculum labs: use GLB only when shape fidelity teaches the concept.
+KHTN 8 subject labs are dependency-light: each profile loads `65 KB` of local code/assets, `0 MB` model assets, and `0 MB` texture assets because the apparatus is procedural. This is intentional for curriculum labs: use GLB only when shape fidelity teaches the concept.
 
 | KHTN Lab | Desktop/Mobile FPS | P95 Frame | Draw Calls | Geometry | Local Size | Model / Texture |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Reaction Gas | 144 / 144 | 7.1 / 7.0 ms | 25 | 4,792 tris | 40.1 KB | 0 / 0 MB |
-| Acid Base pH | 144 / 144 | 7.1 / 7.0 ms | 14 | 4,008 tris | 40.1 KB | 0 / 0 MB |
-| Catalyst Rate | 144 / 144 | 7.1 / 7.1 ms | 51 | 10,332 tris | 40.1 KB | 0 / 0 MB |
-| Fluid Pressure | 144 / 144 | 7.1 / 7.0 ms | 14 | 2,120 tris | 40.1 KB | 0 / 0 MB |
-| Lever Moment | 144 / 144 | 7.1 / 7.0 ms | 8 | 764 tris | 40.1 KB | 0 / 0 MB |
-| Electric Circuit | 138 / 144 | 7.2 / 7.0 ms | 28 | 8,928 tris | 40.1 KB | 0 / 0 MB |
-| Circulation | 143 / 144 | 7.1 / 7.0 ms | 32 | 10,232 tris, 26 detail markers | 40.1 KB | 0 / 0 MB |
-| Respiration | 125 / 144 | 13.9 / 7.0 ms | 32 | 9,900 tris, 24 detail markers | 40.1 KB | 0 / 0 MB |
-| Ecosystem Balance | 136 / 144 | 13.9 / 7.0 ms | 45 | 2,716 tris, 62 detail markers | 40.1 KB | 0 / 0 MB |
+| Reaction Gas | 82 / 144 | 14.0 / 7.0 ms | 43 | 7,694 tris | 65 KB | 0 / 0 MB |
+| Acid Base pH | 91 / 144 | 14.1 / 7.0 ms | 35 | 4,514 tris | 65 KB | 0 / 0 MB |
+| Catalyst Rate | 90 / 144 | 14.1 / 7.0 ms | 70 | 10,978 tris | 65 KB | 0 / 0 MB |
+| Fluid Pressure | 104 / 144 | 14.0 / 7.0 ms | 14 | 2,120 tris | 65 KB | 0 / 0 MB |
+| Lever Moment | 111 / 144 | 14.0 / 7.0 ms | 8 | 764 tris | 65 KB | 0 / 0 MB |
+| Electric Circuit | 98 / 144 | 14.0 / 7.0 ms | 28 | 8,928 tris | 65 KB | 0 / 0 MB |
+| Circulation | 88 / 144 | 14.0 / 7.0 ms | 78 | 54,862 tris, 62 detail markers | 65 KB | 0 / 0 MB |
+| Respiration | 85 / 144 | 14.0 / 7.0 ms | 146 | 93,772 tris, 136 detail markers | 65 KB | 0 / 0 MB |
+| Ecosystem Balance | 85 / 144 | 14.1 / 7.0 ms | 105 | 87,882 tris, 560 detail markers | 65 KB | 0 / 0 MB |
 
 What is deliberately optimized:
 
 - Formula-based simulations for density and Coulomb force; no physics engine where equations are enough.
 - Procedural Three.js geometry; no GLB/model payload for these curriculum labs.
 - Capped pixel ratio, resize-safe canvas, and no heavy postprocessing in the stress demo.
-- Low texture pressure: 1-4 textures per demo, all under the 16-texture budget.
-- Low draw-call pressure: 8-51 calls, all far under the 180-call budget.
+- Low texture pressure: 1-6 renderer textures per demo, all under the 16-texture budget.
+- Low draw-call pressure: 8-146 calls, all under the 180-call budget.
 - Asset-size pressure is measured: local loaded code/assets <=512 KB, largest model <=3 MB, loaded textures <=4 MB.
 - Biology FE is stricter: no text overflow, no small touch targets, and `detailMarkers >= 20` for dense biology scenes.
+- Dense biology exceptions are explicit: respiration and ecosystem exceed the 60k default triangle guideline for morphology detail, but pass p95 frame, draw-call, texture, mobile, and asset-size budgets.
 - State benchmark hooks: each demo exposes mutate/reset checks so controls must change measured output and reset must restore initial state.
 - Desktop/mobile screenshots and panel-bounds checks come from the same benchmark run as the numbers.
 

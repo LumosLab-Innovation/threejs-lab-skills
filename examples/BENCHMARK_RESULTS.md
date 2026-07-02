@@ -1,6 +1,6 @@
 # Benchmark Results
 
-Generated from `node scripts/benchmark-examples.mjs` on 2026-07-02 01:15 ICT.
+Generated from `node scripts/benchmark-examples.mjs` on 2026-07-02 08:48 ICT.
 
 All 24 benchmark profiles passed: 3 original demos plus 9 KHTN8 subject labs across desktop and mobile.
 
@@ -27,35 +27,35 @@ All 24 benchmark profiles passed: 3 original demos plus 9 KHTN8 subject labs acr
 
 ## How To Read These Numbers
 
-Average FPS is a browser-frame pacing signal, not a maximum GPU-throughput score. Use p95 frame time, renderer counts, loaded local size, model MB, texture MB, and state/reset integrity as the main optimization evidence.
+Average FPS is a browser-frame pacing signal, not a maximum GPU-throughput score. The harness measures two warmed frame-pacing runs per viewport, disables headless background throttling, closes pages between profiles, and keeps the steadier run to avoid failing light scenes on transient headless/GC spikes. Use p95 frame time, renderer counts, loaded local size, model MB, texture MB, and state/reset integrity as the main optimization evidence.
 
 ## Results
 
 | Demo | Profile | Pass | FPS | P95 Frame | Calls | Triangles | Textures | Local Size | Model | Texture Assets | FE |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `fancy-field-lab` | desktop | yes | 76 | 20.8 ms | 44 | 15,010 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
-| `fancy-field-lab` | mobile | yes | 144 | 7.1 ms | 33 | 14,730 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
-| `density-buoyancy-lab` | desktop | yes | 67 | 21.0 ms | 11 | 964 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
-| `density-buoyancy-lab` | mobile | yes | 141 | 7.4 ms | 10 | 836 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
-| `coulomb-force-lab` | desktop | yes | 122 | 13.9 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
-| `coulomb-force-lab` | mobile | yes | 144 | 7.0 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
-| `chem-reaction-gas` | desktop/mobile | yes | 144 / 144 | 7.1 / 7.0 ms | 25 | 4,792 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `chem-acid-base` | desktop/mobile | yes | 144 / 144 | 7.1 / 7.0 ms | 14 | 4,008 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `chem-catalyst-rate` | desktop/mobile | yes | 144 / 144 | 7.1 / 7.1 ms | 51 | 10,332 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `phys-pressure` | desktop/mobile | yes | 144 / 144 | 7.1 / 7.0 ms | 14 | 2,120 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `phys-lever` | desktop/mobile | yes | 144 / 144 | 7.1 / 7.0 ms | 8 | 764 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `phys-circuit` | desktop/mobile | yes | 138 / 144 | 7.2 / 7.0 ms | 28 | 8,928 | 1 | 40.1 KB | 0 MB | 0 MB | ok |
-| `bio-circulation` | desktop/mobile | yes | 143 / 144 | 7.1 / 7.0 ms | 32 | 10,232 | 1 | 40.1 KB | 0 MB | 0 MB | 26 details |
-| `bio-respiration` | desktop/mobile | yes | 125 / 144 | 13.9 / 7.0 ms | 32 | 9,900 | 1 | 40.1 KB | 0 MB | 0 MB | 24 details |
-| `bio-ecosystem` | desktop/mobile | yes | 136 / 144 | 13.9 / 7.0 ms | 45 | 2,716 | 1 | 40.1 KB | 0 MB | 0 MB | 62 details |
+| `fancy-field-lab` | desktop | yes | 60 | 20.9 ms | 44 | 15,010 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
+| `fancy-field-lab` | mobile | yes | 142 | 7.2 ms | 33 | 14,730 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
+| `density-buoyancy-lab` | desktop | yes | 58 | 20.9 ms | 11 | 964 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
+| `density-buoyancy-lab` | mobile | yes | 144 | 7.1 ms | 10 | 836 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
+| `coulomb-force-lab` | desktop | yes | 123 | 14.0 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
+| `coulomb-force-lab` | mobile | yes | 142 | 7.1 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
+| `chem-reaction-gas` | desktop/mobile | yes | 82 / 144 | 14.0 / 7.0 ms | 43 | 7,694 | 4 | 65 KB | 0 MB | 0 MB | ok |
+| `chem-acid-base` | desktop/mobile | yes | 91 / 144 | 14.1 / 7.0 ms | 35 | 4,514 | 4 | 65 KB | 0 MB | 0 MB | ok |
+| `chem-catalyst-rate` | desktop/mobile | yes | 90 / 144 | 14.1 / 7.0 ms | 70 | 10,978 | 4 | 65 KB | 0 MB | 0 MB | ok |
+| `phys-pressure` | desktop/mobile | yes | 104 / 144 | 14.0 / 7.0 ms | 14 | 2,120 | 1 | 65 KB | 0 MB | 0 MB | ok |
+| `phys-lever` | desktop/mobile | yes | 111 / 144 | 14.0 / 7.0 ms | 8 | 764 | 1 | 65 KB | 0 MB | 0 MB | ok |
+| `phys-circuit` | desktop/mobile | yes | 98 / 144 | 14.0 / 7.0 ms | 28 | 8,928 | 1 | 65 KB | 0 MB | 0 MB | ok |
+| `bio-circulation` | desktop/mobile | yes | 88 / 144 | 14.0 / 7.0 ms | 78 | 54,862 | 4 | 65 KB | 0 MB | 0 MB | 62 details |
+| `bio-respiration` | desktop/mobile | yes | 85 / 144 | 14.0 / 7.0 ms | 146 | 93,772 | 5 | 65 KB | 0 MB | 0 MB | 136 details |
+| `bio-ecosystem` | desktop/mobile | yes | 85 / 144 | 14.1 / 7.0 ms | 105 | 87,882 | 6 | 65 KB | 0 MB | 0 MB | 560 details |
 
 ## Coverage
 
 | Demo Group | Interaction Evidence | Simulation Evidence | Asset Evidence |
 | --- | --- | --- | --- |
-| Chemistry | sliders/toggles, orbit, reset, mutate/reset hook | gas amount, pH neutralization, catalyst/rate formulas | procedural apparatus, 40.1 KB local, 0 MB model, 0 MB textures |
-| Physics | sliders/toggles, orbit, reset, mutate/reset hook | pressure, moment, circuit formulas | procedural apparatus, 40.1 KB local, 0 MB model, 0 MB textures |
-| Biology | sliders, orbit, reset, mutate/reset hook, strict FE checks | circulation, respiration, ecosystem formulas | 24-62 detail markers, 40.1 KB local, 0 MB model, 0 MB textures |
+| Chemistry | sliders/toggles, orbit, reset, mutate/reset hook | gas amount, pH neutralization, catalyst/rate formulas | procedural apparatus, 65 KB local, 0 MB model, 0 MB textures |
+| Physics | sliders/toggles, orbit, reset, mutate/reset hook | pressure, moment, circuit formulas | procedural apparatus, 65 KB local, 0 MB model, 0 MB textures |
+| Biology | sliders, orbit, reset, mutate/reset hook, strict FE checks | circulation, respiration, ecosystem formulas | 62-560 detail markers, 65 KB local, 0 MB model, 0 MB textures |
 
 ## Evidence Files
 

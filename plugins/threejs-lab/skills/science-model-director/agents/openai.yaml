@@ -1,0 +1,4 @@
+interface:
+  display_name: "Science Model Director"
+  short_description: "Science logic gate for 3D lab models"
+  default_prompt: "Use $science-model-director to check the science model, causality, and visual necessity for this lab."

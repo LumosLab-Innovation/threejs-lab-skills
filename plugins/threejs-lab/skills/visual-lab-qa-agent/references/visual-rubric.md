@@ -15,11 +15,23 @@ Use this rubric after the benchmark screenshot pass. Score each item 1-5. Pass r
 
 ## Image Reference Prompt Shape
 
-Use one prompt per lab before implementation:
+Use object-focused prompts before implementation. Keep the image about the 3D model to build, not a mood background:
 
 ```text
-Create a high-fidelity 3D educational lab concept image for [subject/topic], designed as an interactive Three.js learning instrument for grade 8. Show [primary phenomenon] clearly in the center, with realistic [apparatus/specimen/system parts], visible labels and measurement readouts, compact side controls, clean lighting, material contrast, and enough detail to guide a real implementation. Avoid toy-like primitives, flat diagrams, generic sci-fi styling, and cluttered text.
+Create an object-focused 3D model reference sheet for [subject/topic], designed for a grade 8 Three.js educational lab. Show the [apparatus/specimen/system] on a plain neutral background with front, side, top, and optional exploded/cutaway views. Emphasize the exact morphology and parts to model: [required parts]. Include only small labels attached to parts. Avoid room backgrounds, lab benches, decorative scenery, toy primitives, flat diagrams, generic sci-fi styling, and cluttered text.
 ```
+
+Use a single scene concept only after the object shape is clear, and only to validate camera framing and UI composition.
+
+## Morphology Anchor Check
+
+Before accepting screenshots, list 4-8 required anchors from the reference. Each anchor must be visible or intentionally exposed through a cutaway/inset. If an anchor is represented only by a generic primitive, return `FIX_REQUIRED`.
+
+Examples:
+
+- Heart: four chamber cues, valve flaps, aorta arch, vena cava, pulmonary vessels, branching capillary bed.
+- Lung: trachea rings, branching bronchi/bronchioles, lung lobes, diaphragm dome, alveoli inset, capillary wrap.
+- Ecosystem: transparent terrarium boundary, visible soil layers, root network, producer leaves, herbivore insects, predator forms, decomposer fungi, pond/algae, food-web arrows.
 
 ## Chemistry Additions
 
@@ -37,12 +49,13 @@ Common fixes: add meniscus/rim geometry, particle bubbles, indicator gradient, s
 
 Require dense, recognizable small details:
 
+- Biology reference images must define morphology anchors before scene work: silhouette, branching topology, layered anatomy, repeated microstructures, and scale cues.
 - Human body systems need organ silhouette, branching vessels/airways/tubes, flow markers, pulse/breathing animation, and scale cue.
 - Ecology scenes need producer/consumer/decomposer or stressor groups, population clusters, arrows/flows, and stability/risk readout.
 - Cells/tissues need repeated structures through instancing or pooled geometry, with active-detail labels only.
 - Dense biology demos should expose `benchmark.scene.detailMarkers` and meet the project threshold.
 
-Common fixes: add branching curves, instanced cells/alveoli/capillaries, directional flow particles, organ surface variation, layer labels, and reduce generic spheres/cylinders that do not map to a biological part.
+Common fixes: reshape blobs into lobe/chamber/sac silhouettes, add branching curves, instanced cells/alveoli/capillaries, directional flow particles, organ surface variation, layer labels, and reduce generic spheres/cylinders that do not map to a biological part.
 
 ## Stop Conditions
 

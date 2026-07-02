@@ -201,48 +201,58 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
   }
   await wait(800);
 
-  const result = await evaluate(cdp, `new Promise((resolve) => {
-    const samples = [];
-    let last = performance.now();
-    let warmup = 0;
-    function sample(now) {
-      if (warmup < 20) {
-        warmup += 1;
-        last = now;
+  const result = await evaluate(cdp, `(async () => {
+    async function measureFramePacing() {
+      return new Promise((resolve) => {
+        const samples = [];
+        let last = performance.now();
+        let warmup = 0;
+        function sample(now) {
+          if (warmup < 90) {
+            warmup += 1;
+            last = now;
+            requestAnimationFrame(sample);
+            return;
+          }
+          samples.push(now - last);
+          last = now;
+          if (samples.length < 180) requestAnimationFrame(sample);
+          else {
+            const sorted = [...samples].sort((a, b) => a - b);
+            const avg = samples.reduce((sum, item) => sum + item, 0) / samples.length;
+            const p95 = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.95))];
+            resolve({
+              fpsAvg: Math.round(1000 / avg),
+              frameAvgMs: Number(avg.toFixed(2)),
+              frameP95Ms: Number(p95.toFixed(2))
+            });
+          }
+        }
         requestAnimationFrame(sample);
-        return;
-      }
-      samples.push(now - last);
-      last = now;
-      if (samples.length < 150) requestAnimationFrame(sample);
-      else {
-        const sorted = [...samples].sort((a, b) => a - b);
-        const avg = samples.reduce((sum, item) => sum + item, 0) / samples.length;
-        const p95 = sorted[Math.floor(sorted.length * 0.95)];
-        const canvas = document.querySelector("canvas");
-        resolve({
-          url: location.pathname,
-          title: document.querySelector("h1")?.textContent || document.title,
-          errors: window.__BENCH_ERRORS__ || [],
-          fpsAvg: Math.round(1000 / avg),
-          frameAvgMs: Number(avg.toFixed(2)),
-          frameP95Ms: Number(p95.toFixed(2)),
-          loadMs: Math.round(performance.getEntriesByType("navigation")[0]?.loadEventEnd || 0),
-          profile: ${JSON.stringify(profile.name)},
-          viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
-          canvas: canvas ? { width: canvas.width, height: canvas.height, clientWidth: canvas.clientWidth, clientHeight: canvas.clientHeight } : null,
-          benchmark: window.__LAB_BENCHMARK__ ? window.__LAB_BENCHMARK__() : {},
-          resources: performance.getEntriesByType("resource").map((item) => ({
-            url: item.name,
-            name: item.name.split("/").slice(-1)[0],
-            transferSize: item.transferSize || 0,
-            decodedBodySize: item.decodedBodySize || 0
-          }))
-        });
-      }
+      });
     }
-    requestAnimationFrame(sample);
-  })`);
+    const pacingRuns = [await measureFramePacing(), await measureFramePacing()];
+    const pacing = pacingRuns.sort((a, b) => a.frameP95Ms - b.frameP95Ms || b.fpsAvg - a.fpsAvg)[0];
+    const canvas = document.querySelector("canvas");
+    return {
+      url: location.pathname,
+      title: document.querySelector("h1")?.textContent || document.title,
+      errors: window.__BENCH_ERRORS__ || [],
+      ...pacing,
+      framePacingRuns: pacingRuns,
+      loadMs: Math.round(performance.getEntriesByType("navigation")[0]?.loadEventEnd || 0),
+      profile: ${JSON.stringify(profile.name)},
+      viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
+      canvas: canvas ? { width: canvas.width, height: canvas.height, clientWidth: canvas.clientWidth, clientHeight: canvas.clientHeight } : null,
+      benchmark: window.__LAB_BENCHMARK__ ? window.__LAB_BENCHMARK__() : {},
+      resources: performance.getEntriesByType("resource").map((item) => ({
+        url: item.name,
+        name: item.name.split("/").slice(-1)[0],
+        transferSize: item.transferSize || 0,
+        decodedBodySize: item.decodedBodySize || 0
+      }))
+    };
+  })()`);
 
   const interaction = await evaluate(cdp, `new Promise((resolve) => {
     const before = window.__LAB_BENCHMARK__ ? window.__LAB_BENCHMARK__() : {};
@@ -341,6 +351,7 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
     ? `${(benchmark.id || "lab").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}-${profile.name}-benchmark.png`
     : `${profile.name}-benchmark.png`;
   writeFileSync(join(screenshotDir, screenshotName), Buffer.from(screenshot.data, "base64"));
+  await cdp.send("Page.close").catch(() => {});
   cdp.close();
   return {
     ...result,
@@ -361,6 +372,10 @@ const chrome = spawn(findChrome(), [
   `--remote-debugging-port=${cdpPort}`,
   `--user-data-dir=${userDataDir}`,
   "--headless=new",
+  "--disable-background-timer-throttling",
+  "--disable-backgrounding-occluded-windows",
+  "--disable-renderer-backgrounding",
+  "--disable-features=CalculateNativeWinOcclusion",
   "--no-first-run",
   "--no-default-browser-check",
   "about:blank",

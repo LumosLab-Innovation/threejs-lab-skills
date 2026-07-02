@@ -289,10 +289,10 @@
     renderer.toneMappingExposure = 1.08;
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.target.set(0, 0.55, 0);
     controls.minDistance = 5.4;
     controls.maxDistance = 15;
     controls.maxPolarAngle = Math.PI * 0.48;
+    frameViewport();
 
     scene.add(new THREE.HemisphereLight(0xd8f4ff, 0x111820, 1.55));
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
@@ -336,10 +336,18 @@
     }
 
     function resize() {
+      frameViewport();
       camera.aspect = innerWidth / innerHeight;
       camera.updateProjectionMatrix();
       renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
       renderer.setSize(innerWidth, innerHeight);
+    }
+
+    function frameViewport() {
+      const mobile = innerWidth <= 720;
+      camera.fov = mobile ? 38 : 43;
+      controls.target.set(0, mobile ? -0.95 : 0.55, 0);
+      camera.updateProjectionMatrix();
     }
 
     function frame() {
@@ -437,6 +445,14 @@
       return mesh(new THREE.CylinderGeometry(radius, radius, height, segments), mat(color, options), name, position);
     }
 
+    function cone(name, radius, height, position, color, options, segments = 24) {
+      return mesh(new THREE.ConeGeometry(radius, height, segments), mat(color, options), name, position);
+    }
+
+    function torus(name, radius, tubeRadius, position, color, options, segments = 36) {
+      return mesh(new THREE.TorusGeometry(radius, tubeRadius, segments, segments), mat(color, options), name, position);
+    }
+
     function sphere(name, radius, position, color, options, segments = 32) {
       return mesh(new THREE.SphereGeometry(radius, segments, Math.max(12, segments / 2)), mat(color, options), name, position);
     }
@@ -444,6 +460,61 @@
     function tube(name, points, radius, color, options = {}) {
       const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
       return mesh(new THREE.TubeGeometry(curve, 72, radius, 8, false), mat(color, options), name);
+    }
+
+    function label(text, position, color = "#eaf7ff") {
+      const canvas = document.createElement("canvas");
+      canvas.width = 256;
+      canvas.height = 80;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "rgba(5,10,14,.72)";
+      ctx.fillRect(0, 0, 256, 80);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(2, 2, 252, 76);
+      ctx.fillStyle = color;
+      ctx.font = "700 24px Inter, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 128, 42);
+      const texture = new THREE.CanvasTexture(canvas);
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true }));
+      sprite.name = `${text} label`;
+      sprite.position.set(...position);
+      sprite.scale.set(1.25, 0.4, 1);
+      scene.add(sprite);
+      return sprite;
+    }
+
+    function ticks(name, count, start, step, color = 0xe8f8ff) {
+      return Array.from({ length: count }, (_, i) => box(name, [0.04, 0.16, 0.025], [start[0] + step[0] * i, start[1] + step[1] * i, start[2] + step[2] * i], color, { metalness: 0.15 }));
+    }
+
+    function flowArrow(name, points, color) {
+      const body = tube(`${name} flow`, points, 0.025, color, { emissive: color, emissiveIntensity: 0.45 });
+      const tip = cone(`${name} arrow`, 0.11, 0.28, points.at(-1), color, { emissive: color, emissiveIntensity: 0.55 }, 18);
+      tip.rotation.z = -Math.PI / 2;
+      return { body, tip };
+    }
+
+    function leaf(name, position, color = 0x72df88) {
+      const item = sphere(name, 0.12, position, color, { emissive: 0x123b18, emissiveIntensity: 0.16 }, 16);
+      item.scale.set(0.55, 0.15, 1.0);
+      return item;
+    }
+
+    function instanced(name, geometry, material, specs, apply) {
+      const group = new THREE.InstancedMesh(geometry, material, specs.length);
+      group.name = name;
+      const dummy = new THREE.Object3D();
+      specs.forEach((spec, i) => {
+        apply(dummy, spec, i);
+        dummy.updateMatrix();
+        group.setMatrixAt(i, dummy.matrix);
+      });
+      group.instanceMatrix.needsUpdate = true;
+      scene.add(group);
+      return { group, dummy, specs, apply };
     }
 
     function liquidColor(pH) {
@@ -468,18 +539,29 @@
     function buildReactionGas() {
       const flask = cyl("glass reaction flask", 0.78, 1.5, [-1.45, -0.45, 0], 0x9edcff, { transparent: true, opacity: 0.22, metalness: 0, roughness: 0.05 }, 48);
       const liquid = cyl("acid liquid", 0.7, 0.72, [-1.45, -0.84, 0], 0x72c6ff, { transparent: true, opacity: 0.58, emissive: 0x123344, emissiveIntensity: 0.18 }, 48);
+      const meniscus = cyl("acid meniscus", 0.72, 0.018, [-1.45, -0.46, 0], 0xb8f0ff, { transparent: true, opacity: 0.72, emissive: 0x15445a, emissiveIntensity: 0.18 }, 48);
+      const base = cyl("flask foot", 0.9, 0.06, [-1.45, -1.25, 0], 0xc7edff, { transparent: true, opacity: 0.28 }, 48);
       const neck = cyl("flask neck", 0.22, 1.0, [-1.45, 0.62, 0], 0x9edcff, { transparent: true, opacity: 0.2 }, 32);
       const hose = tube("gas hose", [[-1.25, 1.05, 0], [-0.2, 1.3, 0.15], [0.8, 1.05, 0]], 0.045, 0x2c3f4f, { metalness: 0.05 });
       const syringe = cyl("gas syringe barrel", 0.3, 2.6, [1.85, 0.42, 0], 0xb8e6ff, { transparent: true, opacity: 0.24 }, 32);
       syringe.rotation.z = Math.PI / 2;
       const piston = box("gas syringe piston", [0.16, 0.7, 0.7], [1.1, 0.42, 0], 0xe8f8ff, { metalness: 0.2 });
-      const metal = box("metal ribbon", [0.75, 0.04, 0.16], [-1.45, -0.33, 0], 0xd7dde4, { metalness: 0.65, roughness: 0.22 });
+      const clampRod = cyl("retort stand rod", 0.035, 2.55, [-2.58, -0.08, -0.35], 0x9aa4b1, { metalness: 0.62 }, 16);
+      const clampArm = box("flask clamp", [1.05, 0.05, 0.08], [-2.05, 0.5, -0.35], 0xb9c3cd, { metalness: 0.55 });
+      const scaleMarks = ticks("syringe scale tick", 9, [0.95, 0.72, 0.32], [0.23, 0, 0], 0xe8f8ff);
+      const gasTrail = flowArrow("hydrogen", [[-0.95, 0.95, 0.02], [-0.35, 1.16, 0.18], [0.42, 1.05, 0.05]], 0xd8f7ff);
+      const metal = tube("curled metal ribbon", [[-1.78, -0.34, 0.02], [-1.58, -0.3, 0.13], [-1.34, -0.36, 0.04], [-1.14, -0.31, 0.12]], 0.025, 0xd7dde4, { metalness: 0.7, roughness: 0.2 });
+      label("H2 gas", [0.4, 1.48, 0.2], "#d8f7ff");
+      label("acid + Mg", [-1.65, 0.12, 0.62], "#8de0ff");
+      label("mL scale", [1.9, 1.0, 0.4], "#eaf7ff");
       const bubbles = makeBubbleCloud(28, 0xd8f7ff);
       return {
         sync(s, out) {
           liquid.scale.y = 0.78 + s.acidM * 0.08;
+          meniscus.position.y = -0.48 + s.acidM * 0.05;
           metal.scale.x = 0.65 + s.metalG;
           piston.position.x = 1.0 + clamp(out.gasMl / 720, 0, 1.8);
+          gasTrail.tip.position.x = 0.42 + clamp(out.gasMl / 900, 0, 0.7);
           bubbles.forEach((b, i) => {
             b.visible = i < clamp(Math.round(out.rate * 10), 3, bubbles.length);
             b.scale.setScalar(0.8 + out.rate * 0.08);
@@ -499,17 +581,32 @@
     function buildAcidBase() {
       const beaker = cyl("indicator beaker glass", 0.9, 1.45, [-1, -0.48, 0], 0xc7edff, { transparent: true, opacity: 0.22 }, 48);
       const liquid = cyl("indicator solution", 0.82, 0.92, [-1, -0.72, 0], 0x60d394, { transparent: true, opacity: 0.68, emissiveIntensity: 0.2 }, 48);
+      const meniscus = cyl("indicator meniscus", 0.84, 0.018, [-1, -0.25, 0], 0xd6fff0, { transparent: true, opacity: 0.7, emissive: 0x0b3b22, emissiveIntensity: 0.15 }, 48);
       const acidDropper = tube("acid dropper", [[-2.65, 1.1, 0], [-2.2, 0.75, 0], [-1.8, 0.34, 0]], 0.04, 0xff6b80, { emissive: 0x3a0710, emissiveIntensity: 0.16 });
       const baseDropper = tube("base dropper", [[0.6, 1.1, 0], [0.2, 0.75, 0], [-0.2, 0.34, 0]], 0.04, 0x68a8ff, { emissive: 0x071b3a, emissiveIntensity: 0.16 });
+      const stand = cyl("burette stand", 0.035, 2.55, [-2.95, -0.02, -0.25], 0x9aa4b1, { metalness: 0.6 }, 16);
+      const clamp = box("dropper clamp", [3.45, 0.05, 0.08], [-1.3, 0.95, -0.25], 0xb9c3cd, { metalness: 0.55 });
+      const probe = cyl("pH probe", 0.055, 1.65, [0.25, 0.0, 0.28], 0xeaf6ff, { metalness: 0.25 }, 16);
+      probe.rotation.z = 0.42;
       const strip = box("pH scale strip", [0.18, 2.7, 0.08], [1.65, -0.18, 0], 0xf2f2f2);
       strip.rotation.z = Math.PI / 2;
       const marker = box("pH marker", [0.08, 0.34, 0.16], [1.65, 0.13, 0.08], 0xffffff, { emissive: 0xffffff, emissiveIntensity: 0.2 });
+      const phTiles = Array.from({ length: 14 }, (_, i) => {
+        const tile = box("pH color tile", [0.16, 0.16, 0.04], [0.42 + i * 0.19, -0.18, 0.1], liquidColor(i + 1), { emissive: liquidColor(i + 1), emissiveIntensity: 0.08 });
+        tile.rotation.z = Math.PI / 2;
+        return tile;
+      });
+      label("indicator color", [-1.2, 0.26, 0.72], "#d6fff0");
+      label("pH probe", [0.42, 0.88, 0.52], "#eaf7ff");
+      label("0-14 scale", [1.72, 0.34, 0.32], "#ffc7e3");
       const drops = makeBubbleCloud(16, 0xffffff);
       return {
         sync(s, out) {
           const color = liquidColor(out.pH);
           liquid.material.color.setHex(color);
           liquid.material.emissive.setHex(color);
+          meniscus.material.color.setHex(color);
+          meniscus.material.emissive.setHex(color);
           marker.position.x = 0.35 + (out.pH / 14) * 2.6;
           marker.material.color.setHex(color);
           drops.forEach((d, i) => {
@@ -530,18 +627,34 @@
     }
 
     function buildCatalystRate() {
+      const hotplate = box("hot plate", [1.65, 0.16, 1.2], [-1.1, -1.18, 0], 0x26313a, { metalness: 0.28 });
+      const heatRing = cyl("heater ring", 0.68, 0.035, [-1.1, -1.06, 0], 0xff6f3d, { emissive: 0xff4f1a, emissiveIntensity: 0.55 }, 48);
       const reactor = cyl("reaction vessel glass", 0.82, 1.55, [-1.1, -0.45, 0], 0xc7edff, { transparent: true, opacity: 0.22 }, 48);
       const liquid = cyl("reactant mixture", 0.74, 0.95, [-1.1, -0.72, 0], 0xffc45d, { transparent: true, opacity: 0.56, emissive: 0x3b1d05, emissiveIntensity: 0.18 }, 48);
+      const meniscus = cyl("reactant meniscus", 0.76, 0.018, [-1.1, -0.23, 0], 0xffe0a4, { transparent: true, opacity: 0.72, emissive: 0x3b1d05, emissiveIntensity: 0.16 }, 48);
       const thermometer = cyl("thermometer", 0.045, 1.9, [-0.25, 0.05, 0], 0xeaf6ff, { metalness: 0.02 }, 16);
       thermometer.rotation.z = -0.2;
+      const redColumn = cyl("thermometer liquid", 0.023, 1.25, [-0.23, -0.18, 0.03], 0xff5a47, { emissive: 0xff3b28, emissiveIntensity: 0.38 }, 12);
+      redColumn.rotation.z = -0.2;
+      const stirringRod = cyl("stirring rod", 0.035, 1.5, [-0.56, -0.18, 0.16], 0xd8f6ff, { transparent: true, opacity: 0.55 }, 16);
+      stirringRod.rotation.z = -0.38;
       const catalystTray = box("catalyst tray", [1.0, 0.12, 0.55], [1.4, -0.77, 0], 0x303841, { metalness: 0.32 });
       const pellets = Array.from({ length: 11 }, (_, i) => sphere("catalyst pellet", 0.09, [1.05 + (i % 4) * 0.22, -0.62 + Math.floor(i / 4) * 0.08, (i % 3 - 1) * 0.13], 0x59616c, { metalness: 0.5 }, 16));
+      const surfaceBits = Array.from({ length: 18 }, (_, i) => box("reactant surface chip", [0.08, 0.045, 0.1], [-1.45 + (i % 6) * 0.12, -0.18, -0.18 + Math.floor(i / 6) * 0.17], 0xffe0a4, { emissive: 0x513000, emissiveIntensity: 0.16 }));
+      label("heat + catalyst", [-1.35, 0.62, 0.72], "#ffe0a4");
+      label("collision zone", [-0.18, 0.75, 0.38], "#fff0bd");
+      label("pellet tray", [1.45, -0.18, 0.55], "#d9e0e8");
       const plume = makeBubbleCloud(34, 0xfff0bd);
       return {
         sync(s, out) {
           liquid.material.opacity = 0.42 + clamp(out.rate / 10, 0, 0.35);
-          thermometer.scale.y = 0.72 + (s.tempC - 15) / 60;
+          heatRing.material.emissiveIntensity = 0.25 + (s.tempC - 15) / 48;
+          redColumn.scale.y = 0.55 + (s.tempC - 15) / 45;
           pellets.forEach((p) => p.visible = Boolean(s.catalyst));
+          surfaceBits.forEach((p, i) => {
+            p.visible = i < clamp(Math.round(s.surface * 8), 5, surfaceBits.length);
+            p.rotation.y = i + out.rate * 0.04;
+          });
           plume.forEach((b, i) => {
             b.visible = i < clamp(out.collisionIndex / 2, 4, plume.length);
             b.scale.setScalar(0.7 + s.surface * 0.18);
@@ -648,12 +761,44 @@
     }
 
     function buildCirculation() {
-      const heartLeft = sphere("heart left chamber", 0.55, [-0.25, -0.2, 0], 0xff4f6b, { emissive: 0x4d0710, emissiveIntensity: 0.25 }, 32);
-      heartLeft.scale.set(0.8, 1.15, 0.75);
-      const heartRight = sphere("heart right chamber", 0.48, [0.32, -0.24, 0], 0xd9435e, { emissive: 0x4d0710, emissiveIntensity: 0.2 }, 32);
-      heartRight.scale.set(0.74, 1.05, 0.72);
-      const artery = tube("artery loop", [[0.15, 0.38, 0], [1.2, 1.2, 0.15], [2.1, 0.25, 0.05], [1.15, -0.75, -0.05], [0.1, -0.42, 0]], 0.09, 0xff586b, { emissive: 0x4d0710, emissiveIntensity: 0.18 });
-      const vein = tube("vein loop", [[-0.2, -0.38, 0], [-1.25, -0.9, 0.1], [-2.2, 0.15, 0.03], [-1.1, 1.08, -0.05], [-0.05, 0.34, 0]], 0.09, 0x6387ff, { emissive: 0x06194d, emissiveIntensity: 0.16 });
+      const leftAtrium = sphere("left atrium chamber", 0.34, [-0.34, 0.18, 0.06], 0xff8090, { emissive: 0x4d0710, emissiveIntensity: 0.18 }, 32);
+      leftAtrium.scale.set(0.72, 0.8, 0.58);
+      const rightAtrium = sphere("right atrium chamber", 0.32, [0.38, 0.16, 0.06], 0xcf3e58, { emissive: 0x4d0710, emissiveIntensity: 0.16 }, 32);
+      rightAtrium.scale.set(0.68, 0.78, 0.56);
+      const heartLeft = sphere("left ventricle chamber", 0.58, [-0.3, -0.42, 0], 0xff4f6b, { emissive: 0x4d0710, emissiveIntensity: 0.25 }, 40);
+      heartLeft.scale.set(0.78, 1.05, 0.68);
+      const heartRight = sphere("right ventricle chamber", 0.5, [0.34, -0.42, 0], 0xd9435e, { emissive: 0x4d0710, emissiveIntensity: 0.2 }, 40);
+      heartRight.scale.set(0.72, 0.98, 0.64);
+      const apex = cone("heart apex", 0.42, 0.68, [0.03, -1.08, 0], 0xd9435e, { emissive: 0x4d0710, emissiveIntensity: 0.2 }, 32);
+      apex.rotation.z = Math.PI;
+      const septum = box("heart septum", [0.08, 1.22, 0.08], [0.04, -0.32, 0.43], 0xffb3c0, { emissive: 0x3a0710, emissiveIntensity: 0.12 });
+      const aorta = tube("aorta arch", [[-0.18, 0.45, 0.08], [-0.25, 1.05, 0.1], [0.32, 1.36, 0.04], [0.92, 1.06, -0.02], [1.08, 0.58, 0]], 0.1, 0xff586b, { emissive: 0x4d0710, emissiveIntensity: 0.24 });
+      const aortaBranches = [
+        tube("aorta branch", [[0.2, 1.28, 0.04], [0.08, 1.62, 0.08]], 0.035, 0xff7588, { emissive: 0x4d0710, emissiveIntensity: 0.22 }),
+        tube("aorta branch", [[0.48, 1.24, 0.03], [0.55, 1.6, 0.05]], 0.035, 0xff7588, { emissive: 0x4d0710, emissiveIntensity: 0.22 }),
+        tube("aorta branch", [[0.72, 1.12, 0.02], [0.95, 1.4, 0.02]], 0.035, 0xff7588, { emissive: 0x4d0710, emissiveIntensity: 0.22 }),
+      ];
+      const venaCava = tube("vena cava", [[0.54, 1.05, -0.06], [0.48, 0.45, -0.02], [0.38, -0.08, 0.02], [0.36, -0.78, 0.02]], 0.09, 0x6387ff, { emissive: 0x06194d, emissiveIntensity: 0.2 });
+      const pulmonary = tube("pulmonary artery", [[0.34, 0.38, 0.08], [1.1, 0.78, 0.15], [1.7, 0.42, 0.08]], 0.085, 0x6387ff, { emissive: 0x06194d, emissiveIntensity: 0.18 });
+      const pulmonaryVeins = [
+        tube("pulmonary vein", [[-0.44, 0.2, 0.12], [-1.02, 0.48, 0.16], [-1.46, 0.28, 0.12]], 0.06, 0xff7588, { emissive: 0x4d0710, emissiveIntensity: 0.18 }),
+        tube("pulmonary vein", [[-0.42, -0.03, 0.12], [-1.02, -0.28, 0.14], [-1.48, -0.16, 0.1]], 0.05, 0xff7588, { emissive: 0x4d0710, emissiveIntensity: 0.18 }),
+      ];
+      const artery = tube("systemic artery loop", [[0.15, 0.38, 0], [1.2, 1.2, 0.15], [2.1, 0.25, 0.05], [1.15, -0.75, -0.05], [0.1, -0.42, 0]], 0.06, 0xff586b, { emissive: 0x4d0710, emissiveIntensity: 0.18 });
+      const vein = tube("systemic vein loop", [[-0.2, -0.38, 0], [-1.25, -0.9, 0.1], [-2.2, 0.15, 0.03], [-1.1, 1.08, -0.05], [-0.05, 0.34, 0]], 0.06, 0x6387ff, { emissive: 0x06194d, emissiveIntensity: 0.16 });
+      const capillaries = Array.from({ length: 28 }, (_, i) => {
+        const x = -1.98 + (i % 7) * 0.16;
+        const y = -0.46 + Math.floor(i / 7) * 0.19;
+        return tube("capillary branch", [[x, y, 0.08], [x + 0.07, y + 0.08, 0.2], [x + 0.15, y - 0.02, 0.1]], 0.014, i % 2 ? 0xff7588 : 0x7f9cff, { emissive: i % 2 ? 0x3b0610 : 0x06194d, emissiveIntensity: 0.32 });
+      });
+      const valves = [
+        box("mitral valve flap", [0.09, 0.26, 0.06], [-0.12, -0.08, 0.48], 0xffc3cc, { emissive: 0x401018, emissiveIntensity: 0.18 }),
+        box("tricuspid valve flap", [0.09, 0.26, 0.06], [0.26, -0.08, 0.48], 0xffc3cc, { emissive: 0x401018, emissiveIntensity: 0.18 }),
+        box("aortic valve flap", [0.07, 0.18, 0.05], [-0.14, 0.36, 0.5], 0xffd4dc, { emissive: 0x401018, emissiveIntensity: 0.18 }),
+      ];
+      label("4 chambers", [0.08, 0.72, 0.66], "#ffc3cc");
+      label("aorta arch", [0.92, 1.45, 0.35], "#ff9aaa");
+      label("capillary bed", [-1.55, 0.48, 0.45], "#c8d6ff");
       const blood = Array.from({ length: 26 }, (_, i) => sphere("blood cell", 0.055, [0, 0, 0], i % 2 ? 0xff7588 : 0xff3f5a, { emissive: 0x3b0610, emissiveIntensity: 0.45 }, 10));
       return {
         sync(s, out) {
@@ -665,73 +810,277 @@
           const pulse = 1 + Math.sin(t * Math.PI * 2 * (s.heartRate / 60)) * 0.08;
           heartLeft.scale.set(0.8 * pulse, 1.15 * pulse, 0.75 * pulse);
           heartRight.scale.set(0.74 * pulse, 1.05 * pulse, 0.72 * pulse);
+          leftAtrium.scale.set(0.72 * pulse, 0.8 * pulse, 0.58 * pulse);
+          rightAtrium.scale.set(0.68 * pulse, 0.78 * pulse, 0.56 * pulse);
+          apex.scale.setScalar(pulse);
           blood.forEach((b, i) => {
             const u = (t * out.flowIndex * 0.08 + i / blood.length) % 1;
             const a = u * Math.PI * 2;
             b.position.set(Math.cos(a) * 1.65, Math.sin(a) * 0.95, Math.sin(a * 2) * 0.1);
           });
         },
-        detailMarkers: blood.length,
+        detailMarkers: blood.length + capillaries.length + valves.length + aortaBranches.length + pulmonaryVeins.length,
       };
     }
 
     function buildRespiration() {
+      const larynx = sphere("larynx", 0.18, [0, 1.62, 0], 0xd7eef8, { transparent: true, opacity: 0.62, emissive: 0x123344, emissiveIntensity: 0.12 }, 24);
+      larynx.scale.set(1.1, 0.58, 0.8);
       const trachea = cyl("trachea", 0.11, 1.7, [0, 0.75, 0], 0xd7eef8, { transparent: true, opacity: 0.58 }, 24);
+      const tracheaRings = Array.from({ length: 8 }, (_, i) => {
+        const ring = torus("tracheal cartilage ring", 0.12, 0.012, [0, 1.35 - i * 0.17, 0], 0xeaf6ff, { metalness: 0.04 }, 24);
+        ring.rotation.x = Math.PI / 2;
+        return ring;
+      });
       const leftBronchus = tube("left bronchus", [[0, 0.05, 0], [-0.48, -0.28, 0], [-0.85, -0.55, 0]], 0.055, 0xd7eef8, { transparent: true, opacity: 0.58 });
       const rightBronchus = tube("right bronchus", [[0, 0.05, 0], [0.48, -0.28, 0], [0.85, -0.55, 0]], 0.055, 0xd7eef8, { transparent: true, opacity: 0.58 });
+      const bronchioles = Array.from({ length: 18 }, (_, i) => {
+        const side = i % 2 ? 1 : -1;
+        const row = Math.floor(i / 2);
+        const y = -0.45 - (row % 5) * 0.16;
+        const startX = side * (0.42 + (row % 4) * 0.08);
+        return tube("bronchiole branch", [[startX, y, 0.08], [side * (0.62 + (row % 4) * 0.08), y - 0.07, 0.16], [side * (0.82 + (row % 3) * 0.09), y - 0.12, 0.1]], 0.022, 0xd7eef8, { transparent: true, opacity: 0.62 });
+      });
       const lungL = sphere("left lung", 0.72, [-0.72, -0.58, 0], 0xff8ea5, { transparent: true, opacity: 0.42, emissive: 0x2d0710, emissiveIntensity: 0.18 }, 32);
-      lungL.scale.set(0.75, 1.25, 0.56);
+      lungL.scale.set(0.78, 1.32, 0.58);
       const lungR = sphere("right lung", 0.72, [0.72, -0.58, 0], 0xff8ea5, { transparent: true, opacity: 0.42, emissive: 0x2d0710, emissiveIntensity: 0.18 }, 32);
-      lungR.scale.set(0.75, 1.25, 0.56);
-      const diaphragm = box("diaphragm", [2.5, 0.1, 0.5], [0, -1.42, 0], 0xdcd2ff, { roughness: 0.3 });
+      lungR.scale.set(0.78, 1.32, 0.58);
+      const diaphragm = torus("diaphragm dome", 1.05, 0.045, [0, -1.35, 0], 0xdcd2ff, { roughness: 0.3 }, 48);
+      diaphragm.rotation.x = Math.PI / 2;
+      diaphragm.scale.z = 0.25;
+      const ribs = Array.from({ length: 5 }, (_, i) => {
+        const y = 0.05 - i * 0.28;
+        return [
+          tube("left rib arc", [[-0.14, y, 0.1], [-0.72, y + 0.05, 0.22], [-1.2, y - 0.12, 0.06]], 0.018, 0xf4e7dc, { metalness: 0.05 }),
+          tube("right rib arc", [[0.14, y, 0.1], [0.72, y + 0.05, 0.22], [1.2, y - 0.12, 0.06]], 0.018, 0xf4e7dc, { metalness: 0.05 }),
+        ];
+      }).flat();
+      const alveoli = Array.from({ length: 24 }, (_, i) => {
+        const side = i % 2 ? 1 : -1;
+        const row = Math.floor(i / 2);
+        return sphere("alveoli sac", 0.055, [side * (0.48 + (row % 5) * 0.08), -0.25 - (row % 7) * 0.15, 0.42 + (row % 3) * 0.05], 0xffc2cf, { transparent: true, opacity: 0.58, emissive: 0x3a0710, emissiveIntensity: 0.16 }, 10);
+      });
+      const alveoliInset = Array.from({ length: 16 }, (_, i) => {
+        const a = i * 2.399;
+        const r = 0.1 + (i % 4) * 0.055;
+        const sac = sphere("magnified alveoli sac", 0.07, [1.82 + Math.cos(a) * r, -0.25 + Math.sin(a) * r, 0.64 + (i % 3) * 0.04], 0xffc2cf, { transparent: true, opacity: 0.68, emissive: 0x3a0710, emissiveIntensity: 0.2 }, 12);
+        sac.scale.set(1.1, 0.9, 1.0);
+        return sac;
+      });
+      const capillaryNet = Array.from({ length: 22 }, (_, i) => {
+        const side = i % 2 ? 1 : -1;
+        const y = -0.35 - Math.floor(i / 2) * 0.11;
+        const aroundInset = i > 11;
+        if (aroundInset) {
+          const a = (i - 12) * 0.7;
+          return tube("alveoli capillary wrap", [[1.65 + Math.cos(a) * 0.22, -0.25 + Math.sin(a) * 0.16, 0.72], [1.82 + Math.cos(a + 0.4) * 0.25, -0.25 + Math.sin(a + 0.4) * 0.2, 0.78], [1.98 + Math.cos(a + 0.8) * 0.22, -0.25 + Math.sin(a + 0.8) * 0.16, 0.72]], 0.014, i % 2 ? 0xff7588 : 0x79d7ff, { emissive: 0x1d6f9f, emissiveIntensity: 0.35 });
+        }
+        return tube("alveoli capillary", [[side * 0.42, y, 0.5], [side * 0.66, y + 0.05, 0.56], [side * 0.82, y - 0.04, 0.48]], 0.016, i % 3 ? 0xff7588 : 0x79d7ff, { emissive: 0x1d6f9f, emissiveIntensity: 0.28 });
+      });
+      label("trachea", [0.02, 1.62, 0.42], "#d7eef8");
+      label("bronchial tree", [-1.05, 0.05, 0.68], "#d7eef8");
+      label("alveoli inset", [1.82, 0.18, 0.88], "#ffc2cf");
+      label("diaphragm dome", [0.72, -1.55, 0.54], "#e6dcff");
       const oxygen = Array.from({ length: 24 }, (_, i) => sphere("oxygen marker", 0.045, [0, 0, 0], 0x79d7ff, { emissive: 0x1d6f9f, emissiveIntensity: 0.7 }, 10));
+      const carbon = Array.from({ length: 14 }, (_, i) => sphere("carbon dioxide marker", 0.038, [0, 0, 0], 0xffb0b0, { emissive: 0x5a1010, emissiveIntensity: 0.58 }, 10));
       return {
         sync(s, out) {
           oxygen.forEach((o, i) => o.visible = i < clamp(out.oxygenUptakeLMin * 45, 4, oxygen.length));
+          carbon.forEach((c, i) => c.visible = i < clamp(out.alveolarVentilationLMin * 2, 3, carbon.length));
         },
         tick(s, out, t) {
           const breath = 1 + Math.sin(t * Math.PI * 2 * (s.breathRate / 60)) * (s.tidalMl / 900) * 0.16;
-          lungL.scale.set(0.75 * breath, 1.25 * breath, 0.56 * breath);
-          lungR.scale.set(0.75 * breath, 1.25 * breath, 0.56 * breath);
-          diaphragm.position.y = -1.42 - (breath - 1) * 1.1;
+          lungL.scale.set(0.78 * breath, 1.32 * breath, 0.58 * breath);
+          lungR.scale.set(0.78 * breath, 1.32 * breath, 0.58 * breath);
+          diaphragm.position.y = -1.35 - (breath - 1) * 1.1;
           oxygen.forEach((o, i) => {
             const u = (t * 0.25 + i / oxygen.length) % 1;
             o.position.set(Math.sin(i) * 0.25, 0.9 - u * 2.3, Math.cos(i * 1.9) * 0.35);
           });
+          carbon.forEach((c, i) => {
+            const u = (t * 0.18 + i / carbon.length) % 1;
+            c.position.set(1.82 + Math.sin(i) * 0.22, -0.42 + u * 1.2, 0.72 + Math.cos(i) * 0.18);
+          });
         },
-        detailMarkers: oxygen.length,
+        detailMarkers: oxygen.length + carbon.length + alveoli.length + alveoliInset.length + capillaryNet.length + bronchioles.length + tracheaRings.length + ribs.length,
       };
     }
 
     function buildEcosystem() {
-      const terrain = cyl("ecosystem terrain", 2.55, 0.18, [0, -0.98, 0], 0x31513c, { roughness: 0.82 }, 72);
-      const water = cyl("pond", 0.65, 0.05, [1.35, -0.86, 0.62], 0x55c8ff, { transparent: true, opacity: 0.62, emissive: 0x062333, emissiveIntensity: 0.2 }, 40);
-      const plants = Array.from({ length: 38 }, (_, i) => {
-        const p = cyl("plant stem", 0.035, 0.38, [Math.sin(i * 1.7) * 1.75, -0.73, Math.cos(i * 2.3) * 1.2], 0x72df88, { emissive: 0x123b18, emissiveIntensity: 0.12 }, 8);
-        p.scale.y = 0.7 + (i % 5) * 0.12;
-        return p;
+      const terrain = cyl("terrarium top soil", 2.58, 0.12, [0, -0.83, 0], 0x31513c, { roughness: 0.82 }, 96);
+      const humus = cyl("humus soil layer", 2.5, 0.12, [0, -0.98, 0], 0x533f2d, { roughness: 0.9 }, 96);
+      const sand = cyl("sand soil layer", 2.42, 0.1, [0, -1.12, 0], 0x806940, { roughness: 0.9 }, 96);
+      const clay = cyl("clay soil layer", 2.32, 0.1, [0, -1.25, 0], 0x4a3028, { roughness: 0.9 }, 96);
+      const glassWall = cyl("terrarium glass wall", 2.67, 1.22, [0, -0.37, 0], 0xc7edff, { transparent: true, opacity: 0.08, metalness: 0, roughness: 0.04 }, 96);
+      const water = cyl("pond with algae edge", 0.65, 0.05, [1.28, -0.72, 0.62], 0x55c8ff, { transparent: true, opacity: 0.62, emissive: 0x062333, emissiveIntensity: 0.2 }, 48);
+      const topRim = torus("terrarium top glass rim", 2.67, 0.018, [0, 0.24, 0], 0xc7edff, { transparent: true, opacity: 0.32, metalness: 0, roughness: 0.03 }, 24);
+      const bottomRim = torus("terrarium bottom glass rim", 2.58, 0.02, [0, -1.33, 0], 0xc7edff, { transparent: true, opacity: 0.22, metalness: 0, roughness: 0.03 }, 24);
+      const pondRim = torus("pond stone rim", 0.67, 0.035, [1.28, -0.68, 0.62], 0x6d6b59, { roughness: 0.8 }, 24);
+      topRim.rotation.x = bottomRim.rotation.x = pondRim.rotation.x = Math.PI / 2;
+      const cutaway = [
+        box("cutaway top soil face", [4.45, 0.13, 0.05], [0, -0.82, 2.08], 0x31513c, { roughness: 0.86 }),
+        box("cutaway humus face", [4.3, 0.13, 0.05], [0, -0.97, 2.08], 0x533f2d, { roughness: 0.92 }),
+        box("cutaway sand face", [4.12, 0.12, 0.05], [0, -1.11, 2.08], 0x806940, { roughness: 0.92 }),
+        box("cutaway clay face", [3.92, 0.12, 0.05], [0, -1.25, 2.08], 0x4a3028, { roughness: 0.92 }),
+      ];
+      const sun = sphere("sun energy source", 0.22, [-1.88, 1.12, -0.56], 0xffe66d, { emissive: 0xffd13d, emissiveIntensity: 0.85 }, 24);
+      const algae = Array.from({ length: 14 }, (_, i) => {
+        const a = i * 0.45;
+        return sphere("algae bead", 0.035, [1.28 + Math.cos(a) * 0.48, -0.66, 0.62 + Math.sin(a) * 0.28], 0x8df0a5, { emissive: 0x123b18, emissiveIntensity: 0.16 }, 8);
       });
-      const herbivores = Array.from({ length: 16 }, (_, i) => box("herbivore marker", [0.16, 0.11, 0.28], [Math.sin(i * 2.2) * 1.65, -0.68, Math.cos(i * 1.4) * 1.35], 0xd7c06a, { roughness: 0.42 }));
-      const predators = Array.from({ length: 8 }, (_, i) => box("predator marker", [0.18, 0.12, 0.32], [Math.sin(i * 2.6) * 1.3, -0.55, Math.cos(i * 1.8) * 1.0], 0xff6b6b, { roughness: 0.36 }));
+      const lilyPads = Array.from({ length: 8 }, (_, i) => {
+        const a = i * 0.78;
+        const item = leaf("pond lily pad", [1.28 + Math.cos(a) * 0.38, -0.64, 0.62 + Math.sin(a) * 0.22], 0x6ee58b);
+        item.rotation.y = a;
+        item.scale.set(0.42, 0.08, 0.32);
+        return item;
+      });
+      const plantSpecs = Array.from({ length: 58 }, (_, i) => {
+        const r = 0.35 + (i % 9) * 0.18;
+        const a = i * 2.399;
+        return { x: Math.cos(a) * r, z: Math.sin(a) * r * 0.78, h: 0.26 + (i % 6) * 0.055, sway: (i % 5) * 0.04 };
+      });
+      const tallGrassSpecs = Array.from({ length: 38 }, (_, i) => {
+        const a = -2.15 + (i % 12) * 0.08;
+        const row = Math.floor(i / 12);
+        return { x: a, z: -0.36 + row * 0.14, h: 0.42 + (i % 5) * 0.08, lean: -0.18 + (i % 7) * 0.06 };
+      });
+      const flowerSpecs = Array.from({ length: 10 }, (_, i) => ({ x: -1.28 + Math.sin(i * 1.7) * 0.42, z: 0.36 + Math.cos(i * 1.2) * 0.28, h: 0.34 + (i % 3) * 0.05 }));
+      const leafSpecs = plantSpecs.flatMap((p, i) => [
+        { ...p, side: -1, y: -0.68 + p.h * 0.72, a: i * 0.7 },
+        { ...p, side: 1, y: -0.62 + p.h * 0.88, a: i * 0.7 + 0.8 },
+      ]);
+      const rootSpecs = plantSpecs.slice(0, 42).map((p, i) => ({ x: p.x * 0.92, z: p.z * 0.92, a: i * 0.55, len: 0.22 + (i % 5) * 0.06 }));
+      const herbivoreSpecs = Array.from({ length: 26 }, (_, i) => ({ x: Math.sin(i * 2.2) * 1.75, z: Math.cos(i * 1.4) * 1.18, a: i * 0.8 }));
+      const predatorSpecs = Array.from({ length: 12 }, (_, i) => ({ x: Math.sin(i * 2.6) * 1.38, z: Math.cos(i * 1.8) * 0.98, a: i * 0.9 }));
+      const fungiSpecs = Array.from({ length: 24 }, (_, i) => ({ x: Math.sin(i * 1.45) * 1.9, z: Math.cos(i * 2.05) * 1.18, h: 0.14 + (i % 4) * 0.035 }));
+      const rockSpecs = Array.from({ length: 28 }, (_, i) => ({ x: 1.28 + Math.cos(i * 0.52) * (0.62 + (i % 3) * 0.05), z: 0.62 + Math.sin(i * 0.52) * (0.34 + (i % 3) * 0.04), s: 0.055 + (i % 4) * 0.012 }));
+      const pollutionSpecs = Array.from({ length: 38 }, (_, i) => ({ x: Math.sin(i * 1.31) * 1.9, y: -0.1 + (i % 9) * 0.12, z: Math.cos(i * 1.77) * 1.05, s: 0.025 + (i % 4) * 0.012 }));
+      const visibleRoots = Array.from({ length: 28 }, (_, i) => {
+        const x = -1.95 + (i % 10) * 0.42;
+        const top = -0.82 - (i % 3) * 0.03;
+        const len = 0.22 + (i % 4) * 0.08;
+        return tube("visible root cutaway", [[x, top, 2.13], [x + Math.sin(i) * 0.08, top - len * 0.55, 2.16], [x + Math.cos(i) * 0.12, top - len, 2.14]], 0.011, 0xc5a572, { roughness: 0.86 });
+      });
+      const worms = Array.from({ length: 10 }, (_, i) => {
+        const x = -1.78 + (i % 7) * 0.48;
+        const y = -1.06 - (i % 3) * 0.08;
+        return tube("soil worm decomposer", [[x, y, 2.18], [x + 0.12, y + 0.04, 2.2], [x + 0.24, y - 0.02, 2.18]], 0.014, 0xb97961, { roughness: 0.62, emissive: 0x2a0c08, emissiveIntensity: 0.08 });
+      });
+      const plantStems = instanced("producer stems", new THREE.CylinderGeometry(1, 1, 1, 8), mat(0x72df88, { emissive: 0x123b18, emissiveIntensity: 0.14 }), plantSpecs, (d, p) => {
+        d.position.set(p.x, -0.72 + p.h / 2, p.z);
+        d.rotation.set(0, 0, p.sway);
+        d.scale.set(0.025, p.h, 0.025);
+      });
+      const tallGrass = instanced("tall grass blades", new THREE.CylinderGeometry(1, 1, 1, 6), mat(0x93e27f, { emissive: 0x123b18, emissiveIntensity: 0.15 }), tallGrassSpecs, (d, p) => {
+        d.position.set(p.x, -0.66 + p.h / 2, p.z);
+        d.rotation.set(0.16, 0, p.lean);
+        d.scale.set(0.018, p.h, 0.018);
+      });
+      const flowerStems = instanced("flower stems", new THREE.CylinderGeometry(1, 1, 1, 6), mat(0x72df88, { emissive: 0x123b18, emissiveIntensity: 0.14 }), flowerSpecs, (d, p) => {
+        d.position.set(p.x, -0.72 + p.h / 2, p.z);
+        d.scale.set(0.016, p.h, 0.016);
+      });
+      const flowerHeads = instanced("yellow flower heads", new THREE.SphereGeometry(1, 10, 6), mat(0xffdf4a, { emissive: 0x6a4a00, emissiveIntensity: 0.2 }), flowerSpecs, (d, p) => {
+        d.position.set(p.x, -0.72 + p.h, p.z);
+        d.scale.set(0.065, 0.035, 0.065);
+      });
+      const plantLeaves = instanced("producer leaves", new THREE.SphereGeometry(1, 12, 8), mat(0x8df0a5, { emissive: 0x123b18, emissiveIntensity: 0.16 }), leafSpecs, (d, p) => {
+        d.position.set(p.x + p.side * 0.08, p.y, p.z);
+        d.rotation.set(0.2, p.a, p.side * 0.55);
+        d.scale.set(0.12, 0.025, 0.06);
+      });
+      const roots = instanced("root network", new THREE.CylinderGeometry(1, 1, 1, 6), mat(0xc5a572, { roughness: 0.86 }), rootSpecs, (d, p) => {
+        d.position.set(p.x + Math.cos(p.a) * p.len * 0.5, -1.02, p.z + Math.sin(p.a) * p.len * 0.5);
+        d.rotation.set(Math.PI / 2, 0, p.a);
+        d.scale.set(0.012, p.len, 0.012);
+      });
+      const herbivores = instanced("herbivore insects", new THREE.SphereGeometry(1, 12, 8), mat(0xd7c06a, { roughness: 0.42 }), herbivoreSpecs, (d, p, i) => {
+        d.position.set(p.x, -0.6 + Math.sin(i) * 0.03, p.z);
+        d.rotation.set(0, p.a, 0);
+        d.scale.set(0.13, 0.07, 0.2);
+      });
+      const predators = instanced("predator markers", new THREE.ConeGeometry(1, 1, 4), mat(0xff6b6b, { roughness: 0.36, emissive: 0x3b0710, emissiveIntensity: 0.12 }), predatorSpecs, (d, p) => {
+        d.position.set(p.x, -0.5, p.z);
+        d.rotation.set(Math.PI / 2, p.a, Math.PI / 4);
+        d.scale.set(0.11, 0.26, 0.11);
+      });
+      const insectLegs = instanced("herbivore insect legs", new THREE.CylinderGeometry(1, 1, 1, 5), mat(0x5f5434, { roughness: 0.52 }), herbivoreSpecs.flatMap((p) => [-1, 1, -0.5, 0.5].map((side) => ({ ...p, side }))), (d, p, i) => {
+        d.position.set(p.x + Math.sign(p.side) * 0.08, -0.65, p.z + (Math.abs(p.side) === 1 ? 0.06 : -0.06));
+        d.rotation.set(Math.PI / 2, 0, p.a + p.side * 0.55);
+        d.scale.set(0.008, 0.13, 0.008);
+      });
+      const fungiStems = instanced("decomposer fungi stems", new THREE.CylinderGeometry(1, 1, 1, 8), mat(0xe8dfc8, { roughness: 0.72 }), fungiSpecs, (d, p) => {
+        d.position.set(p.x, -0.74 + p.h / 2, p.z);
+        d.scale.set(0.025, p.h, 0.025);
+      });
+      const fungiCaps = instanced("decomposer fungi caps", new THREE.SphereGeometry(1, 12, 8), mat(0xff9a66, { roughness: 0.52, emissive: 0x3a1207, emissiveIntensity: 0.12 }), fungiSpecs, (d, p) => {
+        d.position.set(p.x, -0.73 + p.h, p.z);
+        d.scale.set(0.1, 0.035, 0.1);
+      });
+      const pondRocks = instanced("pond stones", new THREE.SphereGeometry(1, 10, 6), mat(0x77705d, { roughness: 0.9 }), rockSpecs, (d, p, i) => {
+        d.position.set(p.x, -0.66 + (i % 2) * 0.012, p.z);
+        d.scale.set(p.s * 1.25, p.s * 0.52, p.s);
+      });
+      const pollution = instanced("pollution particle cloud", new THREE.SphereGeometry(1, 10, 6), mat(0xb08a5d, { transparent: true, opacity: 0.72, emissive: 0x3a2507, emissiveIntensity: 0.1 }), pollutionSpecs, (d, p) => {
+        d.position.set(p.x, p.y, p.z);
+        d.scale.setScalar(p.s);
+      });
+      const birdBody = sphere("predator bird body", 0.18, [1.62, -0.38, -0.38], 0x6c6258, { roughness: 0.62 }, 16);
+      birdBody.scale.set(1.35, 0.72, 0.82);
+      const birdWing = sphere("predator bird wing", 0.12, [1.52, -0.36, -0.35], 0x3f3a35, { roughness: 0.66 }, 12);
+      birdWing.scale.set(1.35, 0.14, 0.72);
+      const birdHead = sphere("predator bird head", 0.09, [1.84, -0.25, -0.35], 0x70675d, { roughness: 0.62 }, 12);
+      const birdBeak = cone("predator bird beak", 0.035, 0.12, [1.94, -0.24, -0.35], 0xe4b44a, { roughness: 0.45 }, 10);
+      birdBeak.rotation.z = -Math.PI / 2;
+      const birdParts = [birdBody, birdWing, birdHead, birdBeak];
+      const energyA = flowArrow("sun to producer", [[-1.82, 0.88, -0.55], [-1.25, 0.45, -0.32], [-0.68, 0.05, -0.14]], 0xffe66d);
+      const energyB = flowArrow("producer to herbivore", [[-0.45, -0.28, 0.15], [0.15, -0.16, 0.25], [0.65, -0.32, 0.28]], 0x8df0a5);
+      const energyC = flowArrow("herbivore to predator", [[0.68, -0.2, 0.18], [1.18, -0.06, 0.08], [1.54, -0.22, -0.06]], 0xff9aaa);
+      label("producers", [-0.88, 0.36, 0.55], "#8df0a5");
+      label("food web", [0.78, 0.45, 0.48], "#ffe66d");
+      label("soil + roots", [-1.35, -1.18, 2.38], "#d5bb88");
+      label("decomposers", [-1.88, -0.18, 0.55], "#ffbd8d");
+      label("pollution stress", [1.82, 0.24, 0.6], "#d4b38b");
       const haze = sphere("pollution haze", 1.9, [0, 0.05, 0], 0x8b6f4e, { transparent: true, opacity: 0.08, emissive: 0x3a2507, emissiveIntensity: 0.08 }, 32);
       haze.scale.set(1.4, 0.55, 1.0);
+      function refresh(instance, count) {
+        instance.group.count = Math.round(clamp(count, 0, instance.specs.length));
+        for (let i = 0; i < instance.group.count; i += 1) {
+          instance.apply(instance.dummy, instance.specs[i], i);
+          instance.dummy.updateMatrix();
+          instance.group.setMatrixAt(i, instance.dummy.matrix);
+        }
+        instance.group.instanceMatrix.needsUpdate = true;
+      }
       return {
         sync(s, out) {
-          plants.forEach((p, i) => {
-            p.visible = i < Math.round(s.producers / 100 * plants.length);
-            p.scale.y = (0.6 + out.stabilityPct / 180) * (0.8 + (i % 5) * 0.08);
-          });
-          herbivores.forEach((h, i) => h.visible = i < Math.round(s.herbivores / 80 * herbivores.length));
-          predators.forEach((p, i) => p.visible = i < Math.round(s.predators / 40 * predators.length));
+          const plantCount = Math.round(s.producers / 100 * plantSpecs.length);
+          refresh(plantStems, plantCount);
+          refresh(plantLeaves, plantCount * 2);
+          refresh(roots, plantCount * 0.72);
+          refresh(herbivores, s.herbivores / 80 * herbivoreSpecs.length);
+          refresh(insectLegs, s.herbivores / 80 * insectLegs.specs.length);
+          refresh(predators, s.predators / 40 * predatorSpecs.length);
+          birdParts.forEach((part) => part.visible = s.predators > 6);
+          refresh(fungiStems, clamp((100 - out.stabilityPct) / 100 * fungiSpecs.length + 5, 5, fungiSpecs.length));
+          refresh(fungiCaps, fungiStems.group.count);
+          refresh(pollution, s.pollution / 70 * pollutionSpecs.length);
           haze.material.opacity = 0.05 + s.pollution / 180;
           terrain.material.color.setHex(out.stabilityPct > 70 ? 0x31513c : out.stabilityPct > 40 ? 0x5a5132 : 0x4c3430);
+          humus.material.color.setHex(out.stabilityPct > 70 ? 0x533f2d : 0x57452f);
+          energyA.body.material.emissiveIntensity = 0.24 + out.producerScore / 160;
+          energyB.body.material.emissiveIntensity = 0.24 + s.herbivores / 120;
+          energyC.body.material.emissiveIntensity = 0.24 + s.predators / 70;
         },
         tick(s, out, t) {
-          herbivores.forEach((h, i) => h.rotation.y = t * 0.25 + i);
-          predators.forEach((p, i) => p.rotation.y = -t * 0.35 + i);
+          glassWall.rotation.y = Math.sin(t * 0.12) * 0.01;
+          topRim.rotation.z = bottomRim.rotation.z = Math.sin(t * 0.12) * 0.01;
           water.rotation.y = t * 0.08;
+          haze.rotation.y = t * 0.05;
+          pollution.group.rotation.y = t * 0.03;
         },
-        detailMarkers: plants.length + herbivores.length + predators.length,
+        detailMarkers: plantSpecs.length + leafSpecs.length + rootSpecs.length + visibleRoots.length + worms.length + tallGrassSpecs.length + flowerSpecs.length + rockSpecs.length + herbivoreSpecs.length + insectLegs.specs.length + predatorSpecs.length + birdParts.length + fungiSpecs.length + pollutionSpecs.length + algae.length + lilyPads.length,
       };
     }
   </script>

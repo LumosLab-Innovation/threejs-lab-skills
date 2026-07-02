@@ -7,6 +7,8 @@ description: Create, import, refine, and optimize 3D models for Three.js labs. U
 
 Build models that explain the lab. Default to procedural geometry when it is enough; use GLB only when shape fidelity matters.
 
+When using generated references, prefer object turnaround sheets: front/side/top/cutaway on a plain background. Ignore decorative backgrounds and model only the shapes, materials, labels, and functional parts needed for the lab.
+
 ## Decision
 
 - Primitive/parametric: best for school lab equipment, levers, blocks, tanks, wires, fields, meters, charts, molecule kits, and physics apparatus.

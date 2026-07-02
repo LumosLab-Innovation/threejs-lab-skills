@@ -42,6 +42,19 @@ node <plugin-root>/scripts/check-threejs-lab.mjs <changed-scene-file.tsx>
 - Loaded texture assets: under 4 MB total for a lab page.
 - Dense lab geometry: keep under 60k render triangles unless benchmark evidence justifies more.
 
+## Output Contract
+
+When benchmark tooling exists, report these numbers instead of only saying `PASS`:
+
+- FPS average and p95 frame time.
+- Draw calls, triangles, geometries, renderer texture count, points/lines when relevant.
+- Loaded local code/assets KB.
+- Largest loaded model MB and total loaded texture MB.
+- Desktop/mobile screenshot paths.
+- State mutation/reset result.
+- Panel bounds, touch-target, and text-overflow result for FE-heavy labs.
+- Any budget exception and why the visual or science fidelity justifies it.
+
 ## References
 
 Read `references/qa-checklist.md` for browser triage, asset QA, and release criteria.

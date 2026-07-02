@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Design Director"
+  short_description: "3D design logic gate for lab scenes"
+  default_prompt: "Use $threejs-design-director to check whether this 3D lab design is coherent and necessary before implementation."
