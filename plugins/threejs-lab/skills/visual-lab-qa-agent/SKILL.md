@@ -44,12 +44,13 @@ Do not skip this loop for visual demo work:
 1. `REFERENCE_SET`: generate or write the object-focused front/side/top/cutaway references and list required morphology anchors.
 2. `DESIGN_DIRECTOR`: run `$threejs-design-director`; block literal copying of sketch marks, background, or annotation artifacts as real objects.
 3. `SCIENCE_MODEL`: run `$science-model-director`; block visual elements that do not map to science causality or measured outputs.
-4. `IMPLEMENT`: build only after the reference set and both role gates exist.
-5. `SCREENSHOT_SET`: capture desktop and mobile screenshots from the benchmark/browser run.
-6. `COMPARE`: check each morphology anchor against screenshots.
-7. `LOG_ROUND`: write prompt summary, reference path, screenshot path, benchmark path, QA verdict, and concrete fix set.
-8. `FIX_REQUIRED`: if any anchor is missing, too primitive, hidden, copied illogically, or only represented by a generic sphere/box/cylinder, fix and repeat from screenshot capture.
-9. `PASS`: only after morphology, visual quality, interaction, mobile, budgets, and loop ledger all pass.
+4. `ART_DIRECTOR`: run `$threejs-art-director`; block toy-like visuals, weak material separation, poor composition, or low reference likeness.
+5. `IMPLEMENT`: build only after the reference set and all role gates exist.
+6. `SCREENSHOT_SET`: capture desktop and mobile screenshots from the benchmark/browser run.
+7. `COMPARE`: check each morphology anchor against screenshots.
+8. `LOG_ROUND`: write prompt summary, reference path, screenshot path, benchmark path, QA verdict, and concrete fix set.
+9. `FIX_REQUIRED`: if any anchor is missing, too primitive, hidden, copied illogically, toy-like, or only represented by a generic sphere/box/cylinder, fix and repeat from screenshot capture.
+10. `PASS`: only after morphology, visual quality, interaction, mobile, budgets, and loop ledger all pass.
 
 `detailMarkers`, FPS, and draw calls cannot override a missing morphology anchor.
 
@@ -64,6 +65,7 @@ Required fields per round:
 - `Reference`: generated image path or written spec path.
 - `Design gate`: `$threejs-design-director` verdict and morphology anchors.
 - `Science gate`: `$science-model-director` verdict and required cause/effect mapping.
+- `Art gate`: `$threejs-art-director` verdict for likeness, material polish, and composition.
 - `3D output`: screenshot paths for desktop and mobile.
 - `Benchmark`: result file and important metrics.
 - `Decision`: `PASS`, `FIX_REQUIRED`, or `BLOCKED`.
@@ -100,6 +102,7 @@ Ledger: file/path or PR section containing the prompt rounds
 - Canvas blank, badly framed, or covered by UI.
 - Biology scene looks like generic blobs or has fewer dense detail markers than the lab budget requires.
 - Biology scene lacks the required morphology anchors from the reference, such as chambered heart, branching vessels/airways, alveoli clusters, roots/soil layers, or food-web organism groups.
+- Biology, chemistry, or physics scene reads as toy primitives at thumbnail size even if the benchmark passes.
 - Chemistry scene lacks credible apparatus or visible reaction evidence.
 - Text overlaps, control labels overflow, or mobile touch targets are too small.
 - Model/texture/transfer budgets are exceeded without an explicit tradeoff and benchmark evidence.

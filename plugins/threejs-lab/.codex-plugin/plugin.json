@@ -1,6 +1,6 @@
 {
   "name": "threejs-lab",
-  "version": "0.1.0+codex.20260702015444",
+  "version": "0.1.0+codex.20260702030521",
   "description": "Codex skills and hooks for building production-grade Three.js models, learning labs, physics simulations, and visual QA.",
   "author": {
     "name": "Local developer"
@@ -28,6 +28,7 @@
     "defaultPrompt": [
       "Use $learning-lab-3d-creator to build a complete 3D physics lab.",
       "Use $science-model-director and $threejs-design-director before implementation to check science logic and 3D morphology.",
+      "Use $threejs-art-director before visual acceptance to block toy-like visuals and weak reference likeness.",
       "Use $visual-lab-qa-agent to create a visual reference first, record a prompt/reference/screenshot/fix ledger, compare benchmark screenshots after, and loop on FIX_REQUIRED.",
       "Use $khtn8-biology-lab-creator to build a strict KHTN8 biology lab with dense detail and FE benchmarks.",
       "Use $threejs-model-creator to create a polished model asset.",

@@ -8,6 +8,7 @@ This ledger records the design evolution for the benchmark demos. It exists so v
 2. Run science and design gates:
    - `$science-model-director`: lesson claim, control -> visual -> output mapping, simplification.
    - `$threejs-design-director`: morphology anchors, real objects vs annotations, camera composition.
+   - `$threejs-art-director`: reference likeness, material polish, composition, and non-toy aesthetics.
 3. Implement the 3D scene from the reference/spec.
 4. Run `scripts/benchmark-examples.mjs` to generate desktop/mobile screenshots and metrics.
 5. Compare screenshot output against the 2D target and morphology anchors.
@@ -118,9 +119,9 @@ Final benchmark summary:
 
 | Lab | FPS Desktop/Mobile | P95 Desktop/Mobile | Draw Calls | Triangles | Detail Markers | Local / Model / Texture Assets |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Circulation | 88 / 144 | 14.0 / 7.0 ms | 78 | 54,862 | 62 | 65 KB / 0 MB / 0 MB |
-| Respiration | 85 / 144 | 14.0 / 7.0 ms | 146 | 93,772 | 136 | 65 KB / 0 MB / 0 MB |
-| Ecosystem | 85 / 144 | 14.1 / 7.0 ms | 105 | 87,882 | 560 | 65 KB / 0 MB / 0 MB |
+| Circulation | 98 / 144 | 14.1 / 7.1 ms | 87 | 62,030 | 71 | 72 KB / 0 MB / 0 MB |
+| Respiration | 91 / 144 | 14.1 / 7.1 ms | 151 | 99,788 | 162 | 72 KB / 0 MB / 0 MB |
+| Ecosystem | 77 / 144 | 20.9 / 7.1 ms | 110 | 94,986 | 644 | 72 KB / 0 MB / 0 MB |
 
 Decision: `PASS` after the full benchmark run passed all 24 desktop/mobile profiles and the biology screenshots matched the required morphology anchors closely enough for procedural curriculum demos.
 
@@ -129,6 +130,29 @@ Fix set applied:
 - Circulation: reshaped heart into a four-chamber cue with septum, valves, apex, aorta arch, pulmonary vessels, vena cava, and denser capillary branches.
 - Respiration: added larynx, tracheal rings, branching bronchioles, lung lobes, diaphragm dome, rib arcs, alveoli inset, capillary wraps, and gas markers.
 - Ecosystem: added terrarium wall/rims, soil strata, cutaway roots, soil worms, pond/algae/lily pads/stone rim, tall grass, flowers, producers, leaf clusters, herbivore insects with legs, bird predator cue, decomposer fungi, pollution markers, and a single sun-to-producer arrow.
+
+## Round 3 - Art Director Polish Pass
+
+Prompt/spec summary: user reported the heart, lungs, and ecosystem plants still looked too crude and not close enough to the 2D references. The fix targeted reference likeness and visual taste without adding GLB models or external textures.
+
+Art gate:
+
+- Circulation: `FIX_REQUIRED` because the heart still read as smooth blobs. Added front chamber cutaways, chordae, coronary surface vessels, and surface groove cues.
+- Respiration: `FIX_REQUIRED` because the lungs still read too flat. Added lung lobe grooves and optimized surface detail markers into one instanced mesh to keep draw calls under budget.
+- Ecosystem: `FIX_REQUIRED` because plant groups still read as poles. Added broad-leaf clusters, moss ground cover, fallen log, and kept the single sun-to-producer arrow.
+- Chemistry/physics: `FIX_REQUIRED` for sparse apparatus/measurement cues. Added glass rims, stand base, probe bulb, pressure arrow tips/depth ticks, lever fulcrum/ruler ticks, circuit terminals, and resistor bands.
+
+Benchmark after fix:
+
+| Group | Result |
+| --- | --- |
+| Full benchmark | 24 / 24 profiles pass |
+| Biology detail markers | circulation 71, respiration 162, ecosystem 644 |
+| Biology draw calls | 87, 151, 110, all under 180 |
+| Biology geometry | 62,030 / 99,788 / 94,986 triangles; over the 60k dense-lab guideline but justified by reference-likeness and p95 pass |
+| Local/model/texture assets | 72 KB local, 0 MB model, 0 MB texture assets |
+
+Decision: `PASS_WITH_NOTES`. Procedural primitives are now more reference-like, but true anatomical/plant realism would require curated GLB or texture assets beyond this dependency-light benchmark.
 
 ## Evidence Rules
 

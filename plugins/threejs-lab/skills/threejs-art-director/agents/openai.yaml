@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Art Director"
+  short_description: "Taste gate for polished 3D lab visuals"
+  default_prompt: "Use $threejs-art-director to block toy-like 3D lab visuals and improve reference likeness before visual QA."

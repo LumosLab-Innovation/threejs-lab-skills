@@ -1,6 +1,6 @@
 # Benchmark Results
 
-Generated from `node scripts/benchmark-examples.mjs` on 2026-07-02 08:48 ICT.
+Generated from `node scripts/benchmark-examples.mjs` on 2026-07-02 09:59 ICT.
 
 All 24 benchmark profiles passed: 3 original demos plus 9 KHTN8 subject labs across desktop and mobile.
 
@@ -33,29 +33,29 @@ Average FPS is a browser-frame pacing signal, not a maximum GPU-throughput score
 
 | Demo | Profile | Pass | FPS | P95 Frame | Calls | Triangles | Textures | Local Size | Model | Texture Assets | FE |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `fancy-field-lab` | desktop | yes | 60 | 20.9 ms | 44 | 15,010 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
-| `fancy-field-lab` | mobile | yes | 142 | 7.2 ms | 33 | 14,730 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
-| `density-buoyancy-lab` | desktop | yes | 58 | 20.9 ms | 11 | 964 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
-| `density-buoyancy-lab` | mobile | yes | 144 | 7.1 ms | 10 | 836 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
-| `coulomb-force-lab` | desktop | yes | 123 | 14.0 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
-| `coulomb-force-lab` | mobile | yes | 142 | 7.1 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
-| `chem-reaction-gas` | desktop/mobile | yes | 82 / 144 | 14.0 / 7.0 ms | 43 | 7,694 | 4 | 65 KB | 0 MB | 0 MB | ok |
-| `chem-acid-base` | desktop/mobile | yes | 91 / 144 | 14.1 / 7.0 ms | 35 | 4,514 | 4 | 65 KB | 0 MB | 0 MB | ok |
-| `chem-catalyst-rate` | desktop/mobile | yes | 90 / 144 | 14.1 / 7.0 ms | 70 | 10,978 | 4 | 65 KB | 0 MB | 0 MB | ok |
-| `phys-pressure` | desktop/mobile | yes | 104 / 144 | 14.0 / 7.0 ms | 14 | 2,120 | 1 | 65 KB | 0 MB | 0 MB | ok |
-| `phys-lever` | desktop/mobile | yes | 111 / 144 | 14.0 / 7.0 ms | 8 | 764 | 1 | 65 KB | 0 MB | 0 MB | ok |
-| `phys-circuit` | desktop/mobile | yes | 98 / 144 | 14.0 / 7.0 ms | 28 | 8,928 | 1 | 65 KB | 0 MB | 0 MB | ok |
-| `bio-circulation` | desktop/mobile | yes | 88 / 144 | 14.0 / 7.0 ms | 78 | 54,862 | 4 | 65 KB | 0 MB | 0 MB | 62 details |
-| `bio-respiration` | desktop/mobile | yes | 85 / 144 | 14.0 / 7.0 ms | 146 | 93,772 | 5 | 65 KB | 0 MB | 0 MB | 136 details |
-| `bio-ecosystem` | desktop/mobile | yes | 85 / 144 | 14.1 / 7.0 ms | 105 | 87,882 | 6 | 65 KB | 0 MB | 0 MB | 560 details |
+| `fancy-field-lab` | desktop | yes | 63 | 21.0 ms | 44 | 15,010 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
+| `fancy-field-lab` | mobile | yes | 144 | 7.1 ms | 33 | 14,730 | 4 | 20.9 KB | 0 MB | 0 MB | ok |
+| `density-buoyancy-lab` | desktop | yes | 60 | 21.0 ms | 11 | 964 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
+| `density-buoyancy-lab` | mobile | yes | 126 | 13.9 ms | 10 | 836 | 2 | 10.6 KB | 0 MB | 0 MB | ok |
+| `coulomb-force-lab` | desktop | yes | 129 | 13.9 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
+| `coulomb-force-lab` | mobile | yes | 144 | 7.1 ms | 22 | 4,820 | 1 | 10.5 KB | 0 MB | 0 MB | ok |
+| `chem-reaction-gas` | desktop/mobile | yes | 104 / 144 | 14.0 / 7.1 ms | 45 | 8,858 | 4 | 72 KB | 0 MB | 0 MB | ok |
+| `chem-acid-base` | desktop/mobile | yes | 123 / 144 | 14.0 / 7.1 ms | 37 | 6,826 | 4 | 72 KB | 0 MB | 0 MB | ok |
+| `chem-catalyst-rate` | desktop/mobile | yes | 115 / 144 | 14.0 / 7.1 ms | 71 | 13,026 | 4 | 72 KB | 0 MB | 0 MB | ok |
+| `phys-pressure` | desktop/mobile | yes | 119 / 144 | 14.0 / 7.0 ms | 27 | 2,348 | 1 | 72 KB | 0 MB | 0 MB | ok |
+| `phys-lever` | desktop/mobile | yes | 122 / 144 | 14.0 / 7.1 ms | 22 | 926 | 1 | 72 KB | 0 MB | 0 MB | ok |
+| `phys-circuit` | desktop/mobile | yes | 111 / 144 | 14.1 / 7.1 ms | 34 | 11,072 | 1 | 72 KB | 0 MB | 0 MB | ok |
+| `bio-circulation` | desktop/mobile | yes | 98 / 144 | 14.1 / 7.1 ms | 87 | 62,030 | 4 | 72 KB | 0 MB | 0 MB | 71 details |
+| `bio-respiration` | desktop/mobile | yes | 91 / 144 | 14.1 / 7.1 ms | 151 | 99,788 | 5 | 72 KB | 0 MB | 0 MB | 162 details |
+| `bio-ecosystem` | desktop/mobile | yes | 77 / 144 | 20.9 / 7.1 ms | 110 | 94,986 | 6 | 72 KB | 0 MB | 0 MB | 644 details |
 
 ## Coverage
 
 | Demo Group | Interaction Evidence | Simulation Evidence | Asset Evidence |
 | --- | --- | --- | --- |
-| Chemistry | sliders/toggles, orbit, reset, mutate/reset hook | gas amount, pH neutralization, catalyst/rate formulas | procedural apparatus, 65 KB local, 0 MB model, 0 MB textures |
-| Physics | sliders/toggles, orbit, reset, mutate/reset hook | pressure, moment, circuit formulas | procedural apparatus, 65 KB local, 0 MB model, 0 MB textures |
-| Biology | sliders, orbit, reset, mutate/reset hook, strict FE checks | circulation, respiration, ecosystem formulas | 62-560 detail markers, 65 KB local, 0 MB model, 0 MB textures |
+| Chemistry | sliders/toggles, orbit, reset, mutate/reset hook | gas amount, pH neutralization, catalyst/rate formulas | procedural apparatus, 72 KB local, 0 MB model, 0 MB textures |
+| Physics | sliders/toggles, orbit, reset, mutate/reset hook | pressure, moment, circuit formulas | procedural apparatus, 72 KB local, 0 MB model, 0 MB textures |
+| Biology | sliders, orbit, reset, mutate/reset hook, strict FE checks | circulation, respiration, ecosystem formulas | 71-644 detail markers, 72 KB local, 0 MB model, 0 MB textures |
 
 ## Evidence Files
 

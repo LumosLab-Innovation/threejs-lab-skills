@@ -199,7 +199,11 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
     if (await evaluate(cdp, "document.readyState") === "complete") break;
     await wait(100);
   }
-  await wait(800);
+  for (let i = 0; i < 80; i += 1) {
+    if (await evaluate(cdp, "Boolean(window.__LAB_BENCHMARK__ && document.querySelector('canvas'))")) break;
+    await wait(100);
+  }
+  await wait(500);
 
   const result = await evaluate(cdp, `(async () => {
     async function measureFramePacing() {
@@ -208,7 +212,7 @@ async function benchTarget(cdpPort, serverPort, target, profile) {
         let last = performance.now();
         let warmup = 0;
         function sample(now) {
-          if (warmup < 90) {
+          if (warmup < 150) {
             warmup += 1;
             last = now;
             requestAnimationFrame(sample);

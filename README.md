@@ -40,6 +40,7 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 | `$learning-lab-3d-creator` | Full educational experiments, lesson scenes, agent-connected labs | Creates a lab contract, file split, controls, units, result loop, reset, and verification path. |
 | `$science-model-director` | Science logic, causality, variable mapping, simplification risk | Blocks beautiful but scientifically weak scenes before implementation. |
 | `$threejs-design-director` | 3D morphology, composition, reference interpretation, annotation-vs-object calls | Blocks generic shapes, copied sketch artifacts, and illogical 3D object choices. |
+| `$threejs-art-director` | Reference likeness, material polish, composition, non-toy aesthetics | Blocks demos that benchmark well but still look crude or unlike the input reference. |
 | `$visual-lab-qa-agent` | Fancy/demo visual quality, GPT Image/imagegen references, screenshot comparison | Runs before and after each demo: creates a visual target, compares benchmark screenshots, and loops on `FIX_REQUIRED`. |
 | `$khtn8-biology-lab-creator` | KHTN8 biology, human body, ecology, dense small-detail scenes | Requires recognizable biological systems, detail-marker coverage, mobile FE checks, and stricter model/texture budgets. |
 | `$threejs-model-creator` | Procedural models, GLB/GLTF, materials, apparatus, labels | Keeps models semantic, scaled, articulated, optimized, and disposable. |
@@ -60,12 +61,13 @@ Most 3D lab prompts fail in the same places: pretty canvas but weak learning goa
 1. Ask Codex to use `$learning-lab-3d-creator` for a complete lab or `$threejs-model-creator` for a model-heavy asset.
 2. Run `$science-model-director` to map controls -> visible changes -> measured outputs.
 3. Run `$threejs-design-director` to choose real 3D objects, morphology anchors, camera composition, and annotation rules.
-4. Run `$visual-lab-qa-agent` start pass before coding the demo. If GPT Image/imagegen is available, it should create object-focused reference sheets; otherwise it writes a compact visual target spec.
-5. Record the prompt/reference/screenshot/fix loop in demo notes, a PR summary, or an evidence file. Missing loop evidence blocks visual `PASS`.
-6. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
-7. Run `$threejs-performance-qa` after code changes to generate benchmark screenshots and metrics.
-8. Run `$visual-lab-qa-agent` end pass. If it returns `FIX_REQUIRED`, apply the smallest concrete fix set and repeat the end pass.
-9. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
+4. Run `$threejs-art-director` to block toy-like visuals, weak materials, poor composition, and low reference likeness.
+5. Run `$visual-lab-qa-agent` start pass before coding the demo. If GPT Image/imagegen is available, it should create object-focused reference sheets; otherwise it writes a compact visual target spec.
+6. Record the prompt/reference/screenshot/fix loop in demo notes, a PR summary, or an evidence file. Missing loop evidence blocks visual `PASS`.
+7. Use `$threejs-physics-simulation` when the lab has real formulas, collisions, forces, fields, or solver behavior.
+8. Run `$threejs-performance-qa` after code changes to generate benchmark screenshots and metrics.
+9. Run `$visual-lab-qa-agent` end pass. If it returns `FIX_REQUIRED`, apply the smallest concrete fix set and repeat the end pass.
+10. Run `$learning-lab-qa-pm-reviewer` before saying the lab is ready.
 
 ## Visual QA Loop
 
@@ -147,26 +149,26 @@ Read the FPS numbers as browser-frame pacing, not maximum GPU throughput. Headle
 
 | Demo Profile | FPS vs >=55 | P95 Frame vs <=25ms | Draw Calls vs <=180 | Geometry Load | Textures vs <=16 | Transfer vs <=900KB | State |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| Fancy field desktop | 60 FPS (+9%) | 20.9 ms (16% under) | 44 (76% under) | 15,010 tris, 520 points | 4 (75% under) | 389 KB (57% under) | mutate/reset ok |
-| Fancy field mobile | 142 FPS (+158%) | 7.2 ms (71% under) | 33 (82% under) | 14,730 tris, 520 points | 4 (75% under) | 0 KB | mutate/reset ok |
-| Density buoyancy desktop | 58 FPS (+5%) | 20.9 ms (16% under) | 11 (94% under) | 964 tris | 2 (88% under) | 0 KB | mutate/reset ok |
-| Density buoyancy mobile | 144 FPS (+162%) | 7.1 ms (72% under) | 10 (94% under) | 836 tris | 2 (88% under) | 0 KB | mutate/reset ok |
-| Coulomb force desktop | 123 FPS (+124%) | 14.0 ms (44% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
-| Coulomb force mobile | 142 FPS (+158%) | 7.1 ms (72% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
+| Fancy field desktop | 63 FPS (+15%) | 21.0 ms (16% under) | 44 (76% under) | 15,010 tris, 520 points | 4 (75% under) | 389 KB (57% under) | mutate/reset ok |
+| Fancy field mobile | 144 FPS (+162%) | 7.1 ms (72% under) | 33 (82% under) | 14,730 tris, 520 points | 4 (75% under) | 0 KB | mutate/reset ok |
+| Density buoyancy desktop | 60 FPS (+9%) | 21.0 ms (16% under) | 11 (94% under) | 964 tris | 2 (88% under) | 0 KB | mutate/reset ok |
+| Density buoyancy mobile | 126 FPS (+129%) | 13.9 ms (44% under) | 10 (94% under) | 836 tris | 2 (88% under) | 0 KB | mutate/reset ok |
+| Coulomb force desktop | 129 FPS (+135%) | 13.9 ms (44% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
+| Coulomb force mobile | 144 FPS (+162%) | 7.1 ms (72% under) | 22 (88% under) | 4,820 tris | 1 (94% under) | 0 KB | mutate/reset ok |
 
-KHTN 8 subject labs are dependency-light: each profile loads `65 KB` of local code/assets, `0 MB` model assets, and `0 MB` texture assets because the apparatus is procedural. This is intentional for curriculum labs: use GLB only when shape fidelity teaches the concept.
+KHTN 8 subject labs are dependency-light: each profile loads `72 KB` of local code/assets, `0 MB` model assets, and `0 MB` texture assets because the apparatus is procedural. This is intentional for curriculum labs: use GLB only when shape fidelity teaches the concept.
 
 | KHTN Lab | Desktop/Mobile FPS | P95 Frame | Draw Calls | Geometry | Local Size | Model / Texture |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Reaction Gas | 82 / 144 | 14.0 / 7.0 ms | 43 | 7,694 tris | 65 KB | 0 / 0 MB |
-| Acid Base pH | 91 / 144 | 14.1 / 7.0 ms | 35 | 4,514 tris | 65 KB | 0 / 0 MB |
-| Catalyst Rate | 90 / 144 | 14.1 / 7.0 ms | 70 | 10,978 tris | 65 KB | 0 / 0 MB |
-| Fluid Pressure | 104 / 144 | 14.0 / 7.0 ms | 14 | 2,120 tris | 65 KB | 0 / 0 MB |
-| Lever Moment | 111 / 144 | 14.0 / 7.0 ms | 8 | 764 tris | 65 KB | 0 / 0 MB |
-| Electric Circuit | 98 / 144 | 14.0 / 7.0 ms | 28 | 8,928 tris | 65 KB | 0 / 0 MB |
-| Circulation | 88 / 144 | 14.0 / 7.0 ms | 78 | 54,862 tris, 62 detail markers | 65 KB | 0 / 0 MB |
-| Respiration | 85 / 144 | 14.0 / 7.0 ms | 146 | 93,772 tris, 136 detail markers | 65 KB | 0 / 0 MB |
-| Ecosystem Balance | 85 / 144 | 14.1 / 7.0 ms | 105 | 87,882 tris, 560 detail markers | 65 KB | 0 / 0 MB |
+| Reaction Gas | 104 / 144 | 14.0 / 7.1 ms | 45 | 8,858 tris | 72 KB | 0 / 0 MB |
+| Acid Base pH | 123 / 144 | 14.0 / 7.1 ms | 37 | 6,826 tris | 72 KB | 0 / 0 MB |
+| Catalyst Rate | 115 / 144 | 14.0 / 7.1 ms | 71 | 13,026 tris | 72 KB | 0 / 0 MB |
+| Fluid Pressure | 119 / 144 | 14.0 / 7.0 ms | 27 | 2,348 tris | 72 KB | 0 / 0 MB |
+| Lever Moment | 122 / 144 | 14.0 / 7.1 ms | 22 | 926 tris | 72 KB | 0 / 0 MB |
+| Electric Circuit | 111 / 144 | 14.1 / 7.1 ms | 34 | 11,072 tris | 72 KB | 0 / 0 MB |
+| Circulation | 98 / 144 | 14.1 / 7.1 ms | 87 | 62,030 tris, 71 detail markers | 72 KB | 0 / 0 MB |
+| Respiration | 91 / 144 | 14.1 / 7.1 ms | 151 | 99,788 tris, 162 detail markers | 72 KB | 0 / 0 MB |
+| Ecosystem Balance | 77 / 144 | 20.9 / 7.1 ms | 110 | 94,986 tris, 644 detail markers | 72 KB | 0 / 0 MB |
 
 What is deliberately optimized:
 
@@ -174,7 +176,7 @@ What is deliberately optimized:
 - Procedural Three.js geometry; no GLB/model payload for these curriculum labs.
 - Capped pixel ratio, resize-safe canvas, and no heavy postprocessing in the stress demo.
 - Low texture pressure: 1-6 renderer textures per demo, all under the 16-texture budget.
-- Low draw-call pressure: 8-146 calls, all under the 180-call budget.
+- Low draw-call pressure: 10-151 calls, all under the 180-call budget.
 - Asset-size pressure is measured: local loaded code/assets <=512 KB, largest model <=3 MB, loaded textures <=4 MB.
 - Biology FE is stricter: no text overflow, no small touch targets, and `detailMarkers >= 20` for dense biology scenes.
 - Dense biology exceptions are explicit: respiration and ecosystem exceed the 60k default triangle guideline for morphology detail, but pass p95 frame, draw-call, texture, mobile, and asset-size budgets.

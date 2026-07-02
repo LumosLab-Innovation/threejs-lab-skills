@@ -41,6 +41,7 @@ const context = [
   "- For product/curriculum labs use $learning-lab-3d-creator.",
   "- Before building science labs, use $science-model-director for causality and visual necessity.",
   "- Before modeling 3D objects, use $threejs-design-director for morphology, composition, and annotation-vs-object decisions.",
+  "- Before visual acceptance, use $threejs-art-director for reference likeness, material polish, composition, and non-toy aesthetics.",
   "- For visual quality, fancy demos, or before/after demo acceptance use $visual-lab-qa-agent at the start and end of each demo; record the prompt/reference/screenshot/fix ledger and loop on FIX_REQUIRED.",
   "- For KHTN8 biology/human body/ecology labs use $khtn8-biology-lab-creator plus stricter FE benchmarks.",
   "- For model/material/GLB work use $threejs-model-creator.",

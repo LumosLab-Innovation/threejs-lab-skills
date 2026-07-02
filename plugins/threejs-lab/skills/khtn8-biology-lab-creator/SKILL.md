@@ -13,6 +13,7 @@ Biology scenes fail when they look like generic blobs. Build a recognizable spec
 
 - Generate or write a multi-view object reference first: front/side/top/cutaway on a plain background, focused on the organ/system morphology, not a decorative scene.
 - Run `$science-model-director` and `$threejs-design-director` before building; do not let detail markers hide bad morphology or illogical annotation copying.
+- Run `$threejs-art-director` before visual acceptance; do not pass toy-like organs, flat plant clusters, or weak reference likeness.
 - Record each prompt/reference/screenshot/fix round in a visual QA ledger; biology demos cannot pass from memory-only visual judgment.
 - Human systems: organ silhouette, tubes/vessels/airways, moving flow markers, measurement readout, and a scale cue.
 - Ecology: producers, consumers, decomposers or stressors, visible population groups, arrows/flows, and stability/risk output.
@@ -58,6 +59,7 @@ Use the shared QA gates too:
 - `$learning-lab-3d-creator`
 - `$science-model-director`
 - `$threejs-design-director`
+- `$threejs-art-director`
 - `$threejs-model-creator`
 - `$threejs-physics-simulation`
 - `$threejs-performance-qa`
