@@ -13,15 +13,11 @@ Three.js or Blender for geometry. Three.js for motion, contraction and interacti
 
 **Codex · Claude Code · Grok Build · OpenCode · OMP**
 
-[Install](#one-command-install) · [Gallery](#reference--3d-gallery) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
+[Install](#one-command-install) · [Live gallery ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
 
 </div>
 
-| Choose the reference | Explore interactive 3D |
-| :---: | :---: |
-| ![Local studio with three image options](assets/showcase/studio-reference-board.jpg) | ![Aurora field lab running in Three.js](assets/showcase/aurora-field.jpg) |
-
-*Real browser captures: the review studio and a bundled lab example. [Capture sources](#screenshot-sources).*
+[![Earth model from Lab029s — open the interactive gallery](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth)
 
 Your coding agent authors the model from the approved image, then codes its behavior. No paid image-to-3D service, hosted backend or second AI process. You choose the image and approve the result on localhost.
 
@@ -74,49 +70,29 @@ Prompt → image options → YOU CHOOSE
 
 **A GLB is not the whole interaction program.** Keep its Three.js behavior/source alongside it. Blender requires a connected addon; no external image-to-mesh provider substitutes for it.
 
-## Reference → 3D Gallery
+## Lab029s Model Gallery
 
-Existing educational examples, freshly captured in the browser. These are simplified teaching models, **not claims of photorealistic reconstruction** or new Blender-generated assets.
+**[Explore the models in 3D ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/)** — orbit, zoom, play and reset. No sign-in.
 
-| Example | Reference image | Running Three.js model |
-| --- | :---: | :---: |
-| **Circulation**<br>Heart rate, flow and vessel response | <a href="examples/khtn8-subject-labs/references/bio-circulation-reference.png"><img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation concept reference" width="320"></a> | <a href="assets/showcase/bio-circulation.jpg"><img src="assets/showcase/bio-circulation.jpg" alt="Fresh browser capture of the circulation model" width="480"></a> |
-| **Respiration**<br>Lung expansion, airflow and gas exchange | <a href="examples/khtn8-subject-labs/references/bio-respiration-reference.png"><img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration concept reference" width="320"></a> | <a href="assets/showcase/bio-respiration.jpg"><img src="assets/showcase/bio-respiration.jpg" alt="Fresh browser capture of the respiration model" width="480"></a> |
-| **Ecosystem**<br>Populations, pollution and balance | <a href="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png"><img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem concept reference" width="320"></a> | <a href="assets/showcase/bio-ecosystem.jpg"><img src="assets/showcase/bio-ecosystem.jpg" alt="Fresh browser capture of the ecosystem model" width="480"></a> |
-
-[Browse the lab source](examples/khtn8-subject-labs/index.html) · [Original visual QA record](examples/khtn8-subject-labs/VISUAL_QA_LOG.md)
-
-### Same Model, Different State
-
-| At rest | Contracted by interaction |
+| Earth · Three.js | Moon · Three.js |
 | :---: | :---: |
-| ![GLB morph example at rest in the local viewer](assets/showcase/model-rest.jpg) | ![Same GLB after interaction and amplitude change](assets/showcase/model-contracted.jpg) |
+| [![Earth with day and night lighting](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth) | [![Moon model](assets/showcase/lab029s/moon.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#moon) |
+| **Classroom globe · GLB** | **Flashlight · GLB** |
+| [![Classroom globe model](assets/showcase/lab029s/globe.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#globe) | [![Flashlight model](assets/showcase/lab029s/flashlight.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#flashlight) |
 
-This mechanical example uses a named morph target, rate/amplitude sliders, picking and reset. Its [behavior module](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-behavior.mjs) runs with the [procedural model](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-model.mjs) and its exported/re-imported GLB. It is not an anatomical organ. The [Blender authoring example](plugins/threejs-lab/skills/threejs-studio/assets/examples/blender-pulse.py) produces the same named shape key; live Blender generation remains unverified until the addon connects.
+Real canvas captures of existing **Lab029s** models, adapted for standalone viewing with the skill's shared Three.js playback. Only 3D models: no lab UI or generated mock screenshots. These are not newly Blender-generated models. Earth textures: NASA/GSFC; Moon: Solar System Scope, CC BY 4.0. [Full credits, source revisions and screenshot reproduction](gallery/ATTRIBUTION.md).
 
-### Screenshot Sources
+Gallery assets are excluded from skill installation. The original teaching demos and their benchmark records remain in [examples](examples); [shared motion examples](plugins/threejs-lab/skills/threejs-studio/assets/examples) remain available as source.
 
-<details>
-<summary>Capture details and how to reproduce</summary>
-
-All seven JPEGs in `assets/showcase/` are browser captures, not generated mock UI. Reference PNGs are retained repository assets. Showcase JPEGs are excluded from the installed skill package.
-
-| Capture | Source / state |
-| --- | --- |
-| `studio-reference-board.jpg` | Local studio with the three retained biology references; no approval fabricated |
-| `aurora-field.jpg` | `examples/fancy-field-lab/index.html`, Aurora preset, paused |
-| `bio-circulation.jpg`, `bio-respiration.jpg`, `bio-ecosystem.jpg` | `examples/khtn8-subject-labs/index.html?lab=<id>`, default values, orbit zoom |
-| `model-rest.jpg`, `model-contracted.jpg` | Exported/re-imported procedural GLB + `pulse-behavior.mjs`; paused/reset, then picked with amplitude 1 |
-
-Serve the existing examples locally:
+### Run the gallery locally
 
 ```sh
-python -m http.server 8080 --bind 127.0.0.1 --directory examples
+npm run setup
+npm run gallery:build
+python -m http.server 8080 --bind 127.0.0.1 --directory dist/gallery
 ```
 
-Open `http://127.0.0.1:8080/khtn8-subject-labs/index.html?lab=bio-respiration` or `/fancy-field-lab/`. These older demos load Three.js from a CDN. The new studio serves its installed Three.js locally; follow [its quickstart](docs/studio.md) to reproduce the review and motion examples.
-
-</details>
+Open `http://127.0.0.1:8080/`. GitHub Pages publishes the same static build; no backend, paid model service or runtime CDN.
 
 ## What Was Combined
 
@@ -255,14 +231,14 @@ These screenshots are generated by `scripts/benchmark-examples.mjs` from the sam
 
 | Demo | Desktop Benchmark | Mobile Benchmark |
 | --- | --- | --- |
-| Density buoyancy | <img src="examples/density-buoyancy-lab/screenshots/desktop-benchmark.png" alt="Density buoyancy desktop benchmark" width="360"> | <img src="examples/density-buoyancy-lab/screenshots/mobile-benchmark.png" alt="Density buoyancy mobile benchmark" width="180"> |
-| Coulomb force | <img src="examples/coulomb-force-lab/screenshots/desktop-benchmark.png" alt="Coulomb force desktop benchmark" width="360"> | <img src="examples/coulomb-force-lab/screenshots/mobile-benchmark.png" alt="Coulomb force mobile benchmark" width="180"> |
-| Fancy field | <img src="examples/fancy-field-lab/screenshots/desktop-benchmark.png" alt="Fancy field desktop benchmark" width="360"> | <img src="examples/fancy-field-lab/screenshots/mobile-benchmark.png" alt="Fancy field mobile benchmark" width="180"> |
-| KHTN Chemistry gas | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png" alt="Chemistry gas desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png" alt="Chemistry gas mobile benchmark" width="180"> |
-| KHTN Physics circuit | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png" alt="Physics circuit desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png" alt="Physics circuit mobile benchmark" width="180"> |
-| KHTN Biology circulation | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Biology circulation desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Biology circulation mobile benchmark" width="180"> |
-| KHTN Biology respiration | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Biology respiration desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Biology respiration mobile benchmark" width="180"> |
-| KHTN Biology ecosystem | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Biology ecosystem desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Biology ecosystem mobile benchmark" width="180"> |
+| Density buoyancy | [Density buoyancy desktop benchmark](examples/density-buoyancy-lab/screenshots/desktop-benchmark.png) | [Density buoyancy mobile benchmark](examples/density-buoyancy-lab/screenshots/mobile-benchmark.png) |
+| Coulomb force | [Coulomb force desktop benchmark](examples/coulomb-force-lab/screenshots/desktop-benchmark.png) | [Coulomb force mobile benchmark](examples/coulomb-force-lab/screenshots/mobile-benchmark.png) |
+| Fancy field | [Fancy field desktop benchmark](examples/fancy-field-lab/screenshots/desktop-benchmark.png) | [Fancy field mobile benchmark](examples/fancy-field-lab/screenshots/mobile-benchmark.png) |
+| KHTN Chemistry gas | [Chemistry gas desktop benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png) | [Chemistry gas mobile benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png) |
+| KHTN Physics circuit | [Physics circuit desktop benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png) | [Physics circuit mobile benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png) |
+| KHTN Biology circulation | [Biology circulation desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Biology circulation mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
+| KHTN Biology respiration | [Biology respiration desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Biology respiration mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
+| KHTN Biology ecosystem | [Biology ecosystem desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Biology ecosystem mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
 
 ### 2D Reference To 3D Biology Output
 
@@ -270,9 +246,9 @@ The biology demos keep the generated 2D input references next to the benchmark s
 
 | Lab | 2D Reference Input | 3D Desktop Output | 3D Mobile Output |
 | --- | --- | --- | --- |
-| Circulation | <img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Circulation 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Circulation 3D mobile output" width="150"> |
-| Respiration | <img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Respiration 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Respiration 3D mobile output" width="150"> |
-| Ecosystem | <img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Ecosystem 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Ecosystem 3D mobile output" width="150"> |
+| Circulation | [Circulation 2D reference](examples/khtn8-subject-labs/references/bio-circulation-reference.png) | [Circulation 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Circulation 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
+| Respiration | [Respiration 2D reference](examples/khtn8-subject-labs/references/bio-respiration-reference.png) | [Respiration 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Respiration 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
+| Ecosystem | [Ecosystem 2D reference](examples/khtn8-subject-labs/references/bio-ecosystem-reference.png) | [Ecosystem 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Ecosystem 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
 
 ### Optimization Benchmark Highlights
 

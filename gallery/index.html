@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore real Lab029s 3D models. Portable Three.js and Blender skills for Codex, Claude Code, Grok Build, OpenCode and OMP.">
+  <meta property="og:title" content="Three.js Lab Skills — Model gallery">
+  <meta property="og:image" content="https://lumoslab-innovation.github.io/threejs-lab-skills/images/earth.jpg">
+  <link rel="canonical" href="https://lumoslab-innovation.github.io/threejs-lab-skills/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%231a241f'/%3E%3Cpath d='m24 8 14 8v16l-14 8-14-8V16Zm0 0v32M10 16l14 8 14-8' fill='none' stroke='%23c6e5b5' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <title>Three.js Lab Skills — Model gallery</title>
+</head>
+<body>
+  <header>
+    <a class="brand" href="./" aria-label="Three.js Lab Skills home"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="m20 3 15 9v16l-15 9-15-9V12Zm0 0v34M5 12l15 9 15-9"/></svg><span>Three.js <b>Lab Skills</b></span></a>
+    <nav aria-label="Main"><a href="https://github.com/LumosLab-Innovation/threejs-lab-skills/tree/codex/unified-3d-studio">GitHub ↗</a><button class="primary" id="install">Install skill <span aria-hidden="true">↗</span></button></nav>
+  </header>
+  <main>
+    <section id="viewer" aria-label="Interactive model gallery">
+      <div class="model-heading"><span id="collection">LAB029S / MODEL 01</span><h1 id="title">Earth</h1><a id="source" href="https://github.com/LumosLab-Innovation/threejs-lab-skills/blob/codex/unified-3d-studio/gallery/models.js">Model source ↗</a></div>
+      <canvas id="canvas" tabindex="0" aria-label="3D model. Drag to orbit, scroll to zoom. Arrow keys rotate; plus and minus zoom; R resets the view."></canvas>
+      <div id="status" role="status" aria-live="polite">Loading model…</div>
+      <button id="retry" hidden>Retry</button>
+      <div class="tools" aria-label="Model controls">
+        <button id="play" disabled aria-pressed="false">Play</button><span class="divider"></span><button id="reset" disabled>Reset view</button><button id="fullscreen" aria-label="Enter fullscreen">⛶</button>
+      </div>
+      <div class="model-footer"><span id="format">Three.js</span><button id="credits">Credits</button></div>
+      <noscript>Enable JavaScript to explore the 3D models. <a href="images/earth.jpg">View the Earth render</a>.</noscript>
+    </section>
+    <nav id="models" aria-label="Choose a model"></nav>
+  </main>
+  <footer><span>By LumosLab Innovation</span><a href="https://github.com/LumosLab-Innovation/threejs-lab-skills/blob/codex/unified-3d-studio/docs/studio.md">Workflow & docs ↗</a></footer>
+  <dialog id="install-dialog" aria-labelledby="install-title">
+    <form method="dialog"><h2 id="install-title">Install skill</h2><button aria-label="Close install dialog">×</button></form>
+    <p>Codex · Claude Code · Grok Build · OpenCode · OMP</p>
+    <label for="command">Run in your terminal</label>
+    <textarea id="command" rows="4" readonly spellcheck="false">npx --yes --package="github:LumosLab-Innovation/threejs-lab-skills#codex/unified-3d-studio" threejs-lab install --agent all --global</textarea>
+    <button class="primary" id="copy">Copy command</button>
+    <p class="muted">Requires Node.js 22+, npm and Git. Installs the preview branch.</p>
+    <span id="copy-status" role="status"></span>
+  </dialog>
+  <dialog id="credits-dialog" aria-labelledby="credits-title">
+    <form method="dialog"><h2 id="credits-title">Model credits</h2><button aria-label="Close credits dialog">×</button></form>
+    <p>Models adapted from Lab029s for this viewer. These are existing project assets, not newly generated Blender models.</p>
+    <p>Earth: NASA/Goddard Space Flight Center Scientific Visualization Studio. Blue Marble Next Generation: Reto Stöckli, NASA/GSFC and NASA Earth Observatory.</p>
+    <p>Night map: Marc Imhoff, NASA/GSFC; Christopher Elvidge, NOAA/NGDC. Image: Craig Mayhew and Robert Simmon, NASA/GSFC. No NASA endorsement.</p>
+    <p>Moon texture © <a href="https://www.solarsystemscope.com/textures/">Solar System Scope</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; resized to WebP by Lab029s.</p>
+    <p>Classroom globe and flashlight: generated for Lab029s. Display materials adapted here; original GLBs retained.</p>
+    <a href="ATTRIBUTION.md">Source revisions & asset notices ↗</a>
+  </dialog>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

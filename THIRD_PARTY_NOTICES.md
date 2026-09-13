@@ -26,3 +26,7 @@ No img2threejs Forge runtime, Vibe3D asset registry, shader wear-baking exporter
 The studio installs pinned `three` and `esbuild` from npm under their MIT licenses. Their package licenses remain in `node_modules`; the lockfile records exact dependency integrity. Image generation providers and Blender MCP are optional external tools, not redistributed model weights or included credits. The installer includes the repository license in copied skills that do not already have a component-specific license.
 
 Generated images/assets must be evaluated under the chosen provider's terms and the licenses of user-supplied references; this project does not grant rights to third-party input artwork.
+
+## Public model gallery
+
+The [GitHub Pages gallery](https://lumoslab-innovation.github.io/threejs-lab-skills/) and README renders reuse selected Lab029s Earth-lesson models and textures. [Gallery attribution](gallery/ATTRIBUTION.md) records source revision, per-file provenance, display adaptations and NASA / Solar System Scope credits. Those texture terms remain separate from the code license. Anatomy assets restricted to the Lab029s demo are excluded. Model geometry and screenshot assets are not part of the installed skill package.
