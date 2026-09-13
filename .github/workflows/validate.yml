@@ -1,0 +1,23 @@
+name: Validate skills and studio
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run setup
+      - run: npm test
+      - run: python tests/blender_export_test.py
+      - run: npm run validate
+      - run: node scripts/cli.mjs doctor
+      - run: npm run check:package

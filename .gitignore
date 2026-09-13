@@ -7,3 +7,8 @@ build/
 KHTN 8-KNTT.pdf
 tmp-*.json
 tmp-khtn-pages/
+.threejs-studio*/
+output/
+.playwright-cli/
+*.tgz
+__pycache__/

@@ -1,32 +1,70 @@
-# Three.js Lab Codex Plugin
+# Three.js Lab Skills
 
-Local Codex marketplace plugin for production-grade 3D learning labs, Three.js models, physics simulation, optimization, and QA.
+Portable skills for Codex, Claude Code and OpenCode: **prompt → image options → your approval → Three.js source or Blender MCP asset → localhost 3D review**. Includes the existing learning-lab skills and 23 focused procedural-graphics specialists.
+
+The coding agent generates the content; the bundled local studio displays real options and records your choices. No hosted backend or AI subscription is bundled.
 
 ![Aurora Field Lab preview](examples/fancy-field-lab/screenshots/desktop.png)
 
 ## One-Command Install
 
-Requirements: Codex CLI, Node.js, Git, and GitHub access to this private repo.
+Requirements: Node.js 22+, npm, Git, and a coding CLI with local skills and shell access. The repository is public.
 
-PowerShell:
+Codex (PowerShell, Bash or zsh):
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$repo='https://github.com/HungBil/threejs-lab-codex-plugin.git'; $dir=Join-Path $env:TEMP 'threejs-lab-codex-plugin'; if (Test-Path (Join-Path $dir '.git')) { git -C $dir pull --ff-only } else { git clone $repo $dir }; node (Join-Path $dir 'scripts/install.mjs')"
+```sh
+npx --yes --package=github:LumosLab-Innovation/threejs-lab-skills threejs-lab install --agent codex --global
 ```
 
-Bash:
+Claude Code:
+
+```sh
+npx --yes --package=github:LumosLab-Innovation/threejs-lab-skills threejs-lab install --agent claude --global
+```
+
+Use `--agent opencode` for OpenCode. Omit `--global` for project-local installation. Other hosts that read Agent Skills can use `--skills-dir <their-supported-path>`; this is not a claim that every CLI supports the same tools.
+
+Start a new CLI session and ask:
+
+> Use threejs-studio. Create three image options for a brass desk lamp, open localhost so I can choose, then build the approved option as Three.js source. Let me inspect and approve the 3D result.
+
+Use `$threejs-studio` in Codex or `/threejs-studio` in Claude Code. Say **Blender asset** instead of **Three.js source** to use the other engine. Image generation must be available in your host, configured through the optional API fallback, or replaced by a reference image you supply. Blender requires a connected addon/MCP server.
+
+The installer copies skills and installs the two studio dependencies. It stops before overwriting edited or unowned conflicting files; it never changes your MCP settings or replaces existing symlinked skills. Run it again to update, or use `--dry-run` to preview. Existing installations may need conflict reconciliation or a separate project-local destination.
+
+For an existing checkout:
 
 ```bash
-bash -lc 'repo="https://github.com/HungBil/threejs-lab-codex-plugin.git"; dir="${TMPDIR:-/tmp}/threejs-lab-codex-plugin"; if [ -d "$dir/.git" ]; then git -C "$dir" pull --ff-only; else git clone "$repo" "$dir"; fi; node "$dir/scripts/install.mjs"'
+node scripts/install.mjs --agent codex --global
 ```
 
-Start a new Codex thread after installing so the skill metadata is loaded.
+See [Studio quickstart and capability matrix](docs/studio.md) for image generation, Blender setup, resume, export and security boundaries; [source inventory](THIRD_PARTY_NOTICES.md) records what was reused and what was not.
 
-For an existing checkout, run:
+## What Was Combined
 
-```bash
-node scripts/install.mjs
+| Source | Included here |
+| --- | --- |
+| Existing Three.js Lab skills | 11 lab, model, science, physics and QA skills, unchanged demo collection |
+| Installed Awesome Graphics skills | 23 MIT skill/reference packages for geometry, materials, atmosphere, water, effects and validation |
+| img2threejs | Adapted image-analysis → detail inventory → staged reconstruction → visual correction workflow; **not its Forge runtime** |
+| Vibe3D | Adapted hard-surface modeling rules and editable source/preview workflow; **not its registry or custom shader-baking exporter** |
+| New `threejs-studio` | Cross-CLI installer, localhost image/model review, immutable snapshots, Three.js preview/export and Blender collection exporter |
+
+## Develop the Studio
+
+```sh
+npm run setup
+npm test
+npm run validate
+node scripts/cli.mjs init --prompt "Your model brief"
+node scripts/cli.mjs serve --background
 ```
+
+`serve` opens a loopback-only URL automatically. The CLI agent adds images/models with the commands in the skill; only the person using the studio approves them. The studio does not silently launch a second AI process.
+
+## Existing Learning-Lab Toolkit
+
+The remaining sections document the original educational workflows and retained demo evidence, not fresh acceptance results for every imported skill.
 
 ## Why This Exists
 
@@ -143,7 +181,7 @@ The biology demos keep the generated 2D input references next to the benchmark s
 
 ### Optimization Benchmark Highlights
 
-Current run: 24/24 desktop/mobile benchmark profiles pass. The point is not just "pretty"; each demo proves render budget, state integrity, reset, responsive layout, local asset size, model size, texture size, and FE fit.
+Recorded demo run: 24/24 desktop/mobile benchmark profiles pass. The point is not just "pretty"; each demo proves render budget, state integrity, reset, responsive layout, local asset size, model size, texture size, and FE fit.
 
 Read the FPS numbers as browser-frame pacing, not maximum GPU throughput. Headless Chrome and `requestAnimationFrame` can sit near the display/runtime cadence, so the stronger optimization signals are p95 frame time, draw calls, triangles, texture count, transfer size, and whether state mutation/reset stays deterministic. The benchmark takes two warmed frame-pacing runs per viewport, disables headless background throttling, closes pages between profiles, and keeps the steadier run to avoid false failures from transient headless/GC spikes.
 
@@ -241,7 +279,7 @@ node scripts/validate.mjs
 Then reinstall:
 
 ```bash
-node scripts/install.mjs
+node scripts/install.mjs --agent codex --global
 ```
 
 ## Contents
@@ -259,9 +297,11 @@ node scripts/install.mjs
 ## Validation
 
 ```bash
-node scripts/validate.mjs
-bash .git/hooks/pre-push
+npm test
+python tests/blender_export_test.py
+npm run validate
+npm run check:package
 ```
 
-`scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
+`plugins/threejs-lab/skills/threejs-lab/scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
 `scripts/validate.mjs` also checks the KHTN biology visual QA ledger, 2D references, desktop/mobile screenshots, and 24-profile benchmark JSON.

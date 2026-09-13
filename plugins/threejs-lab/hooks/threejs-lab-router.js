@@ -38,6 +38,8 @@ if (!shouldRoute) {
 
 const context = [
   "Three.js Lab plugin routing:",
+  "- For prompt/image to 3D with human review or Blender MCP use $threejs-studio first; never generate geometry before the user approves an image in localhost.",
+  "- For advanced procedural graphics use $threejs-skill-router to select only the necessary expert skills.",
   "- For product/curriculum labs use $learning-lab-3d-creator.",
   "- Before building science labs, use $science-model-director for causality and visual necessity.",
   "- Before modeling 3D objects, use $threejs-design-director for morphology, composition, and annotation-vs-object decisions.",

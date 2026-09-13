@@ -1,0 +1,31 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, writeFile, readFile, rm, access, mkdir, symlink } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { installInto, destination } from "../scripts/install.mjs";
+
+test("portable destinations, dry-run, repeat installation, local edits and unrelated skills", async (t) => {
+  const target = await mkdtemp(join(tmpdir(), "threejs-install-test-"));
+  t.after(() => rm(target, { recursive: true, force: true }));
+  assert.equal(destination("codex", false, "/project", "/home"), join("/project", ".agents", "skills"));
+  assert.equal(destination("claude", true, "/project", "/home"), join("/home", ".claude", "skills"));
+  assert.throws(() => destination("unknown", false, target), /Unknown agent/);
+  const options = { only: ["threejs-studio"] };
+  await installInto(target, { ...options, dryRun: true });
+  await assert.rejects(access(join(target, "threejs-studio")));
+  await installInto(target, options); await installInto(target, options);
+  const skill = join(target, "threejs-studio", "SKILL.md");
+  const edited = (await readFile(skill, "utf8")) + "\nMy local instructions.\n";
+  await writeFile(skill, edited);
+  await writeFile(join(target, "unrelated.md"), "user-owned");
+  await assert.rejects(installInto(target, options), /Local changes preserved/);
+  assert.equal(await readFile(skill, "utf8"), edited);
+  assert.equal(await readFile(join(target, "unrelated.md"), "utf8"), "user-owned");
+  const nested = join(target, "fresh");
+  await mkdir(join(nested, "threejs-studio"), { recursive: true });
+  const outside = join(target, "outside"); await mkdir(outside);
+  await symlink(outside, join(nested, "threejs-studio", "scripts"), process.platform === "win32" ? "junction" : "dir");
+  await assert.rejects(installInto(nested, options), /symlink/);
+  await assert.rejects(access(join(outside, "cli.mjs")));
+});
