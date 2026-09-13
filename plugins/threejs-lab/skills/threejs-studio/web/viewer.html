@@ -61,12 +61,9 @@
         color: #872d1f;
       }
       #note {
-        position: fixed;
-        bottom: 30px;
-        left: 15px;
-        right: 15px;
+        margin: 0;
         font-size: 11px;
-        color: #872d1f;
+        color: #586650;
         background: #fff;
         padding: 8px;
         border-radius: 6px;
@@ -74,6 +71,61 @@
       button:disabled {
         opacity: 0.45;
         cursor: default;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      #bottom {
+        position: fixed;
+        bottom: 28px;
+        left: 12px;
+        right: 12px;
+        display: grid;
+        gap: 8px;
+        max-height: 40vh;
+        overflow: auto;
+      }
+      #playback {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        background: #f7f8f0eb;
+        border-radius: 9px;
+        padding: 8px;
+      }
+      #parameters {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+      }
+      #parameters label {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 6px;
+        min-width: 200px;
+      }
+      #parameters input {
+        width: 80px;
+        flex: 1;
+        min-width: 60px;
+        min-height: 24px;
+        accent-color: #466341;
+      }
+      #parameters output {
+        min-width: 24px;
+        text-align: right;
+      }
+      @media (max-width: 480px) {
+        #parameters {
+          flex-basis: 100%;
+          flex-direction: column;
+        }
+        #parameters label {
+          min-width: 0;
+        }
       }
     </style>
     <script type="importmap">
@@ -96,7 +148,13 @@
       ><button id="export" disabled>GLB ↓</button>
     </div>
     <span id="info" role="status">Đang tải…</span>
+    <div id="bottom">
+      <p id="note" role="status" hidden></p>
+      <div id="playback" hidden>
+        <button id="play">Tạm dừng</button><button id="restart">Đặt lại</button>
+        <div id="parameters"></div>
+      </div>
+    </div>
     <p id="failure" role="alert" hidden></p>
-    <p id="note" role="status" hidden></p>
   </body>
 </html>

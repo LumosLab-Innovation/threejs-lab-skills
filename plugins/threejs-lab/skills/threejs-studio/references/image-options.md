@@ -16,23 +16,10 @@ node <skill>/scripts/cli.mjs add-image --file concept-a.png --title "Matte ceram
 node <skill>/scripts/cli.mjs add-image --file concept-b.png --title "Brushed aluminium" --provenance "<actual image tool>"
 ```
 
-## Optional OpenAI fallback
+If the host cannot generate images, request a reference file or help configure its existing
+image tool. There is no separate image API helper or paid fallback in this package. Host tools
+may still have subscription limits or usage charges; do not promise every CLI generates images
+for free. Local import and review require no provider key.
 
-If the host cannot generate images and the user has configured `OPENAI_API_KEY` and
-`OPENAI_IMAGE_MODEL` in the process environment, the bundled helper calls the Images API:
-
-```sh
-node <skill>/scripts/cli.mjs generate-images --count 2
-```
-
-This invokes a billed external API; only use it within the user's approved provider/budget.
-Do not silently use it when a host-native image tool is already available. The helper makes one
-request, has a five-minute timeout, and does not automatically retry a potentially billed call.
-It expects base64 image results and leaves successfully generated files in the session even if
-registration is interrupted. There is no embedded default model; use an image model actually
-available to the configured account. No key is needed for local image import or preview.
-
-After a revision request, include the latest feedback in `--prompt`; do not repeat the original
-prompt unchanged. Technical API errors are not permission to substitute mock pictures.
-
-Provider contract: [OpenAI image generation](https://developers.openai.com/api/docs/guides/image-generation).
+After a revision request, incorporate the latest feedback into the host image-tool prompt.
+Tool failures are not permission to substitute mock pictures or skip the approval gate.

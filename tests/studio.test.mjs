@@ -3,9 +3,8 @@ import assert from "node:assert/strict";
 import { mkdtemp, writeFile, readFile, rm, mkdir, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { init, load, addModel, artifactPath, hash } from "../plugins/threejs-lab/skills/threejs-studio/scripts/state.mjs";
+import { init, load, addModel, artifactPath } from "../plugins/threejs-lab/skills/threejs-studio/scripts/state.mjs";
 import { start } from "../plugins/threejs-lab/skills/threejs-studio/scripts/server.mjs";
-import { generateImages } from "../plugins/threejs-lab/skills/threejs-studio/scripts/images.mjs";
 
 const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==", "base64");
 
@@ -97,30 +96,34 @@ export function glbFixture(extra = {}) {
   return result;
 }
 
-test("Blender branch accepts embedded GLB, rejects external URLs and changed approved images", async (t) => {
+test("Blender requires bundled Three.js behavior and protects the combined snapshot", async (t) => {
   const f = await fixture(t, "blender");
   assert.equal((await f.review({ action: "approve-image", id: f.image.id, sha256: f.image.sha256, revision: 1, engine: "blender" })).code, 200);
   const source = join(f.dir, "fixture.glb"); await writeFile(source, glbFixture());
   const input = { action: "add-model", file: source, title: "GLB fixture", reference: f.image.sha256 };
-  assert.equal((await f.agent(input)).code, 200);
+  assert.equal((await f.agent(input)).code, 400); // A bare asset is not the complete deliverable.
+  input.behavior = join(f.dir, "behavior.ts");
+  await writeFile(input.behavior, "export function wrongExport() {}");
+  assert.equal((await f.agent(input)).code, 400);
+  await writeFile(input.behavior, "export function createBehavior({root}){return {update(dt,time){root.rotation.y=time;},reset(){root.rotation.y=0;}}}");
+  const submitted = await f.agent(input);
+  assert.equal(submitted.code, 200, JSON.stringify(submitted.data));
+  const candidate = submitted.data;
+  assert.equal(candidate.files.length, 3);
+  const snapshot = await readFile(join(f.dir, candidate.behavior), "utf8");
+  await writeFile(input.behavior, "export function createBehavior(){return {};}");
+  assert.equal(await readFile(join(f.dir, candidate.behavior), "utf8"), snapshot);
+  assert.equal((await fetch(f.live.origin + "/motion.js")).status, 200);
+  await f.post("/api/viewed", { id: candidate.id, sha256: candidate.sha256 }, { Origin: f.live.origin, "X-Review-Key": f.token });
+  await writeFile(join(f.dir, candidate.behavior), snapshot + "\n// tampered");
+  const decision = { action: "approve-model", id: candidate.id, sha256: candidate.sha256, revision: 3 };
+  assert.equal((await f.review(decision)).code, 400);
+  await writeFile(join(f.dir, candidate.behavior), snapshot);
   await writeFile(source, glbFixture({ images: [{ uri: "https://outside.example/image.png" }] }));
   assert.equal((await f.agent(input)).code, 400);
   await writeFile(source, glbFixture());
   await writeFile(join(f.dir, f.image.file), "tampered");
   await assert.rejects(addModel(f.dir, await load(f.dir), input), /changed on disk/);
-});
-
-test("image API uses explicit model, no paid retries and keeps credentials out of saved files", async (t) => {
-  const dir = await mkdtemp(join(tmpdir(), "threejs-image-test-"));
-  t.after(() => rm(dir, { recursive: true, force: true }));
-  let calls = 0;
-  const files = await generateImages(dir, "An isolated fixture", { key: "test-key", model: "test-image-model", fetcher: async (url, options) => {
-    calls++; assert.equal(url, "https://api.openai.com/v1/images/generations");
-    assert.equal(options.headers.Authorization, "Bearer test-key");
-    assert.equal(JSON.parse(options.body).model, "test-image-model");
-    return { ok: true, json: async () => ({ data: [{ b64_json: png.toString("base64") }] }) };
-  } });
-  assert.equal(calls, 1); assert.equal(hash(await readFile(files[0].file)), hash(png));
-  await assert.rejects(generateImages(dir, "fixture", { key: "test", model: "test", fetcher: async () => { calls++; return { ok: false, status: 429 }; } }), /429/);
-  assert.equal(calls, 2);
+  await writeFile(join(f.dir, f.image.file), png);
+  assert.equal((await f.review(decision)).code, 200);
 });

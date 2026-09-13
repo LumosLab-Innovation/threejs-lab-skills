@@ -1,7 +1,7 @@
 {
   "name": "threejs-lab",
-  "version": "0.2.0",
-  "description": "Image-approved Three.js and Blender MCP workflows, a localhost review studio, procedural graphics skills and learning-lab QA.",
+  "version": "0.3.0",
+  "description": "Author models in Three.js or Blender MCP, code Three.js motion and interaction for both, and approve results on localhost.",
   "author": {
     "name": "LumosLab Innovation"
   },
@@ -16,8 +16,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Three.js Lab & Studio",
-    "shortDescription": "Approve image options, then build real 3D assets.",
-    "longDescription": "Portable image-to-3D workflows with a localhost human-review studio. Generate approved designs as editable Three.js source or Blender MCP assets, with procedural graphics specialists and learning-lab QA.",
+    "shortDescription": "Approve images, then build interactive 3D models.",
+    "longDescription": "Author geometry in Three.js or Blender Python via MCP, then code Three.js motion, deformation and interaction for either model. Localhost human review, portable CLI skills and no paid image-to-3D service.",
     "developerName": "LumosLab Innovation",
     "category": "Developer Tools",
     "capabilities": [
@@ -26,7 +26,7 @@
     ],
     "defaultPrompt": [
       "Use $threejs-studio to generate image options, open localhost for my approval, then create a Three.js model.",
-      "Use $threejs-studio to turn my approved reference into a Blender MCP GLB and editable asset.",
+      "Use $threejs-studio to model my approved image in Blender, then code Three.js contraction and interaction.",
       "Use $learning-lab-3d-creator to build and verify a complete 3D science lab."
     ]
   }

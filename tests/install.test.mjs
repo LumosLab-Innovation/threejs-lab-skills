@@ -3,13 +3,17 @@ import assert from "node:assert/strict";
 import { mkdtemp, writeFile, readFile, rm, access, mkdir, symlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { installInto, destination } from "../scripts/install.mjs";
+import { createHash } from "node:crypto";
+import { installInto, destination, destinations } from "../scripts/install.mjs";
 
 test("portable destinations, dry-run, repeat installation, local edits and unrelated skills", async (t) => {
   const target = await mkdtemp(join(tmpdir(), "threejs-install-test-"));
   t.after(() => rm(target, { recursive: true, force: true }));
   assert.equal(destination("codex", false, "/project", "/home"), join("/project", ".agents", "skills"));
   assert.equal(destination("claude", true, "/project", "/home"), join("/home", ".claude", "skills"));
+  for (const host of ["grok", "grok-build", "omp", "opencode"]) assert.equal(destination(host, false, "/project"), join("/project", ".agents", "skills"));
+  assert.deepEqual(destinations("all", true, "/project", "/home"), [join("/home", ".agents", "skills"), join("/home", ".claude", "skills")]);
+  assert.equal(destinations("grok", false, "/project").length, 1);
   assert.throws(() => destination("unknown", false, target), /Unknown agent/);
   const options = { only: ["threejs-studio"] };
   await installInto(target, { ...options, dryRun: true });
@@ -28,4 +32,28 @@ test("portable destinations, dry-run, repeat installation, local edits and unrel
   await symlink(outside, join(nested, "threejs-studio", "scripts"), process.platform === "win32" ? "junction" : "dir");
   await assert.rejects(installInto(nested, options), /symlink/);
   await assert.rejects(access(join(outside, "cli.mjs")));
+});
+
+test("updates retire only untouched managed files and preserve edited or unowned files", async (t) => {
+  const target = await mkdtemp(join(tmpdir(), "threejs-upgrade-test-"));
+  t.after(() => rm(target, { recursive: true, force: true }));
+  const options = { only: ["threejs-studio"] };
+  await installInto(target, options);
+  const marker = join(target, ".threejs-lab-install.json");
+  const previous = JSON.parse(await readFile(marker, "utf8"));
+  const key = "threejs-studio/scripts/retired-fixture.mjs";
+  previous[key] = createHash("sha256").update("original").digest("hex");
+  await writeFile(marker, JSON.stringify(previous));
+  await writeFile(join(target, key), "user edited");
+  const unowned = join(target, "threejs-studio/scripts/user-owned.mjs");
+  await writeFile(unowned, "keep");
+  await assert.rejects(installInto(target, options), /Local changes preserved/);
+  assert.equal(await readFile(join(target, key), "utf8"), "user edited");
+  await writeFile(join(target, key), "original");
+  assert.equal((await installInto(target, { ...options, dryRun: true })).retired, 1);
+  await access(join(target, key));
+  assert.equal((await installInto(target, options)).retired, 1);
+  await assert.rejects(access(join(target, key)));
+  assert.equal(await readFile(unowned, "utf8"), "keep");
+  assert.equal(JSON.parse(await readFile(marker, "utf8"))[key], undefined);
 });

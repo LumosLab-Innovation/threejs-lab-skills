@@ -31,9 +31,9 @@ export async function main(args) {
       dir: { type: "string", default: ".threejs-studio" }, prompt: { type: "string" },
       engine: { type: "string", default: "threejs" }, file: { type: "string" }, title: { type: "string" },
       reference: { type: "string" }, provenance: { type: "string" }, blend: { type: "string" },
+      behavior: { type: "string" },
       port: { type: "string", default: "0" }, background: { type: "boolean" },
       "no-open": { type: "boolean" }, wait: { type: "string", default: "0" },
-      count: { type: "string", default: "2" }, model: { type: "string" },
     } });
     const dir = resolve(values.dir);
     if (command === "init") {
@@ -76,25 +76,12 @@ export async function main(args) {
       const end = Date.now() + wait * 1000;
       while (Date.now() < end && current.revision === first.revision) { await delay(300); current = await load(dir); }
       console.log(JSON.stringify(next(current), null, 2));
-    } else if (command === "generate-images") {
-      const live = await session(dir);
-      const current = await load(dir);
-      requireValue(!current.imageApproval, "Reference is already approved");
-      const { generateImages } = await import("./images.mjs");
-      const files = await generateImages(dir, values.prompt || current.prompt, { count: Number(values.count), model: values.model || process.env.OPENAI_IMAGE_MODEL });
-      for (const [index, file] of files.entries()) {
-        const response = await fetch(`${live.origin}/api/agent`, { method: "POST", headers: {
-          "Content-Type": "application/json", "X-Agent-Key": live.agentKey,
-        }, body: JSON.stringify({ action: "add-image", ...file, title: `Option ${index + 1}` }) });
-        const result = await response.json();
-        requireValue(response.ok, result.error + `; generated image retained at ${file.file}`);
-      }
-      console.log(`Added ${files.length} options. Review them at ${live.origin}`);
     } else if (["add-image", "add-model", "stop"].includes(command)) {
       const live = await session(dir);
       const payload = { ...values, action: command };
       if (values.file) payload.file = resolve(values.file);
       if (values.blend) payload.blend = resolve(values.blend);
+      if (values.behavior) payload.behavior = resolve(values.behavior);
       const response = await fetch(`${live.origin}/api/agent`, { method: "POST", headers: {
         "Content-Type": "application/json", "X-Agent-Key": live.agentKey,
       }, body: JSON.stringify(payload) });
@@ -111,7 +98,7 @@ export async function main(args) {
       if ([checks.three, checks.esbuild].some((x) => x !== "ready")) process.exitCode = 1;
     } else {
       requireValue(command === "help", `Unknown command: ${command}`);
-      console.log(`Three.js Studio (Node 22+)\n\ninit --prompt "..." [--engine threejs|blender] [--dir .threejs-studio]\nserve [--background] [--no-open] [--port 0] [--dir ...]\nadd-image --file reference.png --title "Option A" --provenance "Provider/model or user file"\ngenerate-images [--count 2] [--model <provider-model>] (optional OpenAI API)\nstatus [--wait 55]\nadd-model --file model.ts --title "Option A" --reference <approved SHA256>\nadd-model --file model.glb --blend model.blend --title "Option A" --reference <approved SHA256>\nstop\ndoctor\n\nAll commands accept --dir. Approvals are made in the browser, never by CLI.\nThe coding agent generates images/models; the studio records reviews and previews files.`);
+      console.log(`Three.js Studio (Node 22+)\n\ninit --prompt "..." [--engine threejs|blender] [--dir .threejs-studio]\nserve [--background] [--no-open] [--port 0] [--dir ...]\nadd-image --file reference.png --title "Option A" --provenance "Host tool or user file"\nstatus [--wait 55]\nadd-model --file model.ts --title "Option A" --reference <approved SHA256>\nadd-model --file model.glb --behavior behavior.ts [--blend model.blend] --title "Option A" --reference <approved SHA256>\nstop\ndoctor\n\nAll commands accept --dir. Approvals are made in the browser, never by CLI.\nThe agent authors geometry in Three.js or Blender and Three.js interaction for both. No paid generation API is bundled.`);
     }
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

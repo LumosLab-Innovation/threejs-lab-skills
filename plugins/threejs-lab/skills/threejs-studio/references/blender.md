@@ -9,9 +9,10 @@ If absent, use [setup](blender-setup.md); keep the approved image and pause this
 2. Read the approved image. Translate its silhouette/parts into an explicit modeling recipe
    and save the Python source in the project. Execute it in bounded steps using the discovered
    Blender code tool. Persist corrections to that Python source, not only to ephemeral MCP calls.
-3. Build reference-driven geometry, intentional bevels, material slots, normals and UVs as needed.
-   Generated image-to-mesh providers (Hunyuan/Rodin/etc.) are optional only when enabled and
-   authorized; they may cost credits and transmit reference images. No silent provider fallback.
+3. Author reference-driven geometry with Blender Python: intentional bevels, materials, normals
+   and UVs. Do not use image-to-mesh providers (Hunyuan, Rodin, Meshy, etc.). Name moving parts,
+   joint pivots, bones and shape keys semantically. Build shape keys for localized contraction,
+   rigs for articulated bodies, or separate rigid parts according to the requested mechanism.
 4. Inspect Blender renders/viewport images, side/back geometry, scale, attachments and materials.
    Bake procedural shading to standard PBR before portable export. A static mesh is not rigged.
 5. Export the named collection with `scripts/blender_export.py` through Blender's Python tool:
@@ -32,9 +33,12 @@ The path must be readable on the Blender machine. For a remote MCP, transfer out
 the host's authorized artifact mechanism first; do not pretend local paths are remote paths.
 
 ```sh
-node <skill>/scripts/cli.mjs add-model --file revision-1.glb --blend revision-1.blend --title "Revision 1" --reference <approved-hash>
+node <skill>/scripts/cli.mjs add-model --file revision-1.glb --behavior behavior.ts --blend revision-1.blend --title "Revision 1" --reference <approved-hash>
 ```
 
-Only self-contained GLB v2 is accepted; external texture/buffer URLs are rejected. Review that
-GLB in the same studio before user approval. Supply the construction Python, editable library,
-GLB, image/spec provenance and known approximations in the handoff.
+Before registering, write `behavior.ts` exporting `createBehavior({THREE, root, animations,
+canvas, camera})` using [the shared Three.js contract](motion-interaction.md). Connect the
+exported bones, shape keys or named parts to actual movement, deformation and controls.
+Only self-contained GLB v2 is accepted; external texture/buffer URLs are rejected. Review the
+GLB **with its behavior** in the same studio before approval. Supply construction Python,
+editable library, GLB, behavior source and known approximations. Asset-only submission is rejected.

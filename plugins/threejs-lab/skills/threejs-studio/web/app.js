@@ -1,6 +1,7 @@
 const $ = (id) => document.getElementById(id);
 const reviewKey = document.querySelector('meta[name="review-key"]').content;
 let state, imageId, modelId, shownModel, previewTimeout, target = "model", busy = false, connectionLost = false;
+let previewGeneration = 0;
 const ready = new Set();
 const error = (message = "") => { $("error").textContent = message; $("error").hidden = !message; };
 async function post(path, data) {
@@ -21,10 +22,12 @@ function selectModel(id) {
   $("waiting").hidden = Boolean(item);
   if (!item) { clearTimeout(previewTimeout); shownModel = undefined; $("viewer").removeAttribute("src"); }
   if (item && shownModel !== id) {
+    previewGeneration++;
     error(); clearTimeout(previewTimeout);
     shownModel = id;
     ready.delete(id);
     const params = new URLSearchParams({ entry: "/" + item.entry, kind: item.engine, id: item.id });
+    if (item.behavior) params.set("behavior", "/" + item.behavior);
     $("viewer").src = `/viewer.html?${params}`;
     previewTimeout = setTimeout(() => { if (!ready.has(id)) error("Mô hình chưa tải xong. Tải lại trang hoặc yêu cầu sửa."); }, 30000);
   }
@@ -32,7 +35,7 @@ function selectModel(id) {
   for (const file of item?.files || []) {
     const a = document.createElement("a");
     a.href = "/" + file.file; a.download = file.file.split("/").pop();
-    a.textContent = file.file.endsWith(".blend") ? "Tải .blend ↓" : file.file.endsWith(".json") ? "Tải source ↓" : file.file.endsWith(".glb") ? "Tải GLB ↓" : "Tải module ↓";
+    a.textContent = file.file.endsWith(".blend") ? "Tải .blend ↓" : file.file.endsWith(".json") ? "Tải source ↓" : file.file.endsWith(".glb") ? "Tải GLB ↓" : file.file.endsWith("behavior.mjs") ? "Tải tương tác ↓" : "Tải module ↓";
     $("downloads").append(a);
   }
   syncButton();
@@ -121,9 +124,11 @@ window.addEventListener("message", async (event) => {
   if (event.data.type === "model-ready") {
     clearTimeout(previewTimeout); error();
     const item = model();
-    try { await post("/api/viewed", { id: item.id, sha256: item.sha256 }); ready.add(item.id); syncButton(); }
+    const generation = previewGeneration;
+    try { await post("/api/viewed", { id: item.id, sha256: item.sha256 }); if (generation === previewGeneration) ready.add(item.id); syncButton(); }
     catch (e) { error(e.message); }
   } else if (event.data.type === "model-error") {
+    previewGeneration++;
     clearTimeout(previewTimeout);
     ready.delete(modelId); syncButton(); error("Không mở được mô hình: " + String(event.data.message).slice(0, 240));
   }

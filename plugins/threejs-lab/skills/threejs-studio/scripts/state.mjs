@@ -84,6 +84,22 @@ export async function approvedReference(dir, state) {
   return item;
 }
 
+async function bundleSource(dir, id, source, output, requiredExport) {
+  requireValue([".mjs", ".js", ".ts"].includes(extname(source)), "Expected an ESM JS/TS source module");
+  const { build } = await import("esbuild");
+  const result = await build({ entryPoints: [resolve(source)], bundle: true, write: false,
+    format: "esm", platform: "browser", external: ["three", "three/*"], metafile: true,
+    loader: { ".png": "dataurl", ".jpg": "dataurl", ".webp": "dataurl" }, logLevel: "silent" });
+  requireValue(result.metafile.outputs[Object.keys(result.metafile.outputs)[0]].exports.includes(requiredExport), `Module must export ${requiredExport}`);
+  const sources = {};
+  for (const filename of Object.keys(result.metafile.inputs)) {
+    requireValue(!filename.includes("node_modules"), "Keep model dependencies to Three.js and local source files");
+    sources[filename] = (await readFile(resolve(filename))).toString("base64");
+  }
+  return [await snapshot(dir, id, output, result.outputFiles[0].contents),
+    await snapshot(dir, id, "sources.json", Buffer.from(JSON.stringify(sources, null, 2)))];
+}
+
 export async function addModel(dir, state, input) {
   const reference = await approvedReference(dir, state);
   requireValue(input.reference === reference.sha256, "Model reference hash does not match the approved image");
@@ -92,25 +108,12 @@ export async function addModel(dir, state, input) {
   const source = text(input.file, "file");
   const id = randomUUID();
   const files = [];
-  let entry;
+  let entry, behavior;
   if (state.engine === "threejs") {
-    requireValue([".mjs", ".js", ".ts"].includes(extname(source)), "Three.js input must be an ESM JS/TS module exporting createModel");
-    const { build } = await import("esbuild");
-    const result = await build({ entryPoints: [resolve(source)], bundle: true, write: false,
-      format: "esm", platform: "browser", external: ["three", "three/*"], metafile: true,
-      loader: { ".png": "dataurl", ".jpg": "dataurl", ".webp": "dataurl" }, logLevel: "silent" });
-    requireValue(result.metafile.outputs[Object.keys(result.metafile.outputs)[0]].exports.includes("createModel"),
-      "Module must export createModel");
-    entry = await snapshot(dir, id, "model.mjs", result.outputFiles[0].contents);
-    files.push(entry);
-    // Preserve every compiled source for editing/export, without serving the user's other files.
-    const sources = {};
-    for (const filename of Object.keys(result.metafile.inputs)) {
-      requireValue(!filename.includes("node_modules"), "Keep model dependencies to Three.js and local source files");
-      sources[filename] = (await readFile(resolve(filename))).toString("base64");
-    }
-    files.push(await snapshot(dir, id, "sources.json", Buffer.from(JSON.stringify(sources, null, 2))));
+    files.push(...await bundleSource(dir, id, source, "model.mjs", "createModel"));
+    entry = files[0];
   } else {
+    const behaviorSource = text(input.behavior, "Three.js --behavior source for the Blender asset");
     const bytes = await readFile(source);
     requireValue(bytes.length <= 100 * 1024 * 1024 && bytes.length >= 20 &&
       bytes.toString("ascii", 0, 4) === "glTF" && bytes.readUInt32LE(4) === 2 &&
@@ -122,6 +125,8 @@ export async function addModel(dir, state, input) {
       "GLB must embed buffers/textures; external URLs are not allowed");
     entry = await snapshot(dir, id, "model.glb", bytes);
     files.push(entry);
+    const scripted = await bundleSource(dir, id, behaviorSource, "behavior.mjs", "createBehavior");
+    files.push(...scripted); behavior = scripted[0].file;
     if (input.blend) {
       const blend = await readFile(input.blend);
       requireValue(blend.toString("ascii", 0, 7) === "BLENDER", "Invalid uncompressed .blend file");
@@ -129,7 +134,7 @@ export async function addModel(dir, state, input) {
     }
   }
   const item = { id, title, engine: state.engine, round: state.modelRound,
-    reference: reference.sha256, entry: entry.file, sha256: entry.sha256, files };
+    reference: reference.sha256, entry: entry.file, ...(behavior ? { behavior } : {}), sha256: entry.sha256, files };
   state.models.push(item);
   state.stage = "model_review";
   state.revision++;

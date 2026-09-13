@@ -1,4 +1,4 @@
 interface:
   display_name: "Three.js Studio"
-  short_description: "Review image options, then build Three.js or Blender assets"
-  default_prompt: "Use $threejs-studio to create image options, let me approve one, then build and preview its 3D model."
+  short_description: "Build in Three.js or Blender; animate both with Three.js"
+  default_prompt: "Use $threejs-studio to approve an image, author geometry in Blender or Three.js, then code Three.js motion and interaction."

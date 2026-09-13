@@ -1,17 +1,20 @@
 ---
 name: threejs-studio
-description: Create image options from a prompt, open a localhost review studio, then build the user-approved option as editable Three.js source or a Blender MCP asset. Use for prompt-to-3D, image-to-model, comparing visual options, or resuming an image/model approval workflow across coding agents.
+description: Create image options, get human approval on localhost, author geometry in Three.js or Blender MCP, then code Three.js motion, contraction and interaction for either model. Use for prompt-to-3D, image-to-model, animated interactive assets or resuming visual approval across coding agents. No paid image-to-3D service.
 ---
 
 # Three.js Studio
 
-One workflow, two outputs: **Three.js source** or **Blender asset**. The coding agent generates;
-the local studio displays options and records the user's decisions. It does not spawn an AI,
-include model credits, or turn an image into exact hidden geometry by itself.
+Two geometry engines, one interactive runtime: **Three.js code** or **Blender Python via MCP**,
+then **Three.js motion, deformation and interaction** for either result. The coding agent authors
+the model from the image; never send it to a paid image-to-3D provider. The studio records human
+choices, not automatic approval. A reference image cannot establish exact hidden geometry or physics.
 
 ## Start or resume
 
 Resolve `scripts/cli.mjs` relative to this SKILL.md; do not assume a checkout or home path.
+If a host returns a `skill://` URI (such as OMP), use the real `filePath`/`baseDir` from its read
+result before running Node. Never pass a virtual skill URI as a filesystem path.
 Run commands from the user's project, with the same `--dir` throughout.
 In a Git project, ensure that session directory is ignored without replacing existing ignore rules.
 
@@ -43,9 +46,13 @@ If browser auto-open is unavailable, return the live URL. Never claim it opened 
    Read [reconstruction.md](references/reconstruction.md), then only the selected engine:
    [threejs.md](references/threejs.md) or [blender.md](references/blender.md). Register each version
    with `add-model --file <model.ts|model.glb> --title "Option A" --reference <imageApproval.sha256>`.
-   For Blender, include `--blend <asset.blend>` when exported. Do not silently switch engines.
+   Both engines must follow [motion-interaction.md](references/motion-interaction.md).
+   For Blender, require `--behavior <behavior.ts>` and include `--blend <asset.blend>` when
+   exported. The GLB and its Three.js behavior are reviewed together. Do not silently switch engines.
 4. **wait_for_user_model_approval**: inspect the live model, front/side/back views, keyboard,
    resize and console errors; compare silhouette, structure and materials against the reference.
+   Exercise the requested motion/deformation, parameter changes, picking, pause and reset.
+   Camera orbit and whole-object spinning alone do not satisfy an interactive-model request.
    Use feedback to correct the current source, then add a new snapshot. The requester approves
    the model in the browser; agent QA scores do not constitute that approval.
 5. **deliver**: report the approved candidate's source/asset paths and reference hash, any
@@ -62,8 +69,8 @@ revision rounds invalidate previous approval; old files stay available as histor
 - The existing lab/science/physics skills apply when the task is educational; ordinary asset
   work does not need curriculum text, artificial metrics or a mandatory subagent swarm.
 - Never replace generated images with CSS/SVG mock art while calling them image-tool results.
-  If the host lacks image generation, use the explicit OpenAI fallback in image-options.md or
-  register the user's file. A missing provider is a real capability gap.
+  If the host lacks an image tool, ask for a reference image or help configure its existing tool.
+  Do not call a separate paid API or bypass the image approval gate.
 - Blender MCP is optional for Three.js. If Blender is unavailable, keep the approved image
   and explain the exact setup step; do not emit a dummy GLB or call a different paid service.
 - Do not copy credentials into HTML, prompts, model source, `studio.json` or Git. Model preview

@@ -98,7 +98,7 @@ export async function start(dir, { port = 0, sessionFile = true } = {}) {
         res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
         return send(res, 200, html, types[".html"]);
       }
-      const webFiles = new Set(["/app.js", "/style.css", "/viewer.html", "/viewer.js"]);
+      const webFiles = new Set(["/app.js", "/style.css", "/viewer.html", "/viewer.js", "/motion.js"]);
       let file;
       if (webFiles.has(pathname)) {
         file = join(skillRoot, "web", pathname.slice(1));

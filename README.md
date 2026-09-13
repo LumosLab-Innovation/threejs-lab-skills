@@ -1,8 +1,8 @@
 # Three.js Lab Skills
 
-Portable skills for Codex, Claude Code and OpenCode: **prompt → image options → your approval → Three.js source or Blender MCP asset → localhost 3D review**. Includes the existing learning-lab skills and 23 focused procedural-graphics specialists.
+Portable skills for Codex, Claude Code, Grok Build, OpenCode and OMP (Oh My Pi): **prompt → image options → your approval → model authored in Three.js or Blender → Three.js motion and interaction → localhost review**. Includes the existing learning-lab skills and 23 focused procedural-graphics specialists.
 
-The coding agent generates the content; the bundled local studio displays real options and records your choices. No hosted backend or AI subscription is bundled.
+The coding agent writes geometry or Blender Python from the approved reference, then authors Three.js movement, deformation and interaction for either output. No paid image-to-3D service or hosted backend is used. The studio displays real options and records your choices; it does not include an AI subscription.
 
 ![Aurora Field Lab preview](examples/fancy-field-lab/screenshots/desktop.png)
 
@@ -10,25 +10,21 @@ The coding agent generates the content; the bundled local studio displays real o
 
 Requirements: Node.js 22+, npm, Git, and a coding CLI with local skills and shell access. The repository is public.
 
-Codex (PowerShell, Bash or zsh):
+Install for all five CLIs (PowerShell, Bash or zsh):
 
 ```sh
-npx --yes --package=github:LumosLab-Innovation/threejs-lab-skills threejs-lab install --agent codex --global
+npx --yes --package="github:LumosLab-Innovation/threejs-lab-skills#codex/unified-3d-studio" threejs-lab install --agent all --global
 ```
 
-Claude Code:
+`all` uses two discovery roots, not five copies. To target one CLI, replace `all` with `codex`, `claude`, `grok`, `opencode` or `omp`. Omit `--global` for project-local installation. Other Agent Skills hosts can use `--skills-dir <their-supported-path>`; tool support still depends on the host.
 
-```sh
-npx --yes --package=github:LumosLab-Innovation/threejs-lab-skills threejs-lab install --agent claude --global
-```
-
-Use `--agent opencode` for OpenCode. Omit `--global` for project-local installation. Other hosts that read Agent Skills can use `--skills-dir <their-supported-path>`; this is not a claim that every CLI supports the same tools.
+This installs the working preview in [PR #1](https://github.com/LumosLab-Innovation/threejs-lab-skills/pull/1), not the older `main`. After merge, the `#codex/unified-3d-studio` suffix can be omitted.
 
 Start a new CLI session and ask:
 
-> Use threejs-studio. Create three image options for a brass desk lamp, open localhost so I can choose, then build the approved option as Three.js source. Let me inspect and approve the 3D result.
+> Use threejs-studio. Create three image options for a jointed desk lamp and open localhost for my choice. Build it in Blender, then use Three.js for joint movement, controls and clicking the light on/off. Let me review the result.
 
-Use `$threejs-studio` in Codex or `/threejs-studio` in Claude Code. Say **Blender asset** instead of **Three.js source** to use the other engine. Image generation must be available in your host, configured through the optional API fallback, or replaced by a reference image you supply. Blender requires a connected addon/MCP server.
+Use `$threejs-studio` in Codex or `/threejs-studio` in Claude Code. Say **Three.js source** to code the geometry instead. Images come from the host's existing image tool or a reference you supply; no separate paid API fallback is bundled. Blender needs its connected addon/MCP server. CLI subscriptions and host image-tool limits remain separate.
 
 The installer copies skills and installs the two studio dependencies. It stops before overwriting edited or unowned conflicting files; it never changes your MCP settings or replaces existing symlinked skills. Run it again to update, or use `--dry-run` to preview. Existing installations may need conflict reconciliation or a separate project-local destination.
 
@@ -48,7 +44,7 @@ See [Studio quickstart and capability matrix](docs/studio.md) for image generati
 | Installed Awesome Graphics skills | 23 MIT skill/reference packages for geometry, materials, atmosphere, water, effects and validation |
 | img2threejs | Adapted image-analysis → detail inventory → staged reconstruction → visual correction workflow; **not its Forge runtime** |
 | Vibe3D | Adapted hard-surface modeling rules and editable source/preview workflow; **not its registry or custom shader-baking exporter** |
-| New `threejs-studio` | Cross-CLI installer, localhost image/model review, immutable snapshots, Three.js preview/export and Blender collection exporter |
+| New `threejs-studio` | Cross-CLI installer, localhost approval, immutable snapshots, shared Three.js interaction/playback and Blender collection exporter |
 
 ## Develop the Studio
 
