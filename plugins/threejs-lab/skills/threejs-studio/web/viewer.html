@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>3D Preview</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #e9ede3;
+        color: #283425;
+        font: 12px system-ui;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #tools {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      button {
+        font: inherit;
+        min-height: 36px;
+        min-width: 36px;
+        border: 1px solid #ccd4c1;
+        background: #ffffffed;
+        color: #283425;
+        border-radius: 7px;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #edf2e7;
+      }
+      button:focus-visible {
+        outline: 3px solid #466341;
+      }
+      button[aria-pressed="true"] {
+        background: #466341;
+        color: white;
+      }
+      #info {
+        position: fixed;
+        bottom: 12px;
+        left: 15px;
+        pointer-events: none;
+        color: #586650;
+        font-size: 11px;
+      }
+      #failure {
+        position: fixed;
+        inset: 45% 20px auto;
+        text-align: center;
+        color: #872d1f;
+      }
+      #note {
+        margin: 0;
+        font-size: 11px;
+        color: #586650;
+        background: #fff;
+        padding: 8px;
+        border-radius: 6px;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      #bottom {
+        position: fixed;
+        bottom: 28px;
+        left: 12px;
+        right: 12px;
+        display: grid;
+        gap: 8px;
+        max-height: 40vh;
+        overflow: auto;
+      }
+      #playback {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        background: #f7f8f0eb;
+        border-radius: 9px;
+        padding: 8px;
+      }
+      #parameters {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+      }
+      #parameters label {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 6px;
+        min-width: 200px;
+      }
+      #parameters input {
+        width: 80px;
+        flex: 1;
+        min-width: 60px;
+        min-height: 24px;
+        accent-color: #466341;
+      }
+      #parameters output {
+        min-width: 24px;
+        text-align: right;
+      }
+      @media (max-width: 480px) {
+        #parameters {
+          flex-basis: 100%;
+          flex-direction: column;
+        }
+        #parameters label {
+          min-width: 0;
+        }
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three.js",
+          "three/addons/": "/vendor/addons/"
+        }
+      }
+    </script>
+    <script type="module" src="/viewer.js"></script>
+  </head>
+  <body>
+    <div id="tools">
+      <button id="front">Trước</button><button id="side">Bên</button
+      ><button id="back">Sau</button><button id="reset">Góc ¾</button
+      ><button id="wire" aria-pressed="false">Wireframe</button
+      ><button id="rotate" aria-pressed="false">Xoay</button
+      ><button id="fullscreen" aria-label="Toàn màn hình">⛶</button
+      ><button id="export" disabled>GLB ↓</button>
+    </div>
+    <span id="info" role="status">Đang tải…</span>
+    <div id="bottom">
+      <p id="note" role="status" hidden></p>
+      <div id="playback" hidden>
+        <button id="play">Tạm dừng</button><button id="restart">Đặt lại</button>
+        <div id="parameters"></div>
+      </div>
+    </div>
+    <p id="failure" role="alert" hidden></p>
+  </body>
+</html>

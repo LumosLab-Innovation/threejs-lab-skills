@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="review-key" content="__REVIEW_KEY__" />
+    <title>Three.js Studio · LumosLab</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='m16 3 12 7v13l-12 7L4 23V10Z' fill='%23466341'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="Three.js Studio"
+        ><svg viewBox="0 0 28 28" aria-hidden="true">
+          <path
+            d="m14 2 11 6v12l-11 6-11-6V8Zm0 0v12m11-6-11 6L3 8m11 6v12"
+          /></svg
+        ><span>three.js <strong>studio</strong></span></a
+      ><span class="byline">LUMOSLAB</span>
+    </header>
+    <main>
+      <nav aria-label="Tiến trình">
+        <ol class="steps">
+          <li id="step-image">01 <span>Ảnh tham chiếu</span></li>
+          <li id="step-model">02 <span>Mô hình 3D</span></li>
+          <li id="step-done">03 <span>Hoàn tất</span></li>
+        </ol>
+      </nav>
+      <div class="heading">
+        <div>
+          <h1 id="title">Studio</h1>
+          <p id="prompt"></p>
+        </div>
+        <span id="status" role="status"></span>
+      </div>
+      <p id="error" role="alert" hidden></p>
+      <section
+        id="images"
+        class="image-options"
+        aria-label="Phương án ảnh"
+      ></section>
+      <section id="workspace" hidden>
+        <aside id="reference">
+          <span class="eyebrow">ẢNH ĐÃ CHỌN</span
+          ><img id="reference-image" alt="Ảnh tham chiếu đã duyệt" /><button
+            id="change-reference"
+            class="quiet"
+            type="button"
+          >
+            Đổi ảnh
+          </button>
+        </aside>
+        <div class="model-panel">
+          <div id="model-options" role="group" aria-label="Phương án 3D"></div>
+          <div class="viewport">
+            <iframe
+              id="viewer"
+              title="Xem mô hình 3D"
+              sandbox="allow-scripts allow-downloads"
+              allow="fullscreen"
+              hidden
+            ></iframe>
+            <div id="waiting">
+              <span class="waiting-symbol" aria-hidden="true">◇</span
+              ><span>Đang chờ mô hình từ CLI</span>
+            </div>
+          </div>
+          <div id="downloads" aria-label="Tải mô hình"></div>
+        </div>
+      </section>
+      <section id="empty" hidden>
+        <span class="waiting-symbol" aria-hidden="true">◇</span
+        ><span>Đang chờ ảnh từ CLI</span>
+      </section>
+      <form id="revision" hidden>
+        <label for="feedback">Bạn muốn sửa gì?</label
+        ><textarea id="feedback" maxlength="2000" rows="2" required></textarea>
+        <div>
+          <button type="button" id="cancel-revision" class="quiet">Hủy</button
+          ><button type="submit" class="primary">Gửi yêu cầu</button>
+        </div>
+      </form>
+      <footer id="actions">
+        <div id="engine-picker">
+          <label for="engine">Đầu ra</label
+          ><select id="engine">
+            <option value="threejs">Three.js · Source</option>
+            <option value="blender">Blender · GLB</option>
+          </select>
+        </div>
+        <div class="action-buttons">
+          <button type="button" id="revise" class="secondary">
+            Yêu cầu sửa</button
+          ><button type="button" id="approve" class="primary" disabled>
+            Chọn ảnh <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

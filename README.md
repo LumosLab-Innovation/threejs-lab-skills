@@ -1,32 +1,141 @@
-# Three.js Lab Codex Plugin
+<div align="center">
 
-Local Codex marketplace plugin for production-grade 3D learning labs, Three.js models, physics simulation, optimization, and QA.
+# Three.js Lab Skills
 
-![Aurora Field Lab preview](examples/fancy-field-lab/screenshots/desktop.png)
+**Choose an image. Build a model. Make it move.**
+
+Three.js or Blender for geometry. Three.js for motion, contraction and interaction.
+
+[![CI](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml/badge.svg?branch=codex%2Funified-3d-studio)](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-466341)](LICENSE)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-35-466341)](plugins/threejs-lab/skills)
+[![GitHub stars](https://img.shields.io/github/stars/LumosLab-Innovation/threejs-lab-skills?style=flat&color=466341)](https://github.com/LumosLab-Innovation/threejs-lab-skills/stargazers)
+
+**Codex · Claude Code · Grok Build · OpenCode · OMP**
+
+[Install](#one-command-install) · [Live gallery ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
+
+</div>
+
+[![Earth model from Lab029s — open the interactive gallery](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth)
+
+Your coding agent authors the model from the approved image, then codes its behavior. No paid image-to-3D service, hosted backend or second AI process. You choose the image and approve the result on localhost.
 
 ## One-Command Install
 
-Requirements: Codex CLI, Node.js, Git, and GitHub access to this private repo.
+Requirements: Node.js 22+, npm, Git, and a coding CLI with local skills and shell access. The repository is public.
 
-PowerShell:
+Install for all five CLIs (PowerShell, Bash or zsh):
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$repo='https://github.com/HungBil/threejs-lab-codex-plugin.git'; $dir=Join-Path $env:TEMP 'threejs-lab-codex-plugin'; if (Test-Path (Join-Path $dir '.git')) { git -C $dir pull --ff-only } else { git clone $repo $dir }; node (Join-Path $dir 'scripts/install.mjs')"
+```sh
+npx --yes --package="github:LumosLab-Innovation/threejs-lab-skills#codex/unified-3d-studio" threejs-lab install --agent all --global
 ```
 
-Bash:
+`all` uses two discovery roots, not five copies. To target one CLI, replace `all` with `codex`, `claude`, `grok`, `opencode` or `omp`. Omit `--global` for project-local installation. Other Agent Skills hosts can use `--skills-dir <their-supported-path>`; tool support still depends on the host.
+
+This installs the working preview in [PR #1](https://github.com/LumosLab-Innovation/threejs-lab-skills/pull/1), not the older `main`. After merge, the `#codex/unified-3d-studio` suffix can be omitted.
+
+Start a new CLI session and ask:
+
+> Use threejs-studio. Create three image options for a jointed desk lamp and open localhost for my choice. Build it in Blender, then use Three.js for joint movement, controls and clicking the light on/off. Let me review the result.
+
+Use `$threejs-studio` in Codex or `/threejs-studio` in Claude Code. Say **Three.js source** to code the geometry instead. Images come from the host's existing image tool or a reference you supply; no separate paid API fallback is bundled. Blender needs its connected addon/MCP server. CLI subscriptions and host image-tool limits remain separate.
+
+The installer copies skills and installs the two studio dependencies. It stops before overwriting edited or unowned conflicting files; it never changes your MCP settings or replaces existing symlinked skills. Run it again to update, or use `--dry-run` to preview. Existing installations may need conflict reconciliation or a separate project-local destination.
+
+For an existing checkout:
 
 ```bash
-bash -lc 'repo="https://github.com/HungBil/threejs-lab-codex-plugin.git"; dir="${TMPDIR:-/tmp}/threejs-lab-codex-plugin"; if [ -d "$dir/.git" ]; then git -C "$dir" pull --ff-only; else git clone "$repo" "$dir"; fi; node "$dir/scripts/install.mjs"'
+node scripts/install.mjs --agent codex --global
 ```
 
-Start a new Codex thread after installing so the skill metadata is loaded.
+See [Studio quickstart and capability matrix](docs/studio.md) for image generation, Blender setup, resume, export and security boundaries; [source inventory](THIRD_PARTY_NOTICES.md) records what was reused and what was not.
 
-For an existing checkout, run:
+## Two Engines, One Runtime
 
-```bash
-node scripts/install.mjs
+```text
+Prompt → image options → YOU CHOOSE
+                            ├─ Three.js: code the geometry
+                            └─ Blender MCP: author the mesh, rig and shape keys
+                                              ↓
+                             Three.js motion + deformation + interaction
+                                              ↓
+                                localhost review → YOU APPROVE
 ```
+
+| Geometry engine | Editable output | Shared runtime |
+| --- | --- | --- |
+| Three.js | JS/TS model factory + source modules | Animation, parameter controls, picking, pause/reset |
+| Blender Python via MCP | GLB + `.blend` + construction Python + JS/TS behavior | The same Three.js controls, using named parts, bones or morph targets |
+
+**A GLB is not the whole interaction program.** Keep its Three.js behavior/source alongside it. Blender requires a connected addon; no external image-to-mesh provider substitutes for it.
+
+## Lab029s Model Gallery
+
+**[Explore the models in 3D ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/)** — orbit, zoom, play and reset. No sign-in.
+
+| Earth · Three.js | Moon · Three.js |
+| :---: | :---: |
+| [![Earth with day and night lighting](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth) | [![Moon model](assets/showcase/lab029s/moon.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#moon) |
+| **Classroom globe · GLB** | **Flashlight · GLB** |
+| [![Classroom globe model](assets/showcase/lab029s/globe.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#globe) | [![Flashlight model](assets/showcase/lab029s/flashlight.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#flashlight) |
+
+Real canvas captures of existing **Lab029s** models, adapted for standalone viewing with the skill's shared Three.js playback. Only 3D models: no lab UI or generated mock screenshots. These are not newly Blender-generated models. Earth textures: NASA/GSFC; Moon: Solar System Scope, CC BY 4.0. [Full credits, source revisions and screenshot reproduction](gallery/ATTRIBUTION.md).
+
+Gallery assets are excluded from skill installation. The original teaching demos and their benchmark records remain in [examples](examples); [shared motion examples](plugins/threejs-lab/skills/threejs-studio/assets/examples) remain available as source.
+
+### Run the gallery locally
+
+```sh
+npm run setup
+npm run gallery:build
+python -m http.server 8080 --bind 127.0.0.1 --directory dist/gallery
+```
+
+Open `http://127.0.0.1:8080/`. GitHub Pages publishes the same static build; no backend, paid model service or runtime CDN.
+
+## What Was Combined
+
+| Source | Included here |
+| --- | --- |
+| Existing Three.js Lab skills | 11 lab, model, science, physics and QA skills, unchanged demo collection |
+| Installed Awesome Graphics skills | 23 MIT skill/reference packages for geometry, materials, atmosphere, water, effects and validation |
+| [img2threejs](https://github.com/img2threejs/img2threejs) | Adapted image-analysis → detail inventory → staged reconstruction → visual correction workflow; **not its Forge runtime** |
+| [Vibe3D](https://github.com/vibe-stack/vibe3d) | Adapted hard-surface modeling rules and editable source/preview workflow; **not its registry or custom shader-baking exporter** |
+| New `threejs-studio` | Cross-CLI installer, localhost approval, immutable snapshots, shared Three.js interaction/playback and Blender collection exporter |
+
+## Develop the Studio
+
+```sh
+npm run setup
+npm test
+npm run validate
+node scripts/cli.mjs init --prompt "Your model brief"
+node scripts/cli.mjs serve --background
+```
+
+`serve` opens a loopback-only URL automatically. The CLI agent adds images/models with the commands in the skill; only the person using the studio approves them. The studio does not silently launch a second AI process.
+
+## Star History
+
+If this workflow helps, [star the repo](https://github.com/LumosLab-Innovation/threejs-lab-skills). Share a reference, a runnable model and what you improved in an [issue](https://github.com/LumosLab-Innovation/threejs-lab-skills/issues).
+
+<a href="https://www.star-history.com/?repos=LumosLab-Innovation%2Fthreejs-lab-skills&amp;type=date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date&amp;theme=dark">
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date">
+    <img alt="GitHub star history for LumosLab-Innovation/threejs-lab-skills" src="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date" width="800">
+  </picture>
+</a>
+
+Chart provided by [Star History](https://github.com/star-history/star-history); data comes from this repository, not an example growth curve.
+
+<details>
+<summary>Learning-lab toolkit, original examples and benchmark documentation</summary>
+
+## Existing Learning-Lab Toolkit
+
+The remaining sections document the original educational workflows and retained demo evidence, not fresh acceptance results for every imported skill.
 
 ## Why This Exists
 
@@ -122,14 +231,14 @@ These screenshots are generated by `scripts/benchmark-examples.mjs` from the sam
 
 | Demo | Desktop Benchmark | Mobile Benchmark |
 | --- | --- | --- |
-| Density buoyancy | <img src="examples/density-buoyancy-lab/screenshots/desktop-benchmark.png" alt="Density buoyancy desktop benchmark" width="360"> | <img src="examples/density-buoyancy-lab/screenshots/mobile-benchmark.png" alt="Density buoyancy mobile benchmark" width="180"> |
-| Coulomb force | <img src="examples/coulomb-force-lab/screenshots/desktop-benchmark.png" alt="Coulomb force desktop benchmark" width="360"> | <img src="examples/coulomb-force-lab/screenshots/mobile-benchmark.png" alt="Coulomb force mobile benchmark" width="180"> |
-| Fancy field | <img src="examples/fancy-field-lab/screenshots/desktop-benchmark.png" alt="Fancy field desktop benchmark" width="360"> | <img src="examples/fancy-field-lab/screenshots/mobile-benchmark.png" alt="Fancy field mobile benchmark" width="180"> |
-| KHTN Chemistry gas | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png" alt="Chemistry gas desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png" alt="Chemistry gas mobile benchmark" width="180"> |
-| KHTN Physics circuit | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png" alt="Physics circuit desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png" alt="Physics circuit mobile benchmark" width="180"> |
-| KHTN Biology circulation | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Biology circulation desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Biology circulation mobile benchmark" width="180"> |
-| KHTN Biology respiration | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Biology respiration desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Biology respiration mobile benchmark" width="180"> |
-| KHTN Biology ecosystem | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Biology ecosystem desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Biology ecosystem mobile benchmark" width="180"> |
+| Density buoyancy | [Density buoyancy desktop benchmark](examples/density-buoyancy-lab/screenshots/desktop-benchmark.png) | [Density buoyancy mobile benchmark](examples/density-buoyancy-lab/screenshots/mobile-benchmark.png) |
+| Coulomb force | [Coulomb force desktop benchmark](examples/coulomb-force-lab/screenshots/desktop-benchmark.png) | [Coulomb force mobile benchmark](examples/coulomb-force-lab/screenshots/mobile-benchmark.png) |
+| Fancy field | [Fancy field desktop benchmark](examples/fancy-field-lab/screenshots/desktop-benchmark.png) | [Fancy field mobile benchmark](examples/fancy-field-lab/screenshots/mobile-benchmark.png) |
+| KHTN Chemistry gas | [Chemistry gas desktop benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png) | [Chemistry gas mobile benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png) |
+| KHTN Physics circuit | [Physics circuit desktop benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png) | [Physics circuit mobile benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png) |
+| KHTN Biology circulation | [Biology circulation desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Biology circulation mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
+| KHTN Biology respiration | [Biology respiration desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Biology respiration mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
+| KHTN Biology ecosystem | [Biology ecosystem desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Biology ecosystem mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
 
 ### 2D Reference To 3D Biology Output
 
@@ -137,13 +246,13 @@ The biology demos keep the generated 2D input references next to the benchmark s
 
 | Lab | 2D Reference Input | 3D Desktop Output | 3D Mobile Output |
 | --- | --- | --- | --- |
-| Circulation | <img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Circulation 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Circulation 3D mobile output" width="150"> |
-| Respiration | <img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Respiration 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Respiration 3D mobile output" width="150"> |
-| Ecosystem | <img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Ecosystem 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Ecosystem 3D mobile output" width="150"> |
+| Circulation | [Circulation 2D reference](examples/khtn8-subject-labs/references/bio-circulation-reference.png) | [Circulation 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Circulation 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
+| Respiration | [Respiration 2D reference](examples/khtn8-subject-labs/references/bio-respiration-reference.png) | [Respiration 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Respiration 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
+| Ecosystem | [Ecosystem 2D reference](examples/khtn8-subject-labs/references/bio-ecosystem-reference.png) | [Ecosystem 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Ecosystem 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
 
 ### Optimization Benchmark Highlights
 
-Current run: 24/24 desktop/mobile benchmark profiles pass. The point is not just "pretty"; each demo proves render budget, state integrity, reset, responsive layout, local asset size, model size, texture size, and FE fit.
+Recorded demo run: 24/24 desktop/mobile benchmark profiles pass. The point is not just "pretty"; each demo proves render budget, state integrity, reset, responsive layout, local asset size, model size, texture size, and FE fit.
 
 Read the FPS numbers as browser-frame pacing, not maximum GPU throughput. Headless Chrome and `requestAnimationFrame` can sit near the display/runtime cadence, so the stronger optimization signals are p95 frame time, draw calls, triangles, texture count, transfer size, and whether state mutation/reset stays deterministic. The benchmark takes two warmed frame-pacing runs per viewport, disables headless background throttling, closes pages between profiles, and keeps the steadier run to avoid false failures from transient headless/GC spikes.
 
@@ -241,7 +350,7 @@ node scripts/validate.mjs
 Then reinstall:
 
 ```bash
-node scripts/install.mjs
+node scripts/install.mjs --agent codex --global
 ```
 
 ## Contents
@@ -259,9 +368,13 @@ node scripts/install.mjs
 ## Validation
 
 ```bash
-node scripts/validate.mjs
-bash .git/hooks/pre-push
+npm test
+python tests/blender_export_test.py
+npm run validate
+npm run check:package
 ```
 
-`scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
+`plugins/threejs-lab/skills/threejs-lab/scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
 `scripts/validate.mjs` also checks the KHTN biology visual QA ledger, 2D references, desktop/mobile screenshots, and 24-profile benchmark JSON.
+
+</details>

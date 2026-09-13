@@ -27,7 +27,7 @@ npm --prefix services/frontend run lint
 Run the plugin static check from a target repo:
 
 ```bash
-node <plugin-root>/scripts/check-threejs-lab.mjs <changed-scene-file.tsx>
+node <sibling-threejs-lab-skill>/scripts/check-threejs-lab.mjs <changed-scene-file.tsx>
 ```
 
 ## Budgets

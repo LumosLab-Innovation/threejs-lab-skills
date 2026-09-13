@@ -1,0 +1,4 @@
+interface:
+  display_name: "Three.js Studio"
+  short_description: "Build in Three.js or Blender; animate both with Three.js"
+  default_prompt: "Use $threejs-studio to approve an image, author geometry in Blender or Three.js, then code Three.js motion and interaction."

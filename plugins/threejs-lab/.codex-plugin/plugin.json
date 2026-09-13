@@ -1,11 +1,11 @@
 {
   "name": "threejs-lab",
-  "version": "0.1.0+codex.20260702030521",
-  "description": "Codex skills and hooks for building production-grade Three.js models, learning labs, physics simulations, and visual QA.",
+  "version": "0.3.0",
+  "description": "Author models in Three.js or Blender MCP, code Three.js motion and interaction for both, and approve results on localhost.",
   "author": {
-    "name": "Local developer"
+    "name": "LumosLab Innovation"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "keywords": [
     "threejs",
     "3d",
@@ -14,25 +14,20 @@
     "webgl"
   ],
   "skills": "./skills/",
-  "hooks": "./hooks/hooks.json",
   "interface": {
-    "displayName": "Three.js Lab",
-    "shortDescription": "Create polished 3D models and simulations.",
-    "longDescription": "Creator workflow for 3D science and learning labs: Three.js scene architecture, procedural and GLB model design, calibrated physics/simulation, performance budgets, visual QA, and installable Codex skill mechanics.",
-    "developerName": "Local developer",
+    "displayName": "Three.js Lab & Studio",
+    "shortDescription": "Approve images, then build interactive 3D models.",
+    "longDescription": "Author geometry in Three.js or Blender Python via MCP, then code Three.js motion, deformation and interaction for either model. Localhost human review, portable CLI skills and no paid image-to-3D service.",
+    "developerName": "LumosLab Innovation",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
       "Write"
     ],
     "defaultPrompt": [
-      "Use $learning-lab-3d-creator to build a complete 3D physics lab.",
-      "Use $science-model-director and $threejs-design-director before implementation to check science logic and 3D morphology.",
-      "Use $threejs-art-director before visual acceptance to block toy-like visuals and weak reference likeness.",
-      "Use $visual-lab-qa-agent to create a visual reference first, record a prompt/reference/screenshot/fix ledger, compare benchmark screenshots after, and loop on FIX_REQUIRED.",
-      "Use $khtn8-biology-lab-creator to build a strict KHTN8 biology lab with dense detail and FE benchmarks.",
-      "Use $threejs-model-creator to create a polished model asset.",
-      "Use $learning-lab-qa-pm-reviewer to review this lab before shipping."
+      "Use $threejs-studio to generate image options, open localhost for my approval, then create a Three.js model.",
+      "Use $threejs-studio to model my approved image in Blender, then code Three.js contraction and interaction.",
+      "Use $learning-lab-3d-creator to build and verify a complete 3D science lab."
     ]
   }
 }

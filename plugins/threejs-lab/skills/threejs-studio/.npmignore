@@ -1,0 +1,4 @@
+node_modules/
+.threejs-studio*/
+*.log
+__pycache__/

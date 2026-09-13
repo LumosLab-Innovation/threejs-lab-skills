@@ -1,0 +1,19 @@
+{
+  "name": "@lumoslab/threejs-lab-skills",
+  "version": "0.3.0",
+  "description": "Portable AI coding skills and a local image-to-3D approval studio.",
+  "license": "GPL-3.0-only",
+  "repository": "github:LumosLab-Innovation/threejs-lab-skills",
+  "homepage": "https://lumoslab-innovation.github.io/threejs-lab-skills/",
+  "bin": { "threejs-lab": "scripts/cli.mjs" },
+  "files": ["scripts", "plugins", ".agents", "docs", "THIRD_PARTY_NOTICES.md", "LICENSE"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check:package": "node scripts/check-package.mjs",
+    "gallery:build": "node scripts/build-gallery.mjs",
+    "studio": "node scripts/cli.mjs serve",
+    "setup": "npm --prefix plugins/threejs-lab/skills/threejs-studio ci --omit=dev"
+  }
+}

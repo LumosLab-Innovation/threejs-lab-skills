@@ -9,6 +9,8 @@ description: Router and baseline workflow for Three.js lab work. Use when the us
 
 Load the most specific skill before building:
 
+- Prompt/image to a model with human option selection or Blender MCP: use `$threejs-studio` first. Its image approval gate takes precedence; the educational workflow below applies only if the requested asset is a learning lab.
+- Advanced procedural graphics: use `$threejs-skill-router` and load only the relevant expert references.
 - Product lab, curriculum scene, agent-connected simulation, or reusable 3D lesson: use `$learning-lab-3d-creator`.
 - Science concept, variable mapping, causal logic, or visual necessity: use `$science-model-director`.
 - 3D morphology, object necessity, reference interpretation, and composition logic: use `$threejs-design-director`.
