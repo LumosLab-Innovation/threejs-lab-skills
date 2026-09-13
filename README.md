@@ -1,10 +1,29 @@
+<div align="center">
+
 # Three.js Lab Skills
 
-Portable skills for Codex, Claude Code, Grok Build, OpenCode and OMP (Oh My Pi): **prompt → image options → your approval → model authored in Three.js or Blender → Three.js motion and interaction → localhost review**. Includes the existing learning-lab skills and 23 focused procedural-graphics specialists.
+**Choose an image. Build a model. Make it move.**
 
-The coding agent writes geometry or Blender Python from the approved reference, then authors Three.js movement, deformation and interaction for either output. No paid image-to-3D service or hosted backend is used. The studio displays real options and records your choices; it does not include an AI subscription.
+Three.js or Blender for geometry. Three.js for motion, contraction and interaction.
 
-![Aurora Field Lab preview](examples/fancy-field-lab/screenshots/desktop.png)
+[![CI](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml/badge.svg?branch=codex%2Funified-3d-studio)](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-466341)](LICENSE)
+[![Agent Skills](https://img.shields.io/badge/Agent_Skills-35-466341)](plugins/threejs-lab/skills)
+[![GitHub stars](https://img.shields.io/github/stars/LumosLab-Innovation/threejs-lab-skills?style=flat&color=466341)](https://github.com/LumosLab-Innovation/threejs-lab-skills/stargazers)
+
+**Codex · Claude Code · Grok Build · OpenCode · OMP**
+
+[Install](#one-command-install) · [Gallery](#reference--3d-gallery) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
+
+</div>
+
+| Choose the reference | Explore interactive 3D |
+| :---: | :---: |
+| ![Local studio with three image options](assets/showcase/studio-reference-board.jpg) | ![Aurora field lab running in Three.js](assets/showcase/aurora-field.jpg) |
+
+*Real browser captures: the review studio and a bundled lab example. [Capture sources](#screenshot-sources).*
+
+Your coding agent authors the model from the approved image, then codes its behavior. No paid image-to-3D service, hosted backend or second AI process. You choose the image and approve the result on localhost.
 
 ## One-Command Install
 
@@ -36,14 +55,77 @@ node scripts/install.mjs --agent codex --global
 
 See [Studio quickstart and capability matrix](docs/studio.md) for image generation, Blender setup, resume, export and security boundaries; [source inventory](THIRD_PARTY_NOTICES.md) records what was reused and what was not.
 
+## Two Engines, One Runtime
+
+```text
+Prompt → image options → YOU CHOOSE
+                            ├─ Three.js: code the geometry
+                            └─ Blender MCP: author the mesh, rig and shape keys
+                                              ↓
+                             Three.js motion + deformation + interaction
+                                              ↓
+                                localhost review → YOU APPROVE
+```
+
+| Geometry engine | Editable output | Shared runtime |
+| --- | --- | --- |
+| Three.js | JS/TS model factory + source modules | Animation, parameter controls, picking, pause/reset |
+| Blender Python via MCP | GLB + `.blend` + construction Python + JS/TS behavior | The same Three.js controls, using named parts, bones or morph targets |
+
+**A GLB is not the whole interaction program.** Keep its Three.js behavior/source alongside it. Blender requires a connected addon; no external image-to-mesh provider substitutes for it.
+
+## Reference → 3D Gallery
+
+Existing educational examples, freshly captured in the browser. These are simplified teaching models, **not claims of photorealistic reconstruction** or new Blender-generated assets.
+
+| Example | Reference image | Running Three.js model |
+| --- | :---: | :---: |
+| **Circulation**<br>Heart rate, flow and vessel response | <a href="examples/khtn8-subject-labs/references/bio-circulation-reference.png"><img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation concept reference" width="320"></a> | <a href="assets/showcase/bio-circulation.jpg"><img src="assets/showcase/bio-circulation.jpg" alt="Fresh browser capture of the circulation model" width="480"></a> |
+| **Respiration**<br>Lung expansion, airflow and gas exchange | <a href="examples/khtn8-subject-labs/references/bio-respiration-reference.png"><img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration concept reference" width="320"></a> | <a href="assets/showcase/bio-respiration.jpg"><img src="assets/showcase/bio-respiration.jpg" alt="Fresh browser capture of the respiration model" width="480"></a> |
+| **Ecosystem**<br>Populations, pollution and balance | <a href="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png"><img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem concept reference" width="320"></a> | <a href="assets/showcase/bio-ecosystem.jpg"><img src="assets/showcase/bio-ecosystem.jpg" alt="Fresh browser capture of the ecosystem model" width="480"></a> |
+
+[Browse the lab source](examples/khtn8-subject-labs/index.html) · [Original visual QA record](examples/khtn8-subject-labs/VISUAL_QA_LOG.md)
+
+### Same Model, Different State
+
+| At rest | Contracted by interaction |
+| :---: | :---: |
+| ![GLB morph example at rest in the local viewer](assets/showcase/model-rest.jpg) | ![Same GLB after interaction and amplitude change](assets/showcase/model-contracted.jpg) |
+
+This mechanical example uses a named morph target, rate/amplitude sliders, picking and reset. Its [behavior module](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-behavior.mjs) runs with the [procedural model](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-model.mjs) and its exported/re-imported GLB. It is not an anatomical organ. The [Blender authoring example](plugins/threejs-lab/skills/threejs-studio/assets/examples/blender-pulse.py) produces the same named shape key; live Blender generation remains unverified until the addon connects.
+
+### Screenshot Sources
+
+<details>
+<summary>Capture details and how to reproduce</summary>
+
+All seven JPEGs in `assets/showcase/` are browser captures, not generated mock UI. Reference PNGs are retained repository assets. Showcase JPEGs are excluded from the installed skill package.
+
+| Capture | Source / state |
+| --- | --- |
+| `studio-reference-board.jpg` | Local studio with the three retained biology references; no approval fabricated |
+| `aurora-field.jpg` | `examples/fancy-field-lab/index.html`, Aurora preset, paused |
+| `bio-circulation.jpg`, `bio-respiration.jpg`, `bio-ecosystem.jpg` | `examples/khtn8-subject-labs/index.html?lab=<id>`, default values, orbit zoom |
+| `model-rest.jpg`, `model-contracted.jpg` | Exported/re-imported procedural GLB + `pulse-behavior.mjs`; paused/reset, then picked with amplitude 1 |
+
+Serve the existing examples locally:
+
+```sh
+python -m http.server 8080 --bind 127.0.0.1 --directory examples
+```
+
+Open `http://127.0.0.1:8080/khtn8-subject-labs/index.html?lab=bio-respiration` or `/fancy-field-lab/`. These older demos load Three.js from a CDN. The new studio serves its installed Three.js locally; follow [its quickstart](docs/studio.md) to reproduce the review and motion examples.
+
+</details>
+
 ## What Was Combined
 
 | Source | Included here |
 | --- | --- |
 | Existing Three.js Lab skills | 11 lab, model, science, physics and QA skills, unchanged demo collection |
 | Installed Awesome Graphics skills | 23 MIT skill/reference packages for geometry, materials, atmosphere, water, effects and validation |
-| img2threejs | Adapted image-analysis → detail inventory → staged reconstruction → visual correction workflow; **not its Forge runtime** |
-| Vibe3D | Adapted hard-surface modeling rules and editable source/preview workflow; **not its registry or custom shader-baking exporter** |
+| [img2threejs](https://github.com/img2threejs/img2threejs) | Adapted image-analysis → detail inventory → staged reconstruction → visual correction workflow; **not its Forge runtime** |
+| [Vibe3D](https://github.com/vibe-stack/vibe3d) | Adapted hard-surface modeling rules and editable source/preview workflow; **not its registry or custom shader-baking exporter** |
 | New `threejs-studio` | Cross-CLI installer, localhost approval, immutable snapshots, shared Three.js interaction/playback and Blender collection exporter |
 
 ## Develop the Studio
@@ -57,6 +139,23 @@ node scripts/cli.mjs serve --background
 ```
 
 `serve` opens a loopback-only URL automatically. The CLI agent adds images/models with the commands in the skill; only the person using the studio approves them. The studio does not silently launch a second AI process.
+
+## Star History
+
+If this workflow helps, [star the repo](https://github.com/LumosLab-Innovation/threejs-lab-skills). Share a reference, a runnable model and what you improved in an [issue](https://github.com/LumosLab-Innovation/threejs-lab-skills/issues).
+
+<a href="https://www.star-history.com/?repos=LumosLab-Innovation%2Fthreejs-lab-skills&amp;type=date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date&amp;theme=dark">
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date">
+    <img alt="GitHub star history for LumosLab-Innovation/threejs-lab-skills" src="https://api.star-history.com/chart?repos=LumosLab-Innovation/threejs-lab-skills&amp;type=date" width="800">
+  </picture>
+</a>
+
+Chart provided by [Star History](https://github.com/star-history/star-history); data comes from this repository, not an example growth curve.
+
+<details>
+<summary>Learning-lab toolkit, original examples and benchmark documentation</summary>
 
 ## Existing Learning-Lab Toolkit
 
@@ -301,3 +400,5 @@ npm run check:package
 
 `plugins/threejs-lab/skills/threejs-lab/scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
 `scripts/validate.mjs` also checks the KHTN biology visual QA ledger, 2D references, desktop/mobile screenshots, and 24-profile benchmark JSON.
+
+</details>
