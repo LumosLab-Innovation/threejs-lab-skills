@@ -1,15 +1,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
+import catalog from './catalog.json';
 
-export const sourceRevision = 'ead290a22869266df4f60483b67af5fd19ea576c';
-const source = 'https://github.com/LumosLab-Innovation/threejs-lab-skills/blob/codex/unified-3d-studio/gallery/';
-export const models = [
-  { id: 'earth', title: 'Earth', format: 'Three.js · day & night', source: source + 'models.js', assets: ['earth_day_nasa.webp', 'earth_night_nasa.webp'] },
-  { id: 'moon', title: 'Moon', format: 'Three.js · textured mesh', source: source + 'models.js', assets: ['moon-solar-system-scope.webp'] },
-  { id: 'globe', title: 'Classroom globe', format: 'GLB · project model', source: source + 'assets/classroom_globe.glb', assets: ['classroom_globe.glb', 'earth_day_nasa.webp'] },
-  { id: 'flashlight', title: 'Flashlight', format: 'GLB · project model', source: source + 'assets/flashlight.glb', assets: ['flashlight.glb'] },
-];
+export const models = catalog.models;
+const decoder = new DRACOLoader().setDecoderPath('draco/').setDecoderConfig({ type: 'wasm' }).setWorkerLimit(1);
+const loader = new GLTFLoader().setDRACOLoader(decoder);
+export const disposeLoaders = () => decoder.dispose();
 
 // Lab029s EarthMovementsScene: sphere, tilt, night-side overlay and Fresnel shell.
 // Gallery adaptation removes lesson labels, orbit paths and assessment UI.
@@ -20,9 +18,14 @@ gl_Position=projectionMatrix*viewMatrix*world;}`;
 const sunDirection = new THREE.Vector3(-3, 2, 3).normalize();
 
 export async function loadModel(id, renderer) {
+  const spec = models.find(model => model.id === id);
+  if (!spec) throw new Error('Unknown model');
   const resources = new Set();
+  let mixer, animationRoot, activeClip;
+  const clips = [];
   const own = (resource) => { resources.add(resource); return resource; };
   const dispose = () => {
+    if (mixer) { mixer.stopAllAction(); mixer.uncacheRoot(animationRoot); }
     for (const r of resources) { r.dispose(); if (r.isTexture) r.source?.data?.close?.(); }
     resources.clear();
   };
@@ -37,12 +40,21 @@ export async function loadModel(id, renderer) {
   const spin = new THREE.Group();
   root.add(spin);
   try {
-    if (id === 'earth' || id === 'moon') {
-      const map = await texture(id === 'earth' ? 'earth_day_nasa.webp' : 'moon-solar-system-scope.webp');
-      const surface = mesh(new THREE.SphereGeometry(1, 72, 48), new THREE.MeshStandardMaterial({ map, roughness: .78, metalness: 0 }));
+    if (spec.kind === 'planet') {
+      const map = await texture(spec.file);
+      const surface = mesh(new THREE.SphereGeometry(1, 72, 48), new THREE.MeshStandardMaterial({ map, roughness: .78, metalness: 0, ...(id === 'sun' ? { emissiveMap: map, emissive: 0xff9d18, emissiveIntensity: 1.75, toneMapped: false } : {}) }));
       spin.add(surface);
       spin.rotation.y = id === 'earth' ? 2.8 : .5;
       root.rotation.z = id === 'earth' ? THREE.MathUtils.degToRad(23.5) : .08;
+      // Ring geometry and proportions retained from the Grade 3 solar-system scene.
+      if (id === 'saturn') {
+        for (const [inner, outer, color, opacity] of [[1.28, 2.16, 0xe5c98a, .76], [1.08, 1.28, 0x9c7b48, .52]]) {
+          const ring = mesh(new THREE.RingGeometry(inner, outer, 96), new THREE.MeshBasicMaterial({ color, transparent: true, opacity, side: THREE.DoubleSide, depthWrite: false }));
+          ring.rotation.x = Math.PI / 2.13;
+          root.add(ring);
+        }
+        root.rotation.z = -.3;
+      }
       if (id === 'earth') {
         const nightMap = await texture('earth_night_nasa.webp');
         spin.add(mesh(new THREE.SphereGeometry(1.0025, 72, 48), new THREE.ShaderMaterial({
@@ -64,9 +76,7 @@ export async function loadModel(id, renderer) {
         })));
       }
     } else {
-      const spec = models.find(model => model.id === id);
-      if (!spec) throw new Error('Unknown model');
-      const gltf = await new GLTFLoader().loadAsync(`assets/${spec.assets[0]}`);
+      const gltf = await loader.loadAsync(`assets/${spec.file}`);
       const object = gltf.scene;
       object.traverse(part => {
         if (!part.isMesh) return;
@@ -76,6 +86,7 @@ export async function loadModel(id, renderer) {
           original.dispose();
         }
         own(part.geometry);
+        if (part.skeleton) own(part.skeleton);
         for (const material of Array.isArray(part.material) ? part.material : [part.material]) {
           own(material);
           for (const value of Object.values(material)) if (value?.isTexture) own(value);
@@ -92,7 +103,7 @@ export async function loadModel(id, renderer) {
             ? { map, roughness: .68, side: THREE.BackSide }
             : { color: 0x32443d, metalness: .55, roughness: .3 }));
         });
-      } else {
+      } else if (id === 'flashlight') {
         object.traverse(part => {
           if (!part.isMesh) return;
           const lens = part.name === 'FlashlightLens';
@@ -104,6 +115,14 @@ export async function loadModel(id, renderer) {
         });
         object.rotation.z = .2;
       }
+      if (gltf.animations.length) {
+        animationRoot = object;
+        mixer = new THREE.AnimationMixer(object);
+        clips.push(...gltf.animations);
+        activeClip = mixer.clipAction(clips[0]);
+        activeClip.play();
+        mixer.setTime(0);
+      }
       object.updateMatrixWorld(true);
       const box = new THREE.Box3().setFromObject(object);
       const size = box.getSize(new THREE.Vector3());
@@ -114,9 +133,19 @@ export async function loadModel(id, renderer) {
       normalized.add(object);
       normalized.scale.setScalar(scale);
       spin.add(normalized);
-      spin.rotation.y = id === 'globe' ? -.35 : -.5;
+      spin.rotation.y = id === 'globe' ? -.35 : id === 'flashlight' ? -.5 : id === 'cute-robot' ? 1.3 : 0;
     }
     const initialRotation = spin.rotation.y;
-    return { root, dispose, update: (_dt, elapsed) => { spin.rotation.y = initialRotation + elapsed * .18; } };
+    return {
+      root, dispose,
+      clips: clips.map((clip, index) => ({ index, name: clip.name || `Animation ${index + 1}` })),
+      selectClip(index) {
+        if (!Number.isInteger(index) || !clips[index]) throw new Error('Unknown animation');
+        mixer.stopAllAction();
+        activeClip = mixer.clipAction(clips[index]); activeClip.reset().play(); mixer.setTime(0);
+      },
+      reset() { if (mixer) { activeClip.reset().play(); mixer.setTime(0); } },
+      update: (dt, elapsed) => { if (mixer) mixer.update(dt); else spin.rotation.y = initialRotation + elapsed * .18; },
+    };
   } catch (error) { dispose(); throw error; }
 }

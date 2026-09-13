@@ -1,7 +1,7 @@
 name: Deploy model gallery
 on:
   push:
-    branches: [main, codex/unified-3d-studio]
+    branches: [main, codex/restore-readme-expand-gallery]
     paths:
       - 'gallery/**'
       - 'assets/showcase/lab029s/**'
