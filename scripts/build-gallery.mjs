@@ -9,12 +9,16 @@ const { build } = require('esbuild');
 const output = new URL('dist/gallery/', root);
 await mkdir(output, { recursive: true });
 // Explicit public files only: never publish the repo, local sessions or node_modules.
-for (const path of ['index.html', 'style.css', 'ATTRIBUTION.md', 'assets']) {
+for (const path of ['index.html', 'style.css', 'ATTRIBUTION.md', 'assets', 'catalog.json', 'notices']) {
   await cp(new URL(`gallery/${path}`, root), new URL(path, output), { recursive: true });
 }
 await cp(new URL('assets/showcase/lab029s/', root), new URL('images/', output), { recursive: true });
 await cp(new URL('LICENSE', root), new URL('LICENSE.txt', output));
 await cp(new URL('plugins/threejs-lab/skills/threejs-studio/node_modules/three/LICENSE', root), new URL('THREE-LICENSE.txt', output));
+await mkdir(new URL('draco/', output), { recursive: true });
+for (const file of ['draco_decoder.wasm', 'draco_wasm_wrapper.js']) {
+  await cp(new URL(`plugins/threejs-lab/skills/threejs-studio/node_modules/three/examples/jsm/libs/draco/gltf/${file}`, root), new URL(`draco/${file}`, output));
+}
 await build({
   entryPoints: [fileURLToPath(new URL('gallery/main.js', root))],
   bundle: true, minify: true, format: 'esm', target: 'es2022', legalComments: 'eof',

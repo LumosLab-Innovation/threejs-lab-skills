@@ -7,35 +7,36 @@ import { fileURLToPath } from 'node:url';
 
 const root = new URL('../', import.meta.url);
 test('gallery publishes only the approved assets, model renders and relative static runtime', () => {
-  const hashes = {
-    'classroom_globe.glb': '5177a2fd5c44726043e1d81c7d299edf9ef2af6db35e302e7544ee15abb429d9',
-    'flashlight.glb': 'b33ec7f40875e045430c6dfc80f9d8a79ce283951288f3f896cc431f5c7a4dca',
-    'earth_day_nasa.webp': '33af0ffcd8250b4c737fa6e99e965af9798260eacf33baa69b0e666fee54384b',
-    'earth_night_nasa.webp': '6cc4d37c98ae5cb34c4adede5e6df2e4b8cfb8f5068fe6bb73806e034a1e3f34',
-    'moon-solar-system-scope.webp': '9db7655f6a575005e8200714e85f1c1980e9d68609c9efd44a5d9bd7b0c19d08',
-  };
-  assert.deepEqual(readdirSync(new URL('gallery/assets', root)).sort(), Object.keys(hashes).sort());
-  for (const [name, hash] of Object.entries(hashes)) {
+  const catalog = JSON.parse(readFileSync(new URL('gallery/catalog.json', root)));
+  assert.equal(catalog.models.length, 43, 'The requested Lab029s collection must not shrink to a few examples');
+  assert.equal(new Set(catalog.models.map(model => model.id)).size, catalog.models.length);
+  for (const model of catalog.models) assert(catalog.assets[model.file], `Missing source: ${model.id}`);
+  assert.deepEqual(readdirSync(new URL('gallery/assets', root)).sort(), Object.keys(catalog.assets).sort());
+  for (const [name, asset] of Object.entries(catalog.assets)) {
     const data = readFileSync(new URL(`gallery/assets/${name}`, root));
-    assert.equal(createHash('sha256').update(data).digest('hex'), hash, `Source provenance changed: ${name}`);
+    assert.equal(data.length, asset.bytes);
+    assert.equal(createHash('sha256').update(data).digest('hex'), asset.sha256, `Source provenance changed: ${name}`);
     if (name.endsWith('.glb')) {
       assert.equal(data.toString('ascii', 0, 4), 'glTF');
       assert.equal(data.readUInt32LE(8), data.length);
       const gltf = JSON.parse(data.subarray(20, 20 + data.readUInt32LE(12)));
-      assert.equal(gltf.nodes.length, 5);
+      assert(gltf.nodes.length > 0);
       assert(gltf.meshes.every(mesh => mesh.primitives[0].attributes.POSITION !== undefined));
     }
   }
   const built = spawnSync(process.execPath, ['scripts/build-gallery.mjs'], { cwd: fileURLToPath(root), encoding: 'utf8', windowsHide: true });
   assert.equal(built.status, 0, built.stderr);
-  assert.deepEqual(readdirSync(new URL('dist/gallery/', root)).sort(), ['ATTRIBUTION.md', 'LICENSE.txt', 'THREE-LICENSE.txt', 'assets', 'images', 'index.html', 'main.js', 'style.css'].sort());
+  assert.deepEqual(readdirSync(new URL('dist/gallery/', root)).sort(), ['ATTRIBUTION.md', 'LICENSE.txt', 'THREE-LICENSE.txt', 'assets', 'catalog.json', 'draco', 'images', 'index.html', 'main.js', 'notices', 'style.css'].sort());
+  assert.equal(readFileSync(new URL('dist/gallery/draco/draco_decoder.wasm', root)).readUInt32LE(0), 0x6d736100);
+  assert(readFileSync(new URL('dist/gallery/draco/draco_wasm_wrapper.js', root)).length > 1000);
+  assert(readFileSync(new URL('dist/gallery/notices/DRACO-LICENSE.txt', root), 'utf8').includes('Apache License'));
   const html = readFileSync(new URL('dist/gallery/index.html', root), 'utf8');
   for (const [, path] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
     if (path.startsWith('https:') || path.startsWith('data:') || path === './') continue;
     assert(!path.startsWith('/'), `Breaks GitHub project path: ${path}`);
     assert(readFileSync(new URL(`dist/gallery/${path}`, root)).length > 0);
   }
-  for (const id of ['earth', 'moon', 'globe', 'flashlight']) {
+  for (const { id } of catalog.models) {
     const jpg = readFileSync(new URL(`dist/gallery/images/${id}.jpg`, root));
     assert.equal(jpg.readUInt16BE(0), 0xffd8);
     assert(jpg.length > 10000, `Missing real model render: ${id}`);

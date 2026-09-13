@@ -64,6 +64,11 @@ revision rounds invalidate previous approval; old files stay available as histor
 
 ## Scope and quality
 
+- When asked to extend a README or gallery, preserve existing content/images rather than
+  removing or collapsing them. Inventory the requested model
+  collection before choosing a subset; record included/excluded models and reasons. A few convenient
+  examples do not satisfy a request for most of an existing collection.
+
 - Start with the user's purpose, silhouette, scale, key details and intended camera. Use only
   relevant siblings from `../threejs-skill-router/SKILL.md` for advanced graphics.
 - The existing lab/science/physics skills apply when the task is educational; ordinary asset

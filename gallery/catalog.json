@@ -1,0 +1,558 @@
+{
+  "sourceRepository": "LumosLab-Innovation/Lab029s",
+  "sourceRevision": "ead290a22869266df4f60483b67af5fd19ea576c",
+  "assets": {
+    "heart.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/heart.glb",
+      "sha256": "e255734c4335b3ee8c88df7ffc8c3139a65941240e73a2497be48f585928cac0",
+      "bytes": 550528
+    },
+    "brain.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/brain.glb",
+      "sha256": "301d63400bca7f3da020b0470b4dba274145fba476e7c6a74054e99e19e1a7b2",
+      "bytes": 547996
+    },
+    "lungs.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/lungs.glb",
+      "sha256": "1236d3a3da143e6dd2d828ad88020dd9b22fa9d3e41e1932b4619ee34b244c75",
+      "bytes": 523000
+    },
+    "kidneys.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/kidneys.glb",
+      "sha256": "2fb5faf6e9d20bccdbeb48a046d2b3ce05a98df9f60e28910ed46e5d9fca030e",
+      "bytes": 425312
+    },
+    "liver.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/liver.glb",
+      "sha256": "9223b902a032e8115921a2f36c8dd63eceff73a8e5cd77f92c29e4b91b68aa33",
+      "bytes": 582384
+    },
+    "intestine.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/intestine.glb",
+      "sha256": "31ca2e681438212f456854a6511fcbb6a90714f2c538d49334e960a53190252e",
+      "bytes": 413532
+    },
+    "eyeball.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/eyeball.glb",
+      "sha256": "cbb5b295c4d637af6b220f066261a967511383f66e9166460711c61be54bed3e",
+      "bytes": 465728
+    },
+    "skin.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/skin.glb",
+      "sha256": "2fa8a90ff54d1eec587f603d934d881d119ead5b9c7144a47d94cfd00c7df8fd",
+      "bytes": 728740
+    },
+    "pancreas.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/pancreas.glb",
+      "sha256": "f2ae0c19d0734eee3b607dff0f69fc7b5213798475d74d8caaf78c2f01f075af",
+      "bytes": 593224
+    },
+    "inner-ear.glb": {
+      "sourcePath": "services/frontend/public/models/human-anatomy/specimens/inner-ear.glb",
+      "sha256": "616dd8bedb71262f250b2a2c9140210c953b73a38fdeb376855340841cfc4c70",
+      "bytes": 504412
+    },
+    "wind-turbine_2.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/wind-turbine_2.glb",
+      "sha256": "c6114aa03b5b7ab115eddaca70a4d367913cb81b5fd5be3bc01cd222e6682ab8",
+      "bytes": 96728,
+      "credit": {
+        "author": "Mylom (https://sketchfab.com/Mylom)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/wind-turbine-2-813c1f3b59654952929cbba1e6eab419",
+        "title": "wind-turbine 2"
+      }
+    },
+    "wind_generator.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/wind_generator.glb",
+      "sha256": "6575566250f9a92c3a2128f1f3c44275eecd076cbbd8dd964188582a4303132b",
+      "bytes": 310936,
+      "credit": {
+        "author": "Krogager (https://sketchfab.com/Krogager)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/wind-generator-ad031f59d375457485afdcb449597523",
+        "title": "Wind Generator"
+      }
+    },
+    "windy_tree.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/windy_tree.glb",
+      "sha256": "f7568942f27b1dc19da488a2420427e9ef79bbb71c71e55938d9fbfc3d5f5691",
+      "bytes": 2622296
+    },
+    "house.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/house.glb",
+      "sha256": "cead59093e07cdcf6112748716dad9dbadc6ae1c177f3bd13b0c27572cda9722",
+      "bytes": 119908
+    },
+    "clouds.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/clouds.glb",
+      "sha256": "a9da03fe70e38088127e2f44a0a940a9638307163595397bdacf246e8ac84b3f",
+      "bytes": 72472
+    },
+    "dark_clouds.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/dark_clouds.glb",
+      "sha256": "d3c7d5cba40a1151eb47a5875dfdb63d561a43b704ea87c6c3476864f2fce486",
+      "bytes": 1122540
+    },
+    "storm_clouds.glb": {
+      "sourcePath": "services/frontend/src/assets/grade04/lessson05/models/storm_clouds.glb",
+      "sha256": "4fac4c94d1a02493503bb85440b80561916a48c76a13554ef77daa83e32cebd8",
+      "bytes": 1021016
+    },
+    "bar-magnet.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/bar-magnet.glb",
+      "sha256": "4f43c24781124f078ad05c6d7eb9a28f14d5fdd731846e6d2c7e1ad2eed8a218",
+      "bytes": 105796
+    },
+    "magnetic-sorter.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/magnetic-sorter.glb",
+      "sha256": "a0a522e54fa6deb4c347701dde99982267e2c57288f5cd105c1be808d5a2309e",
+      "bytes": 375356
+    },
+    "magnetic-sample-kit.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/magnetic-sample-kit.glb",
+      "sha256": "47c120715232fdba6adcbfd038b66f79698b499f504ea74548fb2ac9c7c69d5e",
+      "bytes": 507264
+    },
+    "beverage-can.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/beverage-can.glb",
+      "sha256": "c381f8a72116e1193867ade79af0182836c7e9346c4a92a78e3317576c7d2b1a",
+      "bytes": 175468
+    },
+    "iron-nail.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/iron-nail.glb",
+      "sha256": "8ac309bdeb9b88451579e0f4d46eb3ed868dac7eedb789fd8aba9aa4abe13170",
+      "bytes": 17148
+    },
+    "wooden_plank.glb": {
+      "sourcePath": "services/frontend/src/assets/g5-magnets/models/wooden_plank.glb",
+      "sha256": "67549dd555944f86625118106ad24b05ee0ce4cb5979f68d5c44a14e6721418d",
+      "bytes": 20880
+    },
+    "cute_robot.glb": {
+      "sourcePath": "services/frontend/public/models/cute_robot.glb",
+      "sha256": "b2b7da2be55dbdf16018be0e4cfddeba33a2829a7da6786a893b36cebe33b97d",
+      "bytes": 7863832,
+      "credit": {
+        "author": "Annelida (https://sketchfab.com/Annelida)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/toy-robot-domowik-8f1f61ca0c844b978abfb43243513377",
+        "title": "Toy robot Domowik"
+      }
+    },
+    "yt-1300_cockpit_version_2.glb": {
+      "sourcePath": "services/frontend/public/models/spaceship_game/yt-1300_cockpit_version_2.glb",
+      "sha256": "963f4827205bd64db87023e8003103080f12ba1316bcda028772b25a74291d4c",
+      "bytes": 3094036,
+      "credit": {
+        "author": "MichaelEGA (https://sketchfab.com/MichaelEGA)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/yt-1300-cockpit-version-2-244bc823ca954092bc6edd4b48760072",
+        "title": "YT-1300 Cockpit Version 2"
+      }
+    },
+    "Rocket_ship.glb": {
+      "sourcePath": "services/frontend/public/models/games/Rocket_ship.glb",
+      "sha256": "66d7d603285442c6781dd86c7567fa70a0732cddeb4b00da9f936ee3a4b84206",
+      "bytes": 200948
+    },
+    "Space_rover.glb": {
+      "sourcePath": "services/frontend/public/models/games/Space_rover.glb",
+      "sha256": "ad5eb17a05507f02404ab4760067df6f316d1ab2b0fadb7d2ade2c0c6afb4d12",
+      "bytes": 331288
+    },
+    "crashed_rocket.glb": {
+      "sourcePath": "services/frontend/public/models/games/crashed_rocket.glb",
+      "sha256": "c94ea3f3e8ae3051b8a6f2911379c07ecd94a5852f41e35c7304b3f9d54d68b5",
+      "bytes": 4656852
+    },
+    "powersupply.glb": {
+      "sourcePath": "services/frontend/public/models/powersupply.glb",
+      "sha256": "49a43162cca03d6e0a1e1352902770752caaefdd626bd3fe8284dd6d98bf0c99",
+      "bytes": 575016
+    },
+    "lab_table.glb": {
+      "sourcePath": "services/frontend/public/models/lab_table.glb",
+      "sha256": "789dd41c34573f5622a2bc66b1eaf0621d4836507a2da4abb4dd2198fec9873c",
+      "bytes": 74720
+    },
+    "virtual_studio.glb": {
+      "sourcePath": "services/frontend/public/models/virtual_studio.glb",
+      "sha256": "a4dc5ef55408bc3877721255e39c435148798505cedb80251c68bb8447d34248",
+      "bytes": 1331584
+    },
+    "earth_day_nasa.webp": {
+      "sourcePath": "services/frontend/src/assets/earth-movements/textures/earth_day_nasa.webp",
+      "sha256": "33af0ffcd8250b4c737fa6e99e965af9798260eacf33baa69b0e666fee54384b",
+      "bytes": 285926
+    },
+    "moon-solar-system-scope.webp": {
+      "sourcePath": "services/frontend/src/assets/earth-movements/textures/moon-solar-system-scope.webp",
+      "sha256": "9db7655f6a575005e8200714e85f1c1980e9d68609c9efd44a5d9bd7b0c19d08",
+      "bytes": 31136
+    },
+    "classroom_globe.glb": {
+      "sourcePath": "services/frontend/src/assets/earth-movements/models/classroom_globe.glb",
+      "sha256": "5177a2fd5c44726043e1d81c7d299edf9ef2af6db35e302e7544ee15abb429d9",
+      "bytes": 139632
+    },
+    "flashlight.glb": {
+      "sourcePath": "services/frontend/src/assets/earth-movements/models/flashlight.glb",
+      "sha256": "b33ec7f40875e045430c6dfc80f9d8a79ce283951288f3f896cc431f5c7a4dca",
+      "bytes": 8236
+    },
+    "sun.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/sun.webp",
+      "sha256": "b6eb120e75b00e1bf1f1ce99850da05ebb53a3353d050074814695ebacfb7dc3",
+      "bytes": 96848
+    },
+    "mercury.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/mercury.webp",
+      "sha256": "f25a395667a5ccd30db199f1d1f9e0d86647a6ed173819edacf2a12b6dd7b533",
+      "bytes": 94266
+    },
+    "venus.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/venus.webp",
+      "sha256": "0d2e33edfba914ce46ccb06ad299f292aebf1081fad985cd1fb8d225c2ee5c84",
+      "bytes": 83076
+    },
+    "mars.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/mars.webp",
+      "sha256": "6e60fe527352d7db0b80bab1312a90bcdfa1c2fb2d0b4c7ecf7f160ac6ad0ba5",
+      "bytes": 59744
+    },
+    "jupiter.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/jupiter.webp",
+      "sha256": "723ed0364c8ecb20db4dc059aa95ecfb03fed154670e233798b4a1f6f0364a05",
+      "bytes": 40650
+    },
+    "saturn.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/saturn.webp",
+      "sha256": "4f40d51dec725811dcd6afad7209e1abc8f2a7dc8db51a2f45e7f9d7145d3aef",
+      "bytes": 9624
+    },
+    "uranus.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/uranus.webp",
+      "sha256": "7baa7d6ed6c6f100f70ae5dc2f3364492092ca0758e1887c404abf888c09db2d",
+      "bytes": 2562
+    },
+    "neptune.webp": {
+      "sourcePath": "services/frontend/src/assets/g3-sun-earth-moon/textures/neptune.webp",
+      "sha256": "5b53e9f70ce3b470df2e863375e988de05a63deb42c879e58e88a5e86d63a1e8",
+      "bytes": 5458
+    },
+    "earth_night_nasa.webp": {
+      "sourcePath": "services/frontend/src/assets/earth-movements/textures/earth_night_nasa.webp",
+      "sha256": "6cc4d37c98ae5cb34c4adede5e6df2e4b8cfb8f5068fe6bb73806e034a1e3f34",
+      "bytes": 160940
+    }
+  },
+  "models": [
+    {
+      "id": "heart",
+      "title": "Heart",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "heart.glb"
+    },
+    {
+      "id": "brain",
+      "title": "Brain",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "brain.glb"
+    },
+    {
+      "id": "lungs",
+      "title": "Lungs",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "lungs.glb"
+    },
+    {
+      "id": "kidneys",
+      "title": "Kidneys",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "kidneys.glb"
+    },
+    {
+      "id": "liver",
+      "title": "Liver",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "liver.glb"
+    },
+    {
+      "id": "intestine",
+      "title": "Intestine",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "intestine.glb"
+    },
+    {
+      "id": "eyeball",
+      "title": "Eyeball",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "eyeball.glb"
+    },
+    {
+      "id": "skin",
+      "title": "Skin",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "skin.glb"
+    },
+    {
+      "id": "pancreas",
+      "title": "Pancreas",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "pancreas.glb"
+    },
+    {
+      "id": "inner-ear",
+      "title": "Inner ear",
+      "group": "Anatomy",
+      "kind": "glb",
+      "file": "inner-ear.glb"
+    },
+    {
+      "id": "wind-turbine-2",
+      "title": "Wind turbine",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "wind-turbine_2.glb",
+      "animations": 1
+    },
+    {
+      "id": "wind-generator",
+      "title": "Wind generator",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "wind_generator.glb",
+      "animations": 1
+    },
+    {
+      "id": "windy-tree",
+      "title": "Tree in the wind",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "windy_tree.glb",
+      "animations": 1
+    },
+    {
+      "id": "house",
+      "title": "House",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "house.glb"
+    },
+    {
+      "id": "clouds",
+      "title": "Clouds",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "clouds.glb"
+    },
+    {
+      "id": "dark-clouds",
+      "title": "Dark clouds",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "dark_clouds.glb"
+    },
+    {
+      "id": "storm-clouds",
+      "title": "Storm clouds",
+      "group": "Wind & weather",
+      "kind": "glb",
+      "file": "storm_clouds.glb"
+    },
+    {
+      "id": "bar-magnet",
+      "title": "Bar magnet",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "bar-magnet.glb"
+    },
+    {
+      "id": "magnetic-sorter",
+      "title": "Magnetic sorter",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "magnetic-sorter.glb"
+    },
+    {
+      "id": "magnetic-sample-kit",
+      "title": "Material sample kit",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "magnetic-sample-kit.glb"
+    },
+    {
+      "id": "beverage-can",
+      "title": "Beverage can",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "beverage-can.glb"
+    },
+    {
+      "id": "iron-nail",
+      "title": "Iron nail",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "iron-nail.glb"
+    },
+    {
+      "id": "wooden-plank",
+      "title": "Wooden plank",
+      "group": "Magnets",
+      "kind": "glb",
+      "file": "wooden_plank.glb"
+    },
+    {
+      "id": "cute-robot",
+      "title": "Domowik robot",
+      "group": "Space & robotics",
+      "kind": "glb",
+      "file": "cute_robot.glb",
+      "animations": 1
+    },
+    {
+      "id": "yt-1300-cockpit-version-2",
+      "title": "YT-1300 cockpit",
+      "group": "Space & robotics",
+      "kind": "glb",
+      "file": "yt-1300_cockpit_version_2.glb"
+    },
+    {
+      "id": "rocket-ship",
+      "title": "Rocket ship",
+      "group": "Space & robotics",
+      "kind": "glb",
+      "file": "Rocket_ship.glb"
+    },
+    {
+      "id": "space-rover",
+      "title": "Space rover",
+      "group": "Space & robotics",
+      "kind": "glb",
+      "file": "Space_rover.glb"
+    },
+    {
+      "id": "crashed-rocket",
+      "title": "Crashed rocket",
+      "group": "Space & robotics",
+      "kind": "glb",
+      "file": "crashed_rocket.glb"
+    },
+    {
+      "id": "powersupply",
+      "title": "Power supply",
+      "group": "Equipment",
+      "kind": "glb",
+      "file": "powersupply.glb",
+      "animations": 6
+    },
+    {
+      "id": "lab-table",
+      "title": "Lab table",
+      "group": "Equipment",
+      "kind": "glb",
+      "file": "lab_table.glb"
+    },
+    {
+      "id": "virtual-studio",
+      "title": "Virtual studio",
+      "group": "Equipment",
+      "kind": "glb",
+      "file": "virtual_studio.glb"
+    },
+    {
+      "id": "earth",
+      "title": "Earth",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "earth_day_nasa.webp"
+    },
+    {
+      "id": "moon",
+      "title": "Moon",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "moon-solar-system-scope.webp"
+    },
+    {
+      "id": "globe",
+      "title": "Classroom globe",
+      "group": "Equipment",
+      "kind": "glb",
+      "file": "classroom_globe.glb"
+    },
+    {
+      "id": "flashlight",
+      "title": "Flashlight",
+      "group": "Equipment",
+      "kind": "glb",
+      "file": "flashlight.glb"
+    },
+    {
+      "id": "sun",
+      "title": "Sun",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "sun.webp"
+    },
+    {
+      "id": "mercury",
+      "title": "Mercury",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "mercury.webp"
+    },
+    {
+      "id": "venus",
+      "title": "Venus",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "venus.webp"
+    },
+    {
+      "id": "mars",
+      "title": "Mars",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "mars.webp"
+    },
+    {
+      "id": "jupiter",
+      "title": "Jupiter",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "jupiter.webp"
+    },
+    {
+      "id": "saturn",
+      "title": "Saturn",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "saturn.webp"
+    },
+    {
+      "id": "uranus",
+      "title": "Uranus",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "uranus.webp"
+    },
+    {
+      "id": "neptune",
+      "title": "Neptune",
+      "group": "Solar system",
+      "kind": "planet",
+      "file": "neptune.webp"
+    }
+  ]
+}

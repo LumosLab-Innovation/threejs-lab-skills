@@ -6,18 +6,22 @@
 
 Three.js or Blender for geometry. Three.js for motion, contraction and interaction.
 
-[![CI](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml/badge.svg?branch=codex%2Funified-3d-studio)](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml)
+[![CI](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/LumosLab-Innovation/threejs-lab-skills/actions/workflows/validate.yml)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-466341)](LICENSE)
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-35-466341)](plugins/threejs-lab/skills)
 [![GitHub stars](https://img.shields.io/github/stars/LumosLab-Innovation/threejs-lab-skills?style=flat&color=466341)](https://github.com/LumosLab-Innovation/threejs-lab-skills/stargazers)
 
 **Codex · Claude Code · Grok Build · OpenCode · OMP**
 
-[Install](#one-command-install) · [Live gallery ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
+[Install](#one-command-install) · [Gallery](#reference--3d-gallery) · [Lab029s live models ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/) · [How it works](#two-engines-one-runtime) · [Docs](docs/studio.md) · [Star History](#star-history)
 
 </div>
 
-[![Earth model from Lab029s — open the interactive gallery](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth)
+| Choose the reference | Explore interactive 3D |
+| :---: | :---: |
+| ![Local studio with three image options](assets/showcase/studio-reference-board.jpg) | ![Aurora field lab running in Three.js](assets/showcase/aurora-field.jpg) |
+
+*Real browser captures: the review studio and a bundled lab example. [Capture sources](#screenshot-sources).*
 
 Your coding agent authors the model from the approved image, then codes its behavior. No paid image-to-3D service, hosted backend or second AI process. You choose the image and approve the result on localhost.
 
@@ -28,12 +32,12 @@ Requirements: Node.js 22+, npm, Git, and a coding CLI with local skills and shel
 Install for all five CLIs (PowerShell, Bash or zsh):
 
 ```sh
-npx --yes --package="github:LumosLab-Innovation/threejs-lab-skills#codex/unified-3d-studio" threejs-lab install --agent all --global
+npx --yes --package="github:LumosLab-Innovation/threejs-lab-skills" threejs-lab install --agent all --global
 ```
 
 `all` uses two discovery roots, not five copies. To target one CLI, replace `all` with `codex`, `claude`, `grok`, `opencode` or `omp`. Omit `--global` for project-local installation. Other Agent Skills hosts can use `--skills-dir <their-supported-path>`; tool support still depends on the host.
 
-This installs the working preview in [PR #1](https://github.com/LumosLab-Innovation/threejs-lab-skills/pull/1), not the older `main`. After merge, the `#codex/unified-3d-studio` suffix can be omitted.
+The studio and cross-CLI installer are available on `main` ([merged PR #1](https://github.com/LumosLab-Innovation/threejs-lab-skills/pull/1)).
 
 Start a new CLI session and ask:
 
@@ -70,29 +74,104 @@ Prompt → image options → YOU CHOOSE
 
 **A GLB is not the whole interaction program.** Keep its Three.js behavior/source alongside it. Blender requires a connected addon; no external image-to-mesh provider substitutes for it.
 
-## Lab029s Model Gallery
+## Reference → 3D Gallery
 
-**[Explore the models in 3D ↗](https://lumoslab-innovation.github.io/threejs-lab-skills/)** — orbit, zoom, play and reset. No sign-in.
+Existing educational examples, freshly captured in the browser. These are simplified teaching models, **not claims of photorealistic reconstruction** or new Blender-generated assets.
 
-| Earth · Three.js | Moon · Three.js |
+| Example | Reference image | Running Three.js model |
+| --- | :---: | :---: |
+| **Circulation**<br>Heart rate, flow and vessel response | <a href="examples/khtn8-subject-labs/references/bio-circulation-reference.png"><img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation concept reference" width="320"></a> | <a href="assets/showcase/bio-circulation.jpg"><img src="assets/showcase/bio-circulation.jpg" alt="Fresh browser capture of the circulation model" width="480"></a> |
+| **Respiration**<br>Lung expansion, airflow and gas exchange | <a href="examples/khtn8-subject-labs/references/bio-respiration-reference.png"><img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration concept reference" width="320"></a> | <a href="assets/showcase/bio-respiration.jpg"><img src="assets/showcase/bio-respiration.jpg" alt="Fresh browser capture of the respiration model" width="480"></a> |
+| **Ecosystem**<br>Populations, pollution and balance | <a href="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png"><img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem concept reference" width="320"></a> | <a href="assets/showcase/bio-ecosystem.jpg"><img src="assets/showcase/bio-ecosystem.jpg" alt="Fresh browser capture of the ecosystem model" width="480"></a> |
+
+[Browse the lab source](examples/khtn8-subject-labs/index.html) · [Original visual QA record](examples/khtn8-subject-labs/VISUAL_QA_LOG.md)
+
+### Same Model, Different State
+
+| At rest | Contracted by interaction |
 | :---: | :---: |
-| [![Earth with day and night lighting](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth) | [![Moon model](assets/showcase/lab029s/moon.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#moon) |
-| **Classroom globe · GLB** | **Flashlight · GLB** |
-| [![Classroom globe model](assets/showcase/lab029s/globe.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#globe) | [![Flashlight model](assets/showcase/lab029s/flashlight.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#flashlight) |
+| ![GLB morph example at rest in the local viewer](assets/showcase/model-rest.jpg) | ![Same GLB after interaction and amplitude change](assets/showcase/model-contracted.jpg) |
 
-Real canvas captures of existing **Lab029s** models, adapted for standalone viewing with the skill's shared Three.js playback. Only 3D models: no lab UI or generated mock screenshots. These are not newly Blender-generated models. Earth textures: NASA/GSFC; Moon: Solar System Scope, CC BY 4.0. [Full credits, source revisions and screenshot reproduction](gallery/ATTRIBUTION.md).
+This mechanical example uses a named morph target, rate/amplitude sliders, picking and reset. Its [behavior module](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-behavior.mjs) runs with the [procedural model](plugins/threejs-lab/skills/threejs-studio/assets/examples/pulse-model.mjs) and its exported/re-imported GLB. It is not an anatomical organ. The [Blender authoring example](plugins/threejs-lab/skills/threejs-studio/assets/examples/blender-pulse.py) produces the same named shape key; live Blender generation remains unverified until the addon connects.
 
-Gallery assets are excluded from skill installation. The original teaching demos and their benchmark records remain in [examples](examples); [shared motion examples](plugins/threejs-lab/skills/threejs-studio/assets/examples) remain available as source.
+### Screenshot Sources
 
-### Run the gallery locally
+<details>
+<summary>Capture details and how to reproduce</summary>
+
+All seven JPEGs in `assets/showcase/` are browser captures, not generated mock UI. Reference PNGs are retained repository assets. Showcase JPEGs are excluded from the installed skill package.
+
+| Capture | Source / state |
+| --- | --- |
+| `studio-reference-board.jpg` | Local studio with the three retained biology references; no approval fabricated |
+| `aurora-field.jpg` | `examples/fancy-field-lab/index.html`, Aurora preset, paused |
+| `bio-circulation.jpg`, `bio-respiration.jpg`, `bio-ecosystem.jpg` | `examples/khtn8-subject-labs/index.html?lab=<id>`, default values, orbit zoom |
+| `model-rest.jpg`, `model-contracted.jpg` | Exported/re-imported procedural GLB + `pulse-behavior.mjs`; paused/reset, then picked with amplitude 1 |
+
+Serve the existing examples locally:
 
 ```sh
-npm run setup
-npm run gallery:build
-python -m http.server 8080 --bind 127.0.0.1 --directory dist/gallery
+python -m http.server 8080 --bind 127.0.0.1 --directory examples
 ```
 
-Open `http://127.0.0.1:8080/`. GitHub Pages publishes the same static build; no backend, paid model service or runtime CDN.
+Open `http://127.0.0.1:8080/khtn8-subject-labs/index.html?lab=bio-respiration` or `/fancy-field-lab/`. These older demos load Three.js from a CDN. The new studio serves its installed Three.js locally; follow [its quickstart](docs/studio.md) to reproduce the review and motion examples.
+
+</details>
+
+## Lab029s Model Collection
+
+[**Explore all 43 models →**](https://lumoslab-innovation.github.io/threejs-lab-skills/)
+
+Real model-only renders from Lab029s. Click a model to orbit it or play its animation. These are existing project assets, not new skill-generated reconstructions; [source credits and asset terms](gallery/ATTRIBUTION.md) apply separately from the code license.
+
+### Anatomy
+
+| | | |
+| :---: | :---: | :---: |
+| [![Heart — actual 3D render](assets/showcase/lab029s/heart.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#heart)<br>Heart | [![Brain — actual 3D render](assets/showcase/lab029s/brain.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#brain)<br>Brain | [![Lungs — actual 3D render](assets/showcase/lab029s/lungs.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#lungs)<br>Lungs |
+| [![Kidneys — actual 3D render](assets/showcase/lab029s/kidneys.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#kidneys)<br>Kidneys | [![Liver — actual 3D render](assets/showcase/lab029s/liver.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#liver)<br>Liver | [![Intestine — actual 3D render](assets/showcase/lab029s/intestine.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#intestine)<br>Intestine |
+| [![Eyeball — actual 3D render](assets/showcase/lab029s/eyeball.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#eyeball)<br>Eyeball | [![Skin — actual 3D render](assets/showcase/lab029s/skin.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#skin)<br>Skin | [![Pancreas — actual 3D render](assets/showcase/lab029s/pancreas.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#pancreas)<br>Pancreas |
+| [![Inner ear — actual 3D render](assets/showcase/lab029s/inner-ear.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#inner-ear)<br>Inner ear |  |  |
+
+### Wind & weather
+
+| | | |
+| :---: | :---: | :---: |
+| [![Wind turbine — actual 3D render](assets/showcase/lab029s/wind-turbine-2.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#wind-turbine-2)<br>Wind turbine | [![Wind generator — actual 3D render](assets/showcase/lab029s/wind-generator.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#wind-generator)<br>Wind generator | [![Tree in the wind — actual 3D render](assets/showcase/lab029s/windy-tree.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#windy-tree)<br>Tree in the wind |
+| [![House — actual 3D render](assets/showcase/lab029s/house.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#house)<br>House | [![Clouds — actual 3D render](assets/showcase/lab029s/clouds.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#clouds)<br>Clouds | [![Dark clouds — actual 3D render](assets/showcase/lab029s/dark-clouds.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#dark-clouds)<br>Dark clouds |
+| [![Storm clouds — actual 3D render](assets/showcase/lab029s/storm-clouds.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#storm-clouds)<br>Storm clouds |  |  |
+
+### Magnets
+
+| | | |
+| :---: | :---: | :---: |
+| [![Bar magnet — actual 3D render](assets/showcase/lab029s/bar-magnet.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#bar-magnet)<br>Bar magnet | [![Magnetic sorter — actual 3D render](assets/showcase/lab029s/magnetic-sorter.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#magnetic-sorter)<br>Magnetic sorter | [![Material sample kit — actual 3D render](assets/showcase/lab029s/magnetic-sample-kit.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#magnetic-sample-kit)<br>Material sample kit |
+| [![Beverage can — actual 3D render](assets/showcase/lab029s/beverage-can.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#beverage-can)<br>Beverage can | [![Iron nail — actual 3D render](assets/showcase/lab029s/iron-nail.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#iron-nail)<br>Iron nail | [![Wooden plank — actual 3D render](assets/showcase/lab029s/wooden-plank.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#wooden-plank)<br>Wooden plank |
+
+### Space & robotics
+
+| | | |
+| :---: | :---: | :---: |
+| [![Domowik robot — actual 3D render](assets/showcase/lab029s/cute-robot.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#cute-robot)<br>Domowik robot | [![YT-1300 cockpit — actual 3D render](assets/showcase/lab029s/yt-1300-cockpit-version-2.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#yt-1300-cockpit-version-2)<br>YT-1300 cockpit | [![Rocket ship — actual 3D render](assets/showcase/lab029s/rocket-ship.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#rocket-ship)<br>Rocket ship |
+| [![Space rover — actual 3D render](assets/showcase/lab029s/space-rover.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#space-rover)<br>Space rover | [![Crashed rocket — actual 3D render](assets/showcase/lab029s/crashed-rocket.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#crashed-rocket)<br>Crashed rocket |  |
+
+### Equipment
+
+| | | |
+| :---: | :---: | :---: |
+| [![Power supply — actual 3D render](assets/showcase/lab029s/powersupply.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#powersupply)<br>Power supply | [![Lab table — actual 3D render](assets/showcase/lab029s/lab-table.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#lab-table)<br>Lab table | [![Virtual studio — actual 3D render](assets/showcase/lab029s/virtual-studio.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#virtual-studio)<br>Virtual studio |
+| [![Classroom globe — actual 3D render](assets/showcase/lab029s/globe.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#globe)<br>Classroom globe | [![Flashlight — actual 3D render](assets/showcase/lab029s/flashlight.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#flashlight)<br>Flashlight |  |
+
+### Solar system
+
+| | | |
+| :---: | :---: | :---: |
+| [![Earth — actual 3D render](assets/showcase/lab029s/earth.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#earth)<br>Earth | [![Moon — actual 3D render](assets/showcase/lab029s/moon.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#moon)<br>Moon | [![Sun — actual 3D render](assets/showcase/lab029s/sun.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#sun)<br>Sun |
+| [![Mercury — actual 3D render](assets/showcase/lab029s/mercury.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#mercury)<br>Mercury | [![Venus — actual 3D render](assets/showcase/lab029s/venus.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#venus)<br>Venus | [![Mars — actual 3D render](assets/showcase/lab029s/mars.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#mars)<br>Mars |
+| [![Jupiter — actual 3D render](assets/showcase/lab029s/jupiter.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#jupiter)<br>Jupiter | [![Saturn — actual 3D render](assets/showcase/lab029s/saturn.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#saturn)<br>Saturn | [![Uranus — actual 3D render](assets/showcase/lab029s/uranus.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#uranus)<br>Uranus |
+| [![Neptune — actual 3D render](assets/showcase/lab029s/neptune.jpg)](https://lumoslab-innovation.github.io/threejs-lab-skills/#neptune)<br>Neptune |  |  |
+
+[Capture procedure and source inventory](gallery/ATTRIBUTION.md) · Geometry and gallery images are excluded from the installed skill package.
 
 ## What Was Combined
 
@@ -129,9 +208,6 @@ If this workflow helps, [star the repo](https://github.com/LumosLab-Innovation/t
 </a>
 
 Chart provided by [Star History](https://github.com/star-history/star-history); data comes from this repository, not an example growth curve.
-
-<details>
-<summary>Learning-lab toolkit, original examples and benchmark documentation</summary>
 
 ## Existing Learning-Lab Toolkit
 
@@ -231,14 +307,14 @@ These screenshots are generated by `scripts/benchmark-examples.mjs` from the sam
 
 | Demo | Desktop Benchmark | Mobile Benchmark |
 | --- | --- | --- |
-| Density buoyancy | [Density buoyancy desktop benchmark](examples/density-buoyancy-lab/screenshots/desktop-benchmark.png) | [Density buoyancy mobile benchmark](examples/density-buoyancy-lab/screenshots/mobile-benchmark.png) |
-| Coulomb force | [Coulomb force desktop benchmark](examples/coulomb-force-lab/screenshots/desktop-benchmark.png) | [Coulomb force mobile benchmark](examples/coulomb-force-lab/screenshots/mobile-benchmark.png) |
-| Fancy field | [Fancy field desktop benchmark](examples/fancy-field-lab/screenshots/desktop-benchmark.png) | [Fancy field mobile benchmark](examples/fancy-field-lab/screenshots/mobile-benchmark.png) |
-| KHTN Chemistry gas | [Chemistry gas desktop benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png) | [Chemistry gas mobile benchmark](examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png) |
-| KHTN Physics circuit | [Physics circuit desktop benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png) | [Physics circuit mobile benchmark](examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png) |
-| KHTN Biology circulation | [Biology circulation desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Biology circulation mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
-| KHTN Biology respiration | [Biology respiration desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Biology respiration mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
-| KHTN Biology ecosystem | [Biology ecosystem desktop benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Biology ecosystem mobile benchmark](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
+| Density buoyancy | <img src="examples/density-buoyancy-lab/screenshots/desktop-benchmark.png" alt="Density buoyancy desktop benchmark" width="360"> | <img src="examples/density-buoyancy-lab/screenshots/mobile-benchmark.png" alt="Density buoyancy mobile benchmark" width="180"> |
+| Coulomb force | <img src="examples/coulomb-force-lab/screenshots/desktop-benchmark.png" alt="Coulomb force desktop benchmark" width="360"> | <img src="examples/coulomb-force-lab/screenshots/mobile-benchmark.png" alt="Coulomb force mobile benchmark" width="180"> |
+| Fancy field | <img src="examples/fancy-field-lab/screenshots/desktop-benchmark.png" alt="Fancy field desktop benchmark" width="360"> | <img src="examples/fancy-field-lab/screenshots/mobile-benchmark.png" alt="Fancy field mobile benchmark" width="180"> |
+| KHTN Chemistry gas | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-desktop-benchmark.png" alt="Chemistry gas desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/chem-reaction-gas-mobile-benchmark.png" alt="Chemistry gas mobile benchmark" width="180"> |
+| KHTN Physics circuit | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-desktop-benchmark.png" alt="Physics circuit desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/phys-circuit-mobile-benchmark.png" alt="Physics circuit mobile benchmark" width="180"> |
+| KHTN Biology circulation | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Biology circulation desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Biology circulation mobile benchmark" width="180"> |
+| KHTN Biology respiration | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Biology respiration desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Biology respiration mobile benchmark" width="180"> |
+| KHTN Biology ecosystem | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Biology ecosystem desktop benchmark" width="360"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Biology ecosystem mobile benchmark" width="180"> |
 
 ### 2D Reference To 3D Biology Output
 
@@ -246,9 +322,9 @@ The biology demos keep the generated 2D input references next to the benchmark s
 
 | Lab | 2D Reference Input | 3D Desktop Output | 3D Mobile Output |
 | --- | --- | --- | --- |
-| Circulation | [Circulation 2D reference](examples/khtn8-subject-labs/references/bio-circulation-reference.png) | [Circulation 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png) | [Circulation 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png) |
-| Respiration | [Respiration 2D reference](examples/khtn8-subject-labs/references/bio-respiration-reference.png) | [Respiration 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png) | [Respiration 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png) |
-| Ecosystem | [Ecosystem 2D reference](examples/khtn8-subject-labs/references/bio-ecosystem-reference.png) | [Ecosystem 3D desktop output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png) | [Ecosystem 3D mobile output](examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png) |
+| Circulation | <img src="examples/khtn8-subject-labs/references/bio-circulation-reference.png" alt="Circulation 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-desktop-benchmark.png" alt="Circulation 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-circulation-mobile-benchmark.png" alt="Circulation 3D mobile output" width="150"> |
+| Respiration | <img src="examples/khtn8-subject-labs/references/bio-respiration-reference.png" alt="Respiration 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-desktop-benchmark.png" alt="Respiration 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-respiration-mobile-benchmark.png" alt="Respiration 3D mobile output" width="150"> |
+| Ecosystem | <img src="examples/khtn8-subject-labs/references/bio-ecosystem-reference.png" alt="Ecosystem 2D reference" width="220"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-desktop-benchmark.png" alt="Ecosystem 3D desktop output" width="300"> | <img src="examples/khtn8-subject-labs/screenshots/bio-ecosystem-mobile-benchmark.png" alt="Ecosystem 3D mobile output" width="150"> |
 
 ### Optimization Benchmark Highlights
 
@@ -376,5 +452,3 @@ npm run check:package
 
 `plugins/threejs-lab/skills/threejs-lab/scripts/check-threejs-lab.mjs` is the small static checker for changed scene files. It catches missing camera/loop/resize/cleanup patterns and common GLB/physics omissions.
 `scripts/validate.mjs` also checks the KHTN biology visual QA ledger, 2D references, desktop/mobile screenshots, and 24-profile benchmark JSON.
-
-</details>

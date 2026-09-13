@@ -2,18 +2,32 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createPlayback } from '../plugins/threejs-lab/skills/threejs-studio/web/motion.js';
-import { models, loadModel } from './models.js';
+import { models, loadModel, disposeLoaders } from './models.js';
 
 const $ = id => document.getElementById(id);
 const capture = new URLSearchParams(location.search).get('capture') === '1';
 document.body.classList.toggle('capture', capture);
+$('model-count').textContent = models.length;
+for (const group of ['All', ...new Set(models.map(model => model.group))]) {
+  const button = document.createElement('button');
+  button.textContent = group;
+  button.setAttribute('aria-pressed', String(group === 'All'));
+  button.onclick = () => {
+    for (const other of $('filters').children) other.setAttribute('aria-pressed', String(other === button));
+    for (const link of $('models').children) link.hidden = group !== 'All' && link.dataset.group !== group;
+  };
+  $('filters').append(button);
+}
 for (const model of models) {
   const link = document.createElement('a');
   link.href = `#${model.id}`;
   link.dataset.model = model.id;
+  link.dataset.group = model.group;
+  link.addEventListener('click', () => $('viewer').scrollIntoView({ behavior: 'instant', block: 'start' }));
   const image = document.createElement('img');
   image.src = `images/${model.id}.jpg`;
   image.alt = '';
+  image.loading = 'lazy';
   image.width = 150; image.height = 78;
   const name = document.createElement('span');
   name.textContent = model.title;
@@ -61,7 +75,7 @@ try {
     const box = new THREE.Box3().setFromObject(current.root, true);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
-    const distance = Math.max(size.y, size.x / camera.aspect) / (2 * Math.tan(camera.fov * Math.PI / 360)) * (capture ? 1.08 : 1.35) + size.z / 2;
+    const distance = Math.max(size.y, size.x / camera.aspect) / (2 * Math.tan(camera.fov * Math.PI / 360)) * (capture ? 1.08 : camera.aspect < .8 ? 1.7 : 1.35) + size.z / 2;
     camera.position.copy(center).add(new THREE.Vector3(.12, .17, 1).normalize().multiplyScalar(distance));
     controls.target.copy(center);
     controls.minDistance = Math.max(size.x, size.y, size.z) * .65;
@@ -89,9 +103,10 @@ try {
     $('retry').hidden = true;
     $('play').disabled = $('reset').disabled = true;
     $('title').textContent = spec.title;
-    $('collection').textContent = `LAB029S / MODEL ${String(index + 1).padStart(2, '0')}`;
-    $('source').href = spec.source;
-    $('format').textContent = spec.format;
+    $('collection').textContent = `${spec.group.toUpperCase()} / ${String(index + 1).padStart(2, '0')} OF ${models.length}`;
+    $('source').href = spec.kind === 'glb' ? `assets/${spec.file}` : 'https://github.com/LumosLab-Innovation/threejs-lab-skills/blob/codex/restore-readme-expand-gallery/gallery/models.js';
+    $('format').textContent = spec.kind === 'glb' ? `GLB${spec.animations ? ' · animated' : ''}` : 'Three.js';
+    $('animation').hidden = true;
     document.title = `${spec.title} — Three.js Lab Skills`;
     for (const link of $('models').children) link.setAttribute('aria-current', String(link.dataset.model === spec.id));
     try {
@@ -99,10 +114,14 @@ try {
       if (ticket !== generation) { loaded.dispose(); return; }
       current = loaded;
       scene.add(current.root);
-      scene.environment = spec.id === 'globe' || spec.id === 'flashlight' ? environment.texture : null;
+      scene.environment = spec.kind === 'glb' ? environment.texture : null;
       scene.environmentIntensity = .9;
       hemisphere.intensity = spec.id === 'earth' ? .12 : .65;
       playback = createPlayback(current);
+      $('animation').replaceChildren();
+      for (const clip of current.clips) $('animation').add(new Option(clip.name, clip.index));
+      $('animation').hidden = current.clips.length < 2;
+      $('animation').onchange = () => { current.selectClip(Number($('animation').value)); playback.reset(); pause(); };
       pause(); // Model motion is opt-in; orbit does not move the model itself.
       resize();
       renderer.render(scene, camera);
@@ -150,7 +169,7 @@ try {
   window.galleryStats = () => ({ model: $('viewer').dataset.model, state: $('viewer').dataset.state, ...renderer.info.memory, ...renderer.info.render, playing: playback?.playing, elapsed: playback?.elapsed, camera: camera.position.toArray() });
   window.addEventListener('pagehide', event => {
     if (event.persisted) { pause(); return; }
-    generation++; renderer.setAnimationLoop(null); observer.disconnect(); controls.dispose(); release(); environment.dispose(); renderer.dispose();
+    generation++; renderer.setAnimationLoop(null); observer.disconnect(); controls.dispose(); release(); disposeLoaders(); environment.dispose(); renderer.dispose();
   });
   await select();
 } catch (error) {
